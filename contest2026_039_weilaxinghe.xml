@@ -10,6 +10,7 @@
 
   <project path="contest2026_039_weilaxinghe" name="contest2026_039_weilaxinghe">
     <linkfile src="app/hello_app" dest="packages/demos/contest2026_039_hello_app"/>
+    <linkfile src="app/velabridge_app" dest="packages/demos/contest2026_039_velabridge_app"/>
     <linkfile src="quickapp/hello_quickapp" dest="packages/apps/contest2026_039_hello_quickapp"/>
     <linkfile src="board/contest_board" dest="vendor/openvela/boards/contest2026_039_board"/>
   </project>
