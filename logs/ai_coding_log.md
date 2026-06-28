@@ -1,5 +1,13 @@
 # AI Coding 日志模板
 
+## 项目信息
+
+- 队伍名称：维拉星核
+- 项目名称：VelaBridge
+- 比赛编号：039
+- 仓库：`contest2026_039_weilaxinghe`
+- 正式表述：维拉星核团队开发的 VelaBridge，是一款基于 openvela 的多模态无障碍 AI 沟通与伴行终端。
+
 ## 日期
 
 - YYYY-MM-DD
@@ -52,4 +60,3 @@ python3 -m unittest tests/test_mock_bridge.py
 - 隐私 / 安全风险：
 - 协议兼容风险：
 - 下一步：
-

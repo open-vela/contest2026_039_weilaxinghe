@@ -1,5 +1,9 @@
 # VelaBridge 串口 JSON 协议
 
+队伍名称：维拉星核。项目名称：VelaBridge。比赛编号：039。
+
+维拉星核团队开发的 VelaBridge，是一款基于 openvela 的多模态无障碍 AI 沟通与伴行终端。
+
 VelaBridge 第一阶段 MVP 使用 JSON Lines 作为设备端与电脑端 AI Bridge 的通信格式：每一行是一个完整 JSON 对象，以 `\n` 结尾。这样便于串口、日志、命令行 mock 和 unittest 复用。
 
 ## 通信方向
@@ -14,6 +18,9 @@ VelaBridge 第一阶段 MVP 使用 JSON Lines 作为设备端与电脑端 AI Bri
   "type": "caption",
   "id": "vb-20260628-0001",
   "timestamp": "2026-06-28T12:00:00.000Z",
+  "team": "维拉星核",
+  "project": "VelaBridge",
+  "contest_id": "039",
   "text": "请先到教务处服务窗口。",
   "display": "第1步：教务处服务窗口",
   "speak": "",
@@ -32,6 +39,9 @@ VelaBridge 第一阶段 MVP 使用 JSON Lines 作为设备端与电脑端 AI Bri
   "type": "button_event",
   "id": "dev-20260628-0001",
   "timestamp": "2026-06-28T12:00:01.000Z",
+  "team": "维拉星核",
+  "project": "VelaBridge",
+  "contest_id": "039",
   "text": "button A short press",
   "display": "",
   "speak": "",
@@ -52,6 +62,9 @@ VelaBridge 第一阶段 MVP 使用 JSON Lines 作为设备端与电脑端 AI Bri
 | `type` | string | 是 | 消息类型，如 `caption`、`quick_reply`、`help`、`button_event`、`error`。 |
 | `id` | string | 是 | 消息唯一 ID，建议带来源前缀，便于日志追踪。 |
 | `timestamp` | string | 是 | UTC ISO-8601 时间戳，示例 `2026-06-28T12:00:00.000Z`。 |
+| `team` | string | 建议 | 队伍名称，固定为 `维拉星核`。 |
+| `project` | string | 建议 | 项目名称，固定为 `VelaBridge`。 |
+| `contest_id` | string | 建议 | 比赛编号，固定为 `039`。 |
 | `text` | string | 是 | 主要文字内容。默认只保存脱敏文字摘要。 |
 | `display` | string | 否 | 屏幕展示内容，通常短于 `text`。 |
 | `speak` | string | 否 | 需要设备播报的文本。为空表示不播报。 |
@@ -180,4 +193,3 @@ VelaBridge 第一阶段 MVP 使用 JSON Lines 作为设备端与电脑端 AI Bri
 - 默认只保存脱敏后的文字摘要、模式变化、按键事件、错误码和演示日志。
 - 求助场景只记录用户主动触发后的摘要，不自动上传联系人、定位或身份信息。
 - 后续如需保存音频、图片、定位或联系人信息，必须增加明确授权流程和可关闭选项。
-
