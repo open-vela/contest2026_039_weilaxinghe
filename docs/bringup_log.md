@@ -16,6 +16,13 @@
 
 维拉星核团队开发的 VelaBridge，是一款基于 openvela 的多模态无障碍 AI 沟通与伴行终端。
 
+## 证据文件
+
+- `docs/assets/bringup/windows_ch340_com5_powershell.png`：CH340 COM5 识别证据来自 PowerShell 截图，显示 USB-SERIAL CH340 (COM5)，硬件 ID 为 `USB\VID_1A86&PID_7523`。
+- `docs/assets/bringup/screen_green_factory_test.jpg`：屏幕测试证据来自 `screen_green_factory_test.jpg`，显示黄山派 SF32LB52 进入出厂测试并显示全屏绿色测试画面。
+- `docs/assets/bringup/sscom_touch_log_COM5.png`：触摸测试证据来自 `sscom_touch_log_COM5.png`，显示 SSCOM 打开 COM5、波特率 1000000，并接收到 Touch down 坐标日志。
+- `docs/assets/bringup/sscom_screen_touch_loop_COM5_2026-06-28.txt`：串口原始日志来自 `sscom_screen_touch_loop_COM5_2026-06-28.txt`，用于记录屏幕 / 触摸出厂测试过程。
+
 ## USB 串口识别结果
 
 | 项目 | 内容 |
@@ -44,14 +51,16 @@
 | 项目 | 内容 |
 | --- | --- |
 | 当前现象 | 屏幕已点亮，显示全屏绿色测试画面 |
-| 状态 | 已通过初步验证 |
+| 状态 | 已通过 |
+| 证据 | `docs/assets/bringup/screen_green_factory_test.jpg` |
 
 ## 触摸测试
 
 | 项目 | 内容 |
 | --- | --- |
 | 当前现象 | 触摸屏幕时，SSCOM 输出 Touch down 坐标 |
-| 状态 | 已通过初步验证 |
+| 状态 | 已通过 |
+| 证据 | `docs/assets/bringup/sscom_touch_log_COM5.png`、`docs/assets/bringup/sscom_screen_touch_loop_COM5_2026-06-28.txt` |
 
 ### Touch down 坐标日志示例
 
@@ -100,11 +109,11 @@ mount /dev success
 | 硬件模块 | 当前状态 | 证据 / 说明 |
 | --- | --- | --- |
 | USB 供电 | 已通过 | 开发板已上电，板载绿色 LED 已亮。 |
-| CH340 串口识别 | 已通过 | Windows 已识别 USB-SERIAL CH340，硬件 ID 为 `USB\VID_1A86&PID_7523`。 |
-| COM5 串口连接 | 已通过 | SSCOM V5.13.1 已打开 COM5。 |
+| CH340 串口识别 | 已通过 | Windows 已识别 USB-SERIAL CH340，硬件 ID 为 `USB\VID_1A86&PID_7523`；证据：`docs/assets/bringup/windows_ch340_com5_powershell.png`。 |
+| COM5 串口连接 | 已通过 | SSCOM V5.13.1 已打开 COM5；证据：`docs/assets/bringup/sscom_touch_log_COM5.png`、`docs/assets/bringup/sscom_screen_touch_loop_COM5_2026-06-28.txt`。 |
 | 启动日志输出 | 已通过 | 串口日志包含 SiFli Corporation、build on May 23 2025, 2.4.0、mount /dev success。 |
-| 屏幕点亮 | 已通过初步验证 | 屏幕已点亮，显示全屏绿色测试画面。 |
-| 触摸坐标输出 | 已通过初步验证 | 触摸时 SSCOM 连续输出 Touch down 坐标日志。 |
+| 屏幕点亮 | 已通过 | 屏幕已点亮，显示全屏绿色测试画面；证据：`docs/assets/bringup/screen_green_factory_test.jpg`。 |
+| 触摸坐标输出 | 已通过 | 触摸时 SSCOM 连续输出 Touch down 坐标日志；证据：`docs/assets/bringup/sscom_touch_log_COM5.png`、`docs/assets/bringup/sscom_screen_touch_loop_COM5_2026-06-28.txt`。 |
 | KEY1 | 待测试 | 需要补充按键日志。 |
 | KEY2 | 待补充完整结果 | 需要补充完整自动检测流程结果。 |
 | 喇叭 | 待测试 | 不得标记为已通过。 |
@@ -118,9 +127,6 @@ mount /dev success
 
 ## 下一步
 
-- 保存完整 SSCOM 串口日志。
-- 上传屏幕绿色测试画面照片。
-- 上传触摸日志截图。
 - 测试 KEY1 / KEY2。
 - 测试喇叭和麦克风。
 - 确认震动马达或马达接口。
@@ -128,4 +134,3 @@ mount /dev success
 - 编译官方 hello_app。
 - 编译 / 适配 `app/velabridge_app`。
 - 跑通串口 JSON -> 屏幕显示 -> 按键状态机 -> 日志输出。
-

@@ -98,3 +98,20 @@ python3 -m unittest tests/test_mock_bridge.py
   - 未测试硬件不得标记通过。
   - 后续需要上传图片、串口日志和完整自动检测结果。
   - 后续需要人工验证 KEY1、KEY2、喇叭、麦克风、震动马达和 VelaBridge 固件。
+
+## 2026-06-28 上传黄山派 SF32LB52 bring-up 证据文件
+
+- 日期：2026-06-28
+- 事件：上传黄山派 SF32LB52 bring-up 证据文件。
+- 人工提供文件：
+  - `windows_ch340_com5_powershell.png`
+  - `screen_green_factory_test.jpg`
+  - `sscom_touch_log_COM5.png`
+  - `sscom_screen_touch_loop_COM5_2026-06-28.txt`
+- Codex 工作：
+  - 移动证据文件到 `docs/assets/bringup/`。
+  - 更新证据说明。
+  - 清理仓库根目录残留文件。
+- 人工审核：
+  - 确认证据文件为真实测试结果。
+  - 未测试硬件不得标记通过。

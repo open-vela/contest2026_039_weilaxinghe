@@ -1,0 +1,1687 @@
+¼ì²âµ½ÄúµÚÒ»´ÎÊ¹ÓÃ±¾Èí¼þ(Ã»ÓÐÕÒµ½iniÅäÖÃÎÄ¼þ,±¾´ÎÍË³öÊ±»á×Ô¶¯Éú³É).
+
+ÎªÁËÄú¸üË³ÀûµØÊ¹ÓÃ±¾¹¤¾ß,ÇëÔÚ¾ßÌåÊ¹ÓÃÖ®Ç°:
+
+1.¿´Ò»±éÃæ°åÓÐÐ©Ê²Ã´°´Å¥,¿´Ò»±é¸÷Ïî²Ëµ¥ºÍ×Ó²Ëµ¥ÀïÓÐÐ©Ê²Ã´ÄÚÈÝ.
+
+2.µãÒ»ÏÂ°ïÖúÀïµÄ"Ê¹ÓÃ°ïÖú",È«²¿¿´Ò»±é.
+
+3.ÊÔÒ»ÏÂ¸÷Ïî¹¦ÄÜ,³õ²½µÃµ½ÁË½â.
+
+4.µãÒ»ÏÂ°ïÖúÀïµÄ"ÎÊ´ð¼¯",È«²¿¿´Ò»±é.
+[22:27:13.788]ÊÕ¡û¡ôSFBL
+
+[22:27:15.941]ÊÕ¡û¡ôSerial:c2,Chip:4,Package:3,Rev:3  Reason:00000000
+
+ \ | /
+- SiFli Corporation
+ / | \     build on May 23 2025, 2.4.0 build df3a06ea
+ 2020 - 2022 Copyright by SiFli team
+mount /dev sucess
+[I/drv.rtc] PSCLR=0x80000100 DivAI=128 DivAF=0 B=256
+[I/drv.rtc] RTC use LXT RTC_CR=00000001
+
+[I/drv.rtc] Init RTC, wake = 0
+
+call par CFG1(3313)
+fc 9, xtal 2000, pll 2091
+call par CFG1(3313)
+fc 7, xtal 2000, pll 1674
+Hello world!
+[D/drv.als] Find i2c bus device i2c1
+
+LTR303_MEAS_RATE Reg[0] = 3
+[I/sensor] rt_sensor init success
+[I/sensor.ltr-303] light sensor init success
+[D/drv.mag] Find i2c bus device i2c1
+
+MMC56x3 ID = 16
+msh />[I/sensor] rt_sensor init success
+[I/sensor.mmc56x3] mag sensor init success
+[I/sensor] rt_sensor init success
+[I/sensor] rt_sensor init success
+[I/sensor] rt_sensor init success
+[32m[I/sensor.st.lsm6dsl] sensor init success[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] acce set odr 1660[0m
+[0m[D/sensor.st.lsm6dsl] gyro set odr 1660[0m
+teststart
+
+[22:27:30.544]ÊÕ¡û¡ôSFBL
+
+[22:27:32.701]ÊÕ¡û¡ôSerial:c2,Chip:4,Package:3,Rev:3  Reason:00000000
+
+ \ | /
+- SiFli Corporation
+ / | \     build on May 23 2025, 2.4.0 build df3a06ea
+ 2020 - 2022 Copyright by SiFli team
+mount /dev sucess
+[I/drv.rtc] PSCLR=0x80000100 DivAI=128 DivAF=0 B=256
+[I/drv.rtc] RTC use LXT RTC_CR=00000001
+
+[I/drv.rtc] Init RTC, wake = 0
+
+call par CFG1(3313)
+fc 9, xtal 2000, pll 2091
+call par CFG1(3313)
+fc 7, xtal 2000, pll 1674
+Hello world!
+[D/drv.als] Find i2c bus device i2c1
+
+LTR303_MEAS_RATE Reg[0] = 3
+[I/sensor] rt_sensor init success
+[I/sensor.ltr-303] light sensor init success
+[D/drv.mag] Find i2c bus device i2c1
+
+MMC56x3 ID = 16
+msh />[I/sensor] rt_sensor init success
+[I/sensor.mmc56x3] mag sensor init success
+[I/sensor] rt_sensor init success
+[I/sensor] rt_sensor init success
+[I/sensor] rt_sensor init success
+[32m[I/sensor.st.lsm6dsl] sensor init success[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] acce set odr 1660[0m
+[0m[D/sensor.st.lsm6dsl] gyro set odr 1660[0m
+teststart
+
+[22:27:54.159]ÊÕ¡û¡ônum:0
+KEY1 pressed
+
+[22:27:54.341]ÊÕ¡û¡ônum:0
+KEY1 released
+
+[22:28:00.615]ÊÕ¡û¡ônum:1
+KEY2 pressed
+
+[22:28:00.701]ÊÕ¡û¡ôtest1--------senser--------
+light: 0 lux
+mag, x: 418, y: -248, z: 30
+acce, x: 443, y: 286, z: -864
+gyro, x: -24080, y: -4270, z: 7140
+lsm6d step, step: 0
+
+[22:28:00.760]ÊÕ¡û¡ônum:1
+KEY2 released
+
+[22:28:00.804]ÊÕ¡û¡ô
+
+[22:28:01.303]ÊÕ¡û¡ôlight: 1 lux
+mag, x: 419, y: -233, z: 34
+acce, x: 433, y: 185, z: -858
+gyro, x: 560, y: -7070, z: 560
+lsm6d step, step: 0
+
+[22:28:01.406]ÊÕ¡û¡ô
+
+[22:28:01.905]ÊÕ¡û¡ôlight: 1 lux
+mag, x: 415, y: -250, z: 32
+acce, x: 393, y: 97, z: -904
+gyro, x: 3850, y: -49910, z: 71470
+lsm6d step, step: 0
+
+[22:28:02.008]ÊÕ¡û¡ô
+
+[22:28:02.507]ÊÕ¡û¡ôlight: 3 lux
+mag, x: 415, y: -250, z: 32
+acce, x: -50, y: -26, z: -984
+gyro, x: -7420, y: -4830, z: 1750
+lsm6d step, step: 0
+
+[22:28:02.609]ÊÕ¡û¡ô
+
+[22:28:03.207]ÊÕ¡û¡ôtest2----------audprc-------------
+audprc_rx_tx_entry
+
+[22:28:13.248]ÊÕ¡û¡ôsifli_aw8155_stop 
+
+[22:28:13.346]ÊÕ¡û¡ôtest3-------------------lcd and touch--------------
+[I/DBG] drv_gpu opened.
+
+[22:30:38.268]ÊÕ¡û¡ôTouch up   [4095,4095]
+
+[22:30:38.779]ÊÕ¡û¡ôTouch down [10,376]
+
+[22:30:38.885]ÊÕ¡û¡ôTouch up   [10,376]
+
+[22:30:38.939]ÊÕ¡û¡ôTouch down [201,371]
+
+[22:30:38.981]ÊÕ¡û¡ôTouch up   [201,371]
+
+[22:30:39.172]ÊÕ¡û¡ôTouch up   [206,1]
+Touch down [206,1]
+
+[22:30:39.310]ÊÕ¡û¡ôTouch up   [206,1]
+
+[22:30:40.129]ÊÕ¡û¡ôTouch down [300,1]
+
+[22:30:40.215]ÊÕ¡û¡ôTouch down [294,12]
+Touch down [290,22]
+Touch down [285,32]
+Touch down [281,42]
+Touch down [277,51]
+Touch down [272,61]
+Touch down [267,72]
+Touch down [262,83]
+Touch down [254,96]
+Touch down [247,108]
+Touch down [238,122]
+Touch down [231,134]
+Touch down [223,145]
+Touch down [217,155]
+Touch down [211,164]
+Touch down [206,171]
+Touch down [201,178]
+Touch down [193,188]
+Touch down [187,197]
+Touch down [180,205]
+Touch down [174,213]
+Touch down [168,221]
+Touch down [163,228]
+Touch down [157,234]
+Touch down [146,246]
+Touch down [135,257]
+Touch down [117,278]
+Touch down [99,300]
+Touch down [81,321]
+Touch up   [81,321]
+
+[22:30:40.863]ÊÕ¡û¡ôTouch down [250,15]
+Touch down [248,33]
+Touch down [246,51]
+Touch down [239,74]
+Touch down [232,100]
+Touch down [226,124]
+Touch down [219,149]
+Touch down [212,170]
+Touch down [206,189]
+Touch down [198,208]
+Touch down [190,227]
+Touch down [182,244]
+Touch down [174,259]
+Touch down [166,273]
+Touch down [154,291]
+Touch down [144,306]
+Touch down [133,320]
+Touch down [121,334]
+Touch down [105,349]
+Touch down [84,369]
+Touch down [58,395]
+Touch down [32,421]
+Touch down [5,448]
+Touch up   [5,448]
+
+[22:30:42.215]ÊÕ¡û¡ôTouch down [299,101]
+
+[22:30:42.417]ÊÕ¡û¡ôTouch down [308,106]
+Touch down [315,110]
+Touch down [322,114]
+Touch down [328,118]
+Touch down [334,121]
+Touch down [338,123]
+Touch down [342,126]
+Touch down [345,127]
+Touch down [347,129]
+Touch down [350,130]
+Touch down [351,131]
+Touch down [353,132]
+Touch down [355,133]
+Touch down [357,134]
+Touch down [359,135]
+Touch down [361,136]
+Touch down [363,137]
+Touch down [365,138]
+Touch down [366,139]
+Touch down [367,140]
+Touch down [369,141]
+Touch down [370,142]
+Touch down [371,142]
+Touch down [372,143]
+Touch down [373,143]
+Touch down [374,144]
+Touch down [375,144]
+Touch down [376,145]
+
+[22:30:42.725]ÊÕ¡û¡ôTouch down [377,146]
+Touch down [378,146]
+
+[22:30:42.768]ÊÕ¡û¡ôTouch down [379,146]
+Touch down [380,146]
+
+[22:30:42.832]ÊÕ¡û¡ôTouch down [384,133]
+Touch down [393,123]
+Touch down [403,109]
+Touch down [402,87]
+Touch down [402,72]
+Touch down [401,58]
+Touch down [400,48]
+Touch up   [400,48]
+
+[22:30:42.958]ÊÕ¡û¡ôTouch down [389,362]
+
+[22:30:43.181]ÊÕ¡û¡ôTouch down [389,358]
+Touch down [389,357]
+Touch down [389,356]
+
+[22:30:43.256]ÊÕ¡û¡ôTouch down [389,357]
+Touch down [389,358]
+
+[22:30:43.330]ÊÕ¡û¡ôTouch down [389,359]
+
+[22:30:43.405]ÊÕ¡û¡ôTouch down [389,356]
+Touch down [389,183]
+Touch down [389,139]
+Touch down [389,85]
+Touch down [389,60]
+Touch down [389,40]
+Touch down [389,29]
+Touch down [389,21]
+Touch down [389,17]
+Touch down [389,14]
+Touch down [389,12]
+Touch down [389,11]
+Touch down [389,10]
+Touch down [389,9]
+
+[22:30:43.608]ÊÕ¡û¡ôTouch down [389,8]
+
+[22:30:43.778]ÊÕ¡û¡ôTouch down [389,7]
+
+[22:30:43.842]ÊÕ¡û¡ôTouch down [388,7]
+Touch down [388,6]
+Touch down [387,6]
+Touch up   [387,6]
+
+[22:30:43.926]ÊÕ¡û¡ôTouch down [241,1]
+
+[22:30:44.522]ÊÕ¡û¡ôTouch up   [241,1]
+
+[22:30:44.671]ÊÕ¡û¡ôTouch down [257,443]
+
+[22:30:44.809]ÊÕ¡û¡ôTouch down [276,439]
+Touch down [310,433]
+Touch down [319,432]
+Touch down [325,432]
+Touch up   [325,432]
+
+[22:32:46.377]ÊÕ¡û¡ôTouch down [94,249]
+
+[22:32:46.430]ÊÕ¡û¡ôTouch up   [94,249]
+Touch down [94,249]
+
+[22:32:46.604]ÊÕ¡û¡ôTouch up   [94,249]
+
+[22:32:47.100]ÊÕ¡û¡ôTouch down [197,135]
+
+[22:32:47.270]ÊÕ¡û¡ôTouch up   [197,135]
+Touch up   [4095,4095]
+Touch down [197,135]
+
+[22:32:47.403]ÊÕ¡û¡ôTouch up   [197,135]
+
+[22:36:06.417]ÊÕ¡û¡ôTouch down [206,245]
+
+[22:36:07.297]ÊÕ¡û¡ôTouch up   [206,245]
+
+[22:36:07.520]ÊÕ¡û¡ôTouch up   [209,206]
+Touch down [209,206]
+
+[22:36:08.805]ÊÕ¡û¡ôTouch up   [209,206]
+
+[22:36:09.380]ÊÕ¡û¡ôTouch down [94,7]
+
+[22:36:09.687]ÊÕ¡û¡ôTouch down [94,8]
+
+[22:36:09.709]ÊÕ¡û¡ôTouch down [94,10]
+Touch down [94,11]
+Touch down [94,12]
+Touch down [94,13]
+Touch down [94,14]
+
+[22:36:09.784]ÊÕ¡û¡ôTouch down [94,15]
+Touch down [94,16]
+Touch down [94,17]
+
+[22:36:09.848]ÊÕ¡û¡ôTouch down [94,18]
+Touch down [94,19]
+
+[22:36:09.923]ÊÕ¡û¡ôTouch down [94,20]
+
+[22:36:09.976]ÊÕ¡û¡ôTouch down [94,21]
+
+[22:36:10.008]ÊÕ¡û¡ôTouch down [94,22]
+
+[22:36:10.443]ÊÕ¡û¡ôTouch down [96,21]
+Touch down [102,19]
+Touch down [105,18]
+Touch down [108,17]
+Touch up   [108,17]
+
+[22:36:12.376]ÊÕ¡û¡ôTouch down [305,199]
+
+[22:36:12.949]ÊÕ¡û¡ôTouch up   [305,199]
+
+[22:36:13.842]ÊÕ¡û¡ôTouch down [315,188]
+
+[22:36:15.031]ÊÕ¡û¡ôTouch up   [315,188]
+
+[22:36:16.062]ÊÕ¡û¡ôTouch down [312,238]
+
+[22:36:18.038]ÊÕ¡û¡ôTouch up   [312,238]
+
+[22:36:18.782]ÊÕ¡û¡ôTouch down [136,26]
+
+[22:36:19.345]ÊÕ¡û¡ôTouch down [136,30]
+Touch down [136,34]
+Touch down [136,38]
+Touch down [136,42]
+Touch down [136,45]
+Touch down [136,47]
+Touch down [136,52]
+Touch down [136,53]
+Touch down [136,54]
+Touch up   [136,54]
+
+[22:36:20.206]ÊÕ¡û¡ôTouch down [119,7]
+
+[22:36:20.429]ÊÕ¡û¡ôTouch down [120,13]
+Touch down [120,18]
+Touch down [121,23]
+Touch down [121,28]
+Touch down [121,32]
+Touch down [121,35]
+Touch down [121,38]
+Touch down [121,40]
+Touch down [121,43]
+Touch down [121,44]
+Touch down [121,46]
+Touch down [121,47]
+Touch down [121,48]
+Touch down [121,49]
+Touch down [121,50]
+Touch down [121,51]
+Touch down [121,52]
+Touch down [121,53]
+Touch down [121,54]
+
+[22:36:20.643]ÊÕ¡û¡ôTouch down [121,55]
+Touch down [121,56]
+Touch down [121,57]
+
+[22:36:20.706]ÊÕ¡û¡ôTouch down [121,58]
+Touch down [121,59]
+
+[22:36:20.760]ÊÕ¡û¡ôTouch down [121,60]
+
+[22:36:20.801]ÊÕ¡û¡ôTouch down [121,61]
+
+[22:36:20.844]ÊÕ¡û¡ôTouch down [121,62]
+
+[22:36:20.907]ÊÕ¡û¡ôTouch down [121,63]
+
+[22:36:20.960]ÊÕ¡û¡ôTouch down [121,64]
+
+[22:36:21.035]ÊÕ¡û¡ôTouch down [121,65]
+
+[22:36:21.132]ÊÕ¡û¡ôTouch down [121,66]
+
+[22:36:21.300]ÊÕ¡û¡ôTouch down [121,67]
+
+[22:36:21.471]ÊÕ¡û¡ôTouch down [121,68]
+
+[22:36:22.088]ÊÕ¡û¡ôTouch down [121,69]
+
+[22:36:22.640]ÊÕ¡û¡ôTouch down [121,70]
+
+[22:36:22.831]ÊÕ¡û¡ôTouch down [121,71]
+
+[22:36:23.171]ÊÕ¡û¡ôTouch down [122,68]
+Touch down [122,59]
+Touch down [123,49]
+Touch down [124,40]
+Touch up   [124,40]
+
+[22:36:24.202]ÊÕ¡û¡ôTouch down [129,380]
+
+[22:36:26.476]ÊÕ¡û¡ôTouch up   [129,380]
+
+[22:36:27.412]ÊÕ¡û¡ôTouch down [127,372]
+
+[22:36:28.707]ÊÕ¡û¡ôTouch up   [127,372]
+
+[22:36:29.280]ÊÕ¡û¡ôTouch down [368,372]
+
+[22:36:29.503]ÊÕ¡û¡ôTouch down [364,373]
+Touch down [360,373]
+Touch down [357,374]
+Touch down [353,375]
+Touch down [351,375]
+Touch down [348,376]
+Touch down [346,376]
+Touch down [344,377]
+Touch down [343,377]
+Touch down [341,377]
+Touch down [340,377]
+Touch down [339,378]
+Touch down [338,378]
+Touch down [337,378]
+Touch down [336,378]
+Touch down [335,378]
+Touch down [334,378]
+
+[22:36:29.705]ÊÕ¡û¡ôTouch down [333,378]
+
+[22:36:29.736]ÊÕ¡û¡ôTouch down [332,378]
+
+[22:36:29.768]ÊÕ¡û¡ôTouch down [331,378]
+
+[22:36:29.811]ÊÕ¡û¡ôTouch down [330,379]
+
+[22:36:30.396]ÊÕ¡û¡ôTouch down [329,379]
+
+[22:36:30.545]ÊÕ¡û¡ôTouch down [330,379]
+Touch down [331,379]
+Touch down [333,379]
+Touch down [335,379]
+Touch down [336,379]
+Touch down [337,379]
+Touch down [338,379]
+Touch down [339,379]
+Touch down [340,379]
+Touch down [341,379]
+Touch down [342,379]
+Touch down [343,379]
+Touch down [344,379]
+Touch down [345,379]
+
+[22:36:30.725]ÊÕ¡û¡ôTouch down [346,379]
+Touch down [347,379]
+
+[22:36:30.768]ÊÕ¡û¡ôTouch down [348,379]
+
+[22:36:30.810]ÊÕ¡û¡ôTouch down [349,379]
+
+[22:36:30.862]ÊÕ¡û¡ôTouch down [350,379]
+
+[22:36:30.969]ÊÕ¡û¡ôTouch down [351,379]
+
+[22:36:31.001]ÊÕ¡û¡ôTouch down [352,379]
+Touch down [352,378]
+Touch down [353,377]
+Touch down [353,376]
+Touch down [354,374]
+Touch down [355,373]
+Touch down [356,368]
+Touch down [356,363]
+Touch down [357,358]
+Touch down [357,352]
+Touch down [357,347]
+Touch down [357,341]
+Touch down [357,336]
+Touch down [357,327]
+Touch down [357,320]
+Touch down [356,312]
+Touch down [355,305]
+Touch down [355,298]
+Touch down [354,292]
+Touch down [354,287]
+Touch down [354,282]
+Touch down [354,277]
+Touch down [354,273]
+Touch down [354,270]
+Touch down [354,267]
+Touch down [354,265]
+Touch down [354,263]
+Touch down [354,262]
+Touch down [354,261]
+Touch down [354,260]
+
+[22:36:31.330]ÊÕ¡û¡ôTouch down [354,262]
+Touch down [354,264]
+Touch down [354,268]
+Touch down [354,272]
+Touch down [354,277]
+Touch down [354,281]
+Touch down [354,291]
+Touch down [354,299]
+Touch down [354,307]
+Touch down [354,314]
+Touch down [354,320]
+Touch down [354,325]
+Touch down [354,329]
+Touch down [354,333]
+Touch down [355,336]
+Touch down [355,338]
+Touch down [356,340]
+Touch down [356,342]
+Touch down [357,342]
+Touch down [358,341]
+Touch down [359,338]
+Touch down [359,335]
+Touch down [360,327]
+Touch down [360,319]
+Touch down [361,310]
+Touch down [361,301]
+Touch down [361,292]
+Touch down [360,278]
+Touch down [359,266]
+Touch down [359,254]
+Touch down [353,240]
+Touch down [347,223]
+Touch down [341,209]
+Touch down [336,197]
+Touch down [332,187]
+Touch down [329,179]
+Touch down [326,173]
+Touch down [324,168]
+Touch down [323,164]
+Touch down [321,161]
+Touch down [320,158]
+Touch down [319,156]
+Touch down [318,155]
+Touch down [317,154]
+Touch down [315,156]
+Touch down [313,159]
+Touch down [311,163]
+Touch down [308,174]
+Touch down [306,185]
+Touch down [296,209]
+Touch down [290,227]
+Touch down [284,244]
+Touch down [280,258]
+Touch down [279,271]
+Touch down [280,285]
+Touch down [282,298]
+Touch down [284,308]
+Touch down [286,317]
+Touch down [288,323]
+Touch down [290,329]
+Touch down [293,333]
+Touch down [295,337]
+Touch down [298,337]
+Touch down [300,337]
+Touch down [308,333]
+Touch down [316,323]
+Touch down [320,315]
+Touch down [322,305]
+Touch down [323,290]
+Touch down [323,275]
+Touch down [323,261]
+Touch down [322,248]
+Touch down [321,231]
+Touch down [320,216]
+Touch down [319,202]
+Touch down [317,191]
+Touch down [316,181]
+Touch down [315,173]
+Touch down [315,166]
+Touch down [314,161]
+Touch down [313,157]
+Touch down [313,154]
+Touch down [312,151]
+Touch down [311,149]
+Touch down [311,148]
+Touch down [310,147]
+Touch down [309,146]
+Touch down [308,145]
+Touch down [307,145]
+
+[22:36:32.307]ÊÕ¡û¡ôTouch down [306,145]
+
+[22:36:32.381]ÊÕ¡û¡ôTouch up   [306,145]
+
+[22:36:33.241]ÊÕ¡û¡ôTouch down [316,16]
+
+[22:36:33.815]ÊÕ¡û¡ôTouch down [310,76]
+Touch down [307,108]
+Touch down [304,140]
+Touch down [302,164]
+Touch down [301,183]
+Touch down [300,203]
+Touch down [299,219]
+Touch down [299,233]
+Touch down [299,244]
+Touch down [299,253]
+Touch down [299,261]
+Touch down [299,268]
+Touch down [299,273]
+Touch down [300,278]
+Touch down [300,282]
+Touch down [302,285]
+Touch down [303,285]
+Touch down [309,283]
+Touch down [315,280]
+Touch down [318,277]
+Touch down [320,270]
+Touch down [322,262]
+Touch down [322,252]
+Touch down [322,242]
+Touch down [321,227]
+Touch down [320,212]
+Touch down [318,197]
+Touch down [316,179]
+Touch down [314,163]
+Touch down [312,149]
+Touch down [310,137]
+Touch down [308,128]
+Touch down [306,120]
+Touch down [305,115]
+Touch down [300,110]
+Touch down [297,107]
+Touch down [293,107]
+Touch down [289,109]
+Touch down [284,113]
+Touch down [279,123]
+Touch down [274,134]
+Touch down [269,147]
+Touch down [264,166]
+Touch down [260,184]
+Touch down [255,208]
+Touch down [251,229]
+Touch down [247,248]
+Touch down [240,271]
+Touch down [233,289]
+Touch down [228,306]
+Touch down [223,319]
+Touch down [220,331]
+Touch down [216,345]
+Touch down [214,356]
+Touch down [212,366]
+Touch down [211,374]
+Touch down [213,382]
+Touch down [215,389]
+Touch down [218,395]
+Touch down [221,400]
+Touch down [224,405]
+Touch down [228,409]
+Touch down [232,413]
+Touch down [240,417]
+Touch down [246,420]
+Touch down [252,421]
+Touch down [257,422]
+Touch down [262,422]
+Touch down [268,419]
+Touch down [274,415]
+Touch down [279,410]
+Touch down [284,402]
+Touch down [289,388]
+Touch down [293,373]
+Touch down [296,350]
+Touch down [297,321]
+Touch down [291,288]
+Touch down [285,254]
+Touch down [278,225]
+Touch down [271,194]
+Touch down [265,170]
+Touch down [260,151]
+Touch down [251,134]
+Touch down [244,121]
+Touch down [238,111]
+Touch down [233,104]
+Touch down [228,98]
+Touch down [223,95]
+Touch down [218,93]
+Touch down [205,96]
+Touch down [191,101]
+Touch down [170,108]
+Touch down [150,116]
+Touch down [131,124]
+Touch down [105,137]
+Touch down [85,148]
+Touch down [67,158]
+Touch down [53,168]
+Touch down [42,179]
+Touch down [33,189]
+Touch down [27,198]
+Touch down [23,206]
+Touch down [20,214]
+Touch down [18,225]
+Touch down [16,235]
+Touch down [15,245]
+Touch down [14,254]
+Touch down [14,262]
+Touch down [14,269]
+Touch down [15,276]
+Touch down [14,292]
+Touch down [13,309]
+Touch down [12,326]
+Touch up   [12,326]
+
+[22:36:40.269]ÊÕ¡û¡ôTouch down [303,182]
+
+[22:36:40.525]ÊÕ¡û¡ôTouch down [303,207]
+Touch down [303,222]
+Touch down [303,237]
+Touch down [303,248]
+Touch down [301,259]
+Touch down [299,268]
+Touch down [296,274]
+Touch down [292,278]
+Touch down [288,281]
+Touch down [283,282]
+Touch down [275,283]
+Touch down [267,283]
+Touch down [259,281]
+Touch down [248,279]
+Touch down [237,277]
+Touch down [225,273]
+Touch down [215,269]
+Touch down [206,263]
+Touch down [201,255]
+Touch down [197,247]
+Touch down [196,239]
+Touch down [195,230]
+Touch down [195,219]
+Touch down [197,208]
+Touch down [203,195]
+Touch down [209,183]
+Touch down [217,172]
+Touch down [224,162]
+Touch down [235,153]
+Touch down [244,146]
+Touch down [253,141]
+Touch down [261,137]
+Touch down [267,135]
+Touch down [273,133]
+Touch down [278,133]
+Touch down [283,134]
+Touch down [288,139]
+Touch down [293,147]
+Touch down [298,157]
+Touch down [302,172]
+Touch down [305,187]
+Touch down [306,206]
+Touch down [306,223]
+Touch down [305,240]
+Touch down [302,255]
+Touch down [297,270]
+Touch down [289,287]
+Touch down [282,301]
+Touch down [274,314]
+Touch down [264,325]
+Touch down [254,334]
+Touch down [244,341]
+Touch down [234,346]
+Touch down [225,350]
+Touch down [215,353]
+Touch down [206,354]
+Touch down [196,352]
+Touch down [187,349]
+Touch down [179,344]
+Touch down [172,339]
+Touch down [166,332]
+Touch down [161,323]
+Touch down [157,314]
+Touch down [154,303]
+Touch down [151,290]
+Touch down [150,277]
+Touch down [149,262]
+Touch down [148,243]
+Touch down [153,221]
+Touch down [157,201]
+Touch down [164,179]
+Touch down [169,160]
+Touch down [175,143]
+Touch down [181,129]
+Touch down [189,116]
+Touch down [196,107]
+Touch down [202,99]
+Touch down [208,95]
+Touch down [212,91]
+Touch down [217,90]
+Touch down [224,93]
+Touch down [231,100]
+Touch down [243,116]
+Touch down [254,131]
+Touch down [262,147]
+Touch down [269,165]
+Touch down [274,181]
+Touch down [274,199]
+Touch down [273,218]
+Touch down [269,235]
+Touch down [265,250]
+Touch down [256,264]
+Touch down [247,275]
+Touch down [237,284]
+Touch up   [237,284]
+
+[22:36:42.561]ÊÕ¡û¡ôTouch down [94,1]
+
+[22:36:42.752]ÊÕ¡û¡ôTouch down [98,11]
+Touch down [102,19]
+Touch down [106,28]
+Touch down [110,35]
+Touch down [113,42]
+Touch down [115,49]
+Touch down [118,55]
+Touch down [120,60]
+Touch down [123,68]
+Touch down [125,75]
+Touch down [128,82]
+Touch down [129,89]
+Touch down [131,97]
+Touch down [134,109]
+Touch down [136,119]
+Touch down [138,130]
+Touch down [140,140]
+Touch down [141,149]
+Touch down [142,161]
+Touch down [143,172]
+Touch down [143,183]
+Touch down [144,193]
+Touch down [144,204]
+Touch down [144,218]
+Touch down [144,232]
+Touch down [144,246]
+Touch down [144,258]
+Touch down [144,270]
+Touch down [144,284]
+Touch down [144,296]
+Touch down [144,307]
+Touch down [144,317]
+Touch down [144,326]
+Touch down [144,334]
+Touch down [144,341]
+Touch down [144,347]
+Touch down [144,356]
+Touch down [144,364]
+Touch down [144,371]
+Touch down [144,376]
+Touch down [144,382]
+Touch down [146,389]
+Touch down [148,396]
+Touch down [151,402]
+Touch down [154,408]
+Touch down [157,413]
+Touch down [164,419]
+Touch down [170,425]
+Touch down [178,430]
+Touch down [187,434]
+Touch down [195,437]
+Touch down [204,439]
+Touch down [215,442]
+Touch down [225,443]
+Touch down [236,443]
+Touch down [245,443]
+Touch down [253,443]
+Touch down [260,442]
+Touch down [266,441]
+Touch down [273,440]
+Touch down [278,438]
+Touch down [283,437]
+Touch down [287,435]
+Touch down [291,433]
+Touch down [296,428]
+Touch down [300,423]
+Touch down [309,416]
+Touch down [318,409]
+Touch down [327,402]
+Touch down [335,395]
+Touch down [343,388]
+Touch down [351,377]
+Touch down [358,366]
+Touch down [363,356]
+Touch down [368,342]
+Touch down [371,329]
+Touch down [374,317]
+Touch down [376,306]
+Touch down [377,296]
+Touch down [378,282]
+Touch down [379,271]
+Touch down [379,259]
+Touch down [380,250]
+Touch down [379,241]
+Touch down [379,234]
+Touch down [379,227]
+Touch down [379,217]
+Touch down [379,208]
+Touch down [379,200]
+Touch down [379,192]
+Touch down [378,185]
+Touch down [377,179]
+Touch down [376,173]
+Touch down [375,168]
+Touch down [374,163]
+Touch down [372,159]
+Touch down [366,154]
+Touch down [360,149]
+Touch down [354,145]
+Touch down [349,142]
+Touch down [343,139]
+Touch down [339,137]
+Touch down [334,136]
+Touch down [330,134]
+Touch down [322,133]
+Touch down [315,132]
+Touch down [307,132]
+Touch down [301,132]
+Touch down [294,132]
+Touch down [288,133]
+Touch down [283,134]
+Touch down [277,136]
+Touch down [272,138]
+Touch down [266,143]
+Touch down [257,150]
+Touch down [248,156]
+Touch down [240,162]
+Touch down [233,168]
+Touch down [226,174]
+Touch down [219,184]
+Touch down [213,194]
+Touch down [207,204]
+Touch down [202,215]
+Touch down [192,231]
+Touch down [185,245]
+Touch down [178,257]
+Touch down [173,267]
+Touch down [169,276]
+Touch down [169,288]
+Touch down [169,299]
+Touch down [169,309]
+Touch down [170,319]
+Touch down [171,328]
+Touch down [173,342]
+Touch down [174,356]
+Touch down [176,386]
+Touch down [178,416]
+Touch down [180,446]
+Touch up   [180,446]
+
+[22:36:46.188]ÊÕ¡û¡ôTouch down [238,42]
+
+[22:36:46.411]ÊÕ¡û¡ôTouch down [235,45]
+Touch down [232,48]
+Touch down [230,52]
+Touch down [228,55]
+Touch down [226,57]
+Touch down [225,60]
+Touch down [223,61]
+Touch down [222,63]
+Touch down [221,64]
+Touch down [220,65]
+Touch down [220,66]
+Touch down [219,67]
+Touch down [219,68]
+Touch down [219,69]
+Touch down [218,69]
+Touch down [218,70]
+Touch down [217,71]
+
+[22:36:46.613]ÊÕ¡û¡ôTouch down [217,72]
+Touch down [217,73]
+Touch down [216,73]
+Touch down [215,74]
+Touch down [214,74]
+Touch up   [214,74]
+
+[22:36:58.745]ÊÕ¡û¡ôTouch down [270,75]
+
+[22:36:58.925]ÊÕ¡û¡ôTouch down [274,86]
+Touch down [277,96]
+Touch down [281,110]
+Touch down [284,121]
+Touch down [286,131]
+Touch down [288,140]
+Touch down [290,147]
+Touch down [291,154]
+Touch down [292,160]
+Touch down [293,166]
+Touch down [294,174]
+Touch down [294,182]
+Touch down [293,192]
+Touch down [291,200]
+Touch down [290,209]
+Touch down [287,216]
+Touch down [283,222]
+Touch down [279,227]
+Touch down [274,231]
+Touch down [269,234]
+Touch down [264,237]
+Touch down [257,240]
+Touch down [251,242]
+Touch down [245,244]
+Touch down [240,246]
+Touch down [235,247]
+Touch down [231,248]
+Touch down [228,249]
+Touch down [224,249]
+Touch down [220,248]
+Touch down [216,245]
+Touch down [211,240]
+Touch down [207,234]
+Touch down [203,227]
+Touch down [199,216]
+Touch down [195,203]
+Touch down [191,185]
+Touch down [188,167]
+Touch down [185,146]
+Touch down [182,118]
+Touch down [179,95]
+Touch down [177,76]
+Touch down [176,62]
+Touch down [175,52]
+Touch down [175,44]
+Touch down [175,38]
+Touch down [175,33]
+Touch down [176,28]
+Touch down [176,25]
+Touch down [178,22]
+Touch down [179,19]
+Touch down [180,17]
+Touch down [182,15]
+Touch down [184,14]
+Touch down [190,14]
+Touch down [197,16]
+Touch down [206,24]
+Touch down [214,32]
+Touch down [222,42]
+Touch down [230,58]
+Touch down [244,76]
+Touch down [255,92]
+Touch down [265,112]
+Touch down [274,129]
+Touch down [280,144]
+Touch down [286,163]
+Touch down [291,179]
+Touch down [294,193]
+Touch down [296,205]
+Touch down [298,221]
+Touch down [299,234]
+Touch down [300,246]
+Touch down [300,257]
+Touch down [295,269]
+Touch down [290,279]
+Touch down [284,292]
+Touch down [279,303]
+Touch down [273,313]
+Touch down [269,323]
+Touch down [264,331]
+Touch down [254,341]
+Touch down [246,348]
+Touch down [238,355]
+Touch down [232,360]
+Touch down [225,368]
+Touch down [218,375]
+Touch down [212,381]
+Touch down [203,388]
+Touch down [194,393]
+Touch down [186,397]
+Touch down [178,400]
+Touch down [170,400]
+Touch down [158,399]
+Touch down [147,398]
+Touch down [136,396]
+Touch down [125,395]
+Touch down [115,393]
+Touch down [102,392]
+Touch down [90,391]
+Touch down [79,390]
+Touch down [67,389]
+Touch down [57,387]
+Touch down [48,386]
+Touch down [41,384]
+Touch down [35,383]
+Touch down [30,381]
+Touch down [26,379]
+Touch down [22,376]
+Touch down [19,373]
+Touch down [17,370]
+Touch down [15,367]
+Touch down [13,364]
+Touch down [11,361]
+Touch down [10,358]
+Touch down [9,354]
+Touch down [8,351]
+Touch down [7,348]
+Touch down [6,345]
+Touch down [5,342]
+Touch down [5,340]
+Touch down [4,338]
+Touch down [4,336]
+Touch down [4,331]
+Touch down [3,325]
+Touch down [2,320]
+Touch up   [2,320]
+
+[22:37:00.762]ÊÕ¡û¡ôTouch down [204,1]
+
+[22:37:00.890]ÊÕ¡û¡ôTouch down [220,4]
+Touch down [232,7]
+Touch down [247,16]
+Touch down [260,23]
+Touch down [271,29]
+Touch down [280,35]
+Touch down [288,41]
+Touch down [295,47]
+Touch down [300,52]
+Touch down [313,64]
+Touch down [322,74]
+Touch down [331,84]
+Touch down [338,93]
+Touch down [345,106]
+Touch down [351,117]
+Touch down [356,129]
+Touch down [361,146]
+Touch down [364,161]
+Touch down [367,176]
+Touch down [368,190]
+Touch down [369,209]
+Touch down [368,226]
+Touch down [364,247]
+Touch down [360,263]
+Touch down [354,275]
+Touch down [347,284]
+Touch down [341,292]
+Touch down [327,299]
+Touch down [313,309]
+Touch down [301,318]
+Touch down [291,325]
+Touch down [283,331]
+Touch down [269,338]
+Touch down [258,342]
+Touch down [248,346]
+Touch down [240,348]
+Touch down [233,350]
+Touch down [226,348]
+Touch down [219,346]
+Touch down [207,342]
+Touch down [196,337]
+Touch down [186,332]
+Touch down [177,327]
+Touch down [167,318]
+Touch down [160,310]
+Touch down [153,302]
+Touch down [147,294]
+Touch down [138,284]
+Touch down [130,276]
+Touch down [122,264]
+Touch down [115,254]
+Touch down [108,244]
+Touch down [103,235]
+Touch down [99,226]
+Touch down [95,215]
+Touch down [93,205]
+Touch down [91,195]
+Touch down [90,186]
+Touch down [89,177]
+Touch down [95,161]
+Touch down [100,148]
+Touch down [105,135]
+Touch down [110,124]
+Touch down [115,114]
+Touch down [121,100]
+Touch down [126,88]
+Touch down [130,76]
+Touch down [133,67]
+Touch down [140,58]
+Touch down [146,52]
+Touch down [152,47]
+Touch down [157,44]
+Touch down [161,41]
+Touch down [166,42]
+Touch down [170,44]
+Touch down [182,49]
+Touch down [192,55]
+Touch down [204,69]
+Touch down [214,83]
+Touch down [223,104]
+Touch down [229,123]
+Touch down [234,146]
+Touch down [237,165]
+Touch down [239,182]
+Touch down [240,196]
+Touch down [234,217]
+Touch down [230,233]
+Touch down [225,247]
+Touch down [221,259]
+Touch down [216,269]
+Touch down [210,278]
+Touch down [201,286]
+Touch down [190,294]
+Touch down [179,301]
+Touch down [162,311]
+Touch down [146,319]
+Touch down [130,327]
+Touch down [105,335]
+Touch down [84,342]
+Touch down [57,353]
+Touch down [29,365]
+Touch down [2,376]
+Touch up   [2,376]
+
+[22:37:02.649]ÊÕ¡û¡ôTouch down [203,1]
+
+[22:37:02.734]ÊÕ¡û¡ôTouch down [238,31]
+Touch down [255,51]
+Touch down [273,71]
+Touch down [288,92]
+Touch down [298,109]
+Touch down [306,125]
+Touch down [313,145]
+Touch down [317,164]
+Touch down [320,181]
+Touch down [321,202]
+Touch down [320,222]
+Touch down [316,246]
+Touch down [311,265]
+Touch down [303,278]
+Touch down [296,288]
+Touch down [288,295]
+Touch down [281,300]
+Touch down [270,304]
+Touch down [260,307]
+Touch down [250,308]
+Touch down [241,310]
+Touch down [232,310]
+Touch down [219,311]
+Touch down [207,310]
+Touch down [194,309]
+Touch down [182,306]
+Touch down [164,299]
+Touch down [149,293]
+Touch down [134,286]
+Touch down [122,280]
+Touch down [112,274]
+Touch down [104,268]
+Touch down [97,261]
+Touch down [92,253]
+Touch down [88,246]
+Touch down [85,239]
+Touch down [83,232]
+Touch down [82,225]
+Touch down [82,215]
+Touch down [83,206]
+Touch down [88,194]
+Touch down [94,183]
+Touch down [101,172]
+Touch down [109,159]
+Touch down [117,147]
+Touch down [129,135]
+Touch down [140,125]
+Touch down [150,116]
+Touch down [160,109]
+Touch down [172,103]
+Touch down [183,99]
+Touch down [193,97]
+Touch down [202,95]
+Touch down [211,98]
+Touch down [220,101]
+Touch down [235,109]
+Touch down [249,122]
+Touch down [261,135]
+Touch down [271,149]
+Touch down [280,167]
+Touch down [285,183]
+Touch down [290,198]
+Touch down [292,215]
+Touch down [294,230]
+Touch down [290,246]
+Touch down [285,260]
+Touch down [279,272]
+Touch down [272,282]
+Touch down [260,291]
+Touch down [249,299]
+Touch down [236,305]
+Touch down [219,315]
+Touch down [203,322]
+Touch down [189,328]
+Touch down [177,330]
+Touch down [162,330]
+Touch down [145,335]
+Touch down [128,341]
+Touch down [111,346]
+Touch up   [111,346]
+
+[22:37:25.436]ÊÕ¡û¡ôSFBL
+
+[22:37:27.597]ÊÕ¡û¡ôSerial:c2,Chip:4,Package:3,Rev:3  Reason:00000000
+
+ \ | /
+- SiFli Corporation
+ / | \     build on May 23 2025, 2.4.0 build df3a06ea
+ 2020 - 2022 Copyright by SiFli team
+mount /dev sucess
+[I/drv.rtc] PSCLR=0x80000100 DivAI=128 DivAF=0 B=256
+[I/drv.rtc] RTC use LXT RTC_CR=00000001
+
+[I/drv.rtc] Init RTC, wake = 0
+
+call par CFG1(3313)
+fc 9, xtal 2000, pll 2086
+call par CFG1(3313)
+fc 7, xtal 2000, pll 1671
+Hello world!
+[D/drv.als] Find i2c bus device i2c1
+
+LTR303_MEAS_RATE Reg[0] = 3
+[I/sensor] rt_sensor init success
+[I/sensor.ltr-303] light sensor init success
+[D/drv.mag] Find i2c bus device i2c1
+
+MMC56x3 ID = 16
+msh />[I/sensor] rt_sensor init success
+[I/sensor.mmc56x3] mag sensor init success
+[I/sensor] rt_sensor init success
+[I/sensor] rt_sensor init success
+[I/sensor] rt_sensor init success
+[32m[I/sensor.st.lsm6dsl] sensor init success[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] acce set odr 1660[0m
+[0m[D/sensor.st.lsm6dsl] gyro set odr 1660[0m
+teststart
+
+[22:40:57.368]ÊÕ¡û¡ônum:0
+KEY1 pressed
+
+[22:40:57.468]ÊÕ¡û¡ônum:0
+KEY1 released
+
+[22:40:57.568]ÊÕ¡û¡ônum:0
+KEY1 released
+
+[22:41:00.690]ÊÕ¡û¡ônum:1
+KEY2 pressed
+
+[22:41:00.784]ÊÕ¡û¡ôtest1--------senser--------
+light: 4 lux
+mag, x: 22, y: -307, z: 237
+acce, x: -156, y: 134, z: -987
+gyro, x: -14840, y: -6580, z: 3010
+lsm6d step, step: 0
+
+[22:41:00.870]ÊÕ¡û¡ônum:1
+KEY2 released
+
+
+[22:41:01.385]ÊÕ¡û¡ôlight: 2 lux
+mag, x: 0, y: -306, z: 223
+acce, x: -294, y: 140, z: -932
+gyro, x: 7630, y: -13090, z: 26810
+lsm6d step, step: 0
+
+[22:41:01.489]ÊÕ¡û¡ô
+
+[22:41:01.987]ÊÕ¡û¡ôlight: 4 lux
+mag, x: 0, y: -306, z: 223
+acce, x: -287, y: 23, z: -892
+gyro, x: 46060, y: 30660, z: -56840
+lsm6d step, step: 0
+
+[22:41:02.090]ÊÕ¡û¡ô
+
+[22:41:02.589]ÊÕ¡û¡ôlight: 4 lux
+mag, x: -14, y: -345, z: 179
+acce, x: -195, y: -346, z: -1186
+gyro, x: -3080, y: 22120, z: -18480
+lsm6d step, step: 0
+
+[22:41:02.692]ÊÕ¡û¡ô
+
+[22:41:03.289]ÊÕ¡û¡ôtest2----------audprc-------------
+
+[22:41:03.317]ÊÕ¡û¡ôaudprc_rx_tx_entry
+
+[22:41:13.323]ÊÕ¡û¡ôsifli_aw8155_stop 
+
+[22:41:13.421]ÊÕ¡û¡ôtest3-------------------lcd and touch--------------
+[I/DBG] drv_gpu opened.
+
+[22:41:26.381]ÊÕ¡û¡ôTouch down [296,205]
+
+[22:41:26.563]ÊÕ¡û¡ôTouch down [300,215]
+Touch down [304,228]
+Touch down [313,241]
+Touch down [320,251]
+Touch down [326,261]
+Touch down [331,268]
+Touch down [335,274]
+Touch down [339,279]
+Touch down [342,282]
+Touch down [344,285]
+Touch down [347,287]
+Touch down [348,288]
+Touch down [350,287]
+Touch down [352,285]
+Touch down [354,283]
+Touch down [356,280]
+Touch down [357,277]
+Touch down [358,275]
+Touch down [359,272]
+Touch down [359,269]
+Touch down [356,265]
+Touch down [351,257]
+Touch down [346,249]
+Touch down [341,241]
+Touch down [336,234]
+Touch down [330,226]
+Touch down [325,220]
+Touch down [316,213]
+Touch down [306,202]
+Touch down [297,192]
+Touch down [288,184]
+Touch down [279,177]
+Touch down [272,170]
+Touch down [262,164]
+Touch down [253,159]
+Touch down [244,154]
+Touch down [236,151]
+Touch down [230,148]
+Touch down [224,146]
+Touch down [218,144]
+Touch down [214,143]
+Touch down [210,142]
+Touch down [204,142]
+Touch down [198,143]
+Touch down [192,143]
+Touch down [186,148]
+Touch down [181,152]
+Touch down [176,158]
+Touch down [173,163]
+Touch down [172,169]
+Touch down [172,179]
+Touch down [174,189]
+Touch down [176,200]
+Touch down [180,211]
+Touch down [185,225]
+Touch down [193,240]
+Touch down [202,253]
+Touch down [209,264]
+Touch down [216,273]
+Touch down [223,280]
+Touch down [228,285]
+Touch down [233,289]
+Touch down [237,291]
+Touch down [243,293]
+Touch down [249,291]
+Touch down [255,289]
+Touch down [259,286]
+Touch down [261,283]
+Touch down [263,279]
+Touch down [264,275]
+Touch down [264,268]
+Touch down [265,260]
+Touch down [264,253]
+Touch down [264,246]
+Touch down [263,240]
+Touch down [262,235]
+Touch down [261,230]
+Touch down [260,226]
+Touch down [259,222]
+Touch down [258,219]
+Touch down [257,217]
+Touch down [256,215]
+Touch down [256,213]
+Touch down [255,212]
+Touch down [255,210]
+Touch down [254,210]
+Touch down [254,209]
+Touch down [253,208]
+Touch up   [253,208]
+
+[22:42:18.202]ÊÕ¡û¡ôSFBL
+
+[22:42:20.361]ÊÕ¡û¡ôSerial:c2,Chip:4,Package:3,Rev:3  Reason:00000000
+
+ \ | /
+- SiFli Corporation
+ / | \     build on May 23 2025, 2.4.0 build df3a06ea
+ 2020 - 2022 Copyright by SiFli team
+mount /dev sucess
+[I/drv.rtc] PSCLR=0x80000100 DivAI=128 DivAF=0 B=256
+[I/drv.rtc] RTC use LXT RTC_CR=00000001
+
+[I/drv.rtc] Init RTC, wake = 0
+
+call par CFG1(3313)
+fc 9, xtal 2000, pll 2089
+call par CFG1(3313)
+fc 7, xtal 2000, pll 1673
+Hello world!
+[D/drv.als] Find i2c bus device i2c1
+
+LTR303_MEAS_RATE Reg[0] = 3
+[I/sensor] rt_sensor init success
+[I/sensor.ltr-303] light sensor init success
+[D/drv.mag] Find i2c bus device i2c1
+
+MMC56x3 ID = 16
+msh />[I/sensor] rt_sensor init success
+[I/sensor.mmc56x3] mag sensor init success
+[I/sensor] rt_sensor init success
+[I/sensor] rt_sensor init success
+[I/sensor] rt_sensor init success
+[32m[I/sensor.st.lsm6dsl] sensor init success[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] acce set odr 1660[0m
+[0m[D/sensor.st.lsm6dsl] gyro set odr 1660[0m
+teststart
+
+[22:43:22.919]ÊÕ¡û¡ônum:0
+KEY1 pressed
+
+[22:43:23.019]ÊÕ¡û¡ônum:0
+KEY1 released
+
+[22:43:23.119]ÊÕ¡û¡ônum:0
+KEY1 released
+
+[22:43:24.549]ÊÕ¡û¡ônum:1
+KEY2 pressed
+test1--------senser--------
+light: 1 lux
+mag, x: -139, y: -115, z: 197
+acce, x: -132, y: 505, z: -782
+gyro, x: 16310, y: -3290, z: 1330
+lsm6d step, step: 0
+
+[22:43:24.672]ÊÕ¡û¡ô
+
+[22:43:24.709]ÊÕ¡û¡ônum:1
+KEY2 released
+
+[22:43:25.171]ÊÕ¡û¡ôlight: 1 lux
+mag, x: -140, y: -127, z: 201
+acce, x: -169, y: 534, z: -794
+gyro, x: 5110, y: -2520, z: -1890
+lsm6d step, step: 0
+
+[22:43:25.274]ÊÕ¡û¡ô
+
+[22:43:25.773]ÊÕ¡û¡ôlight: 1 lux
+mag, x: -140, y: -127, z: 201
+acce, x: -142, y: 510, z: -805
+gyro, x: 700, y: -4480, z: -560
+lsm6d step, step: 0
+
+[22:43:25.876]ÊÕ¡û¡ô
+
+[22:43:26.374]ÊÕ¡û¡ôlight: 1 lux
+mag, x: -130, y: -136, z: 217
+acce, x: -129, y: 510, z: -825
+gyro, x: -8890, y: -4410, z: -3570
+lsm6d step, step: 0
+
+[22:43:26.477]ÊÕ¡û¡ô
+
+[22:43:27.075]ÊÕ¡û¡ôtest2----------audprc-------------
+
+[22:43:27.103]ÊÕ¡û¡ôaudprc_rx_tx_entry
+
+[22:43:37.110]ÊÕ¡û¡ôsifli_aw8155_stop 
+
+[22:43:37.208]ÊÕ¡û¡ôtest3-------------------lcd and touch--------------
+[I/DBG] drv_gpu opened.
+
+[22:43:41.241]ÊÕ¡û¡ôTouch down [151,350]
+
+[22:43:41.389]ÊÕ¡û¡ôTouch down [159,342]
+Touch down [165,336]
+Touch down [172,329]
+Touch down [177,323]
+Touch down [182,319]
+Touch down [186,315]
+Touch down [189,309]
+Touch up   [189,309]
+
+[22:43:55.859]ÊÕ¡û¡ôSFBL
+
+[22:43:58.018]ÊÕ¡û¡ôSerial:c2,Chip:4,Package:3,Rev:3  Reason:00000000
+
+ \ | /
+- SiFli Corporation
+ / | \     build on May 23 2025, 2.4.0 build df3a06ea
+ 2020 - 2022 Copyright by SiFli team
+mount /dev sucess
+[I/drv.rtc] PSCLR=0x80000100 DivAI=128 DivAF=0 B=256
+[I/drv.rtc] RTC use LXT RTC_CR=00000001
+
+[I/drv.rtc] Init RTC, wake = 0
+
+call par CFG1(3313)
+fc 9, xtal 2000, pll 2088
+call par CFG1(3313)
+fc 7, xtal 2000, pll 1673
+Hello world!
+[D/drv.als] Find i2c bus device i2c1
+
+LTR303_MEAS_RATE Reg[0] = 3
+[I/sensor] rt_sensor init success
+[I/sensor.ltr-303] light sensor init success
+[D/drv.mag] Find i2c bus device i2c1
+
+MMC56x3 ID = 16
+msh />[I/sensor] rt_sensor init success
+[I/sensor.mmc56x3] mag sensor init success
+[I/sensor] rt_sensor init success
+[I/sensor] rt_sensor init success
+[I/sensor] rt_sensor init success
+[32m[I/sensor.st.lsm6dsl] sensor init success[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] set mode to POLLING[0m
+[0m[D/sensor.st.lsm6dsl] set power normal[0m
+[0m[D/sensor.st.lsm6dsl] acce set odr 1660[0m
+[0m[D/sensor.st.lsm6dsl] gyro set odr 1660[0m
+teststart

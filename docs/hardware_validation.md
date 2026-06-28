@@ -19,11 +19,11 @@
 | 模块 | 验证方法 | 当前状态 | 通过标准 | 当前证据 | 后续动作 |
 | --- | --- | --- | --- | --- | --- |
 | 电源 / USB 供电 | USB 连接电脑后观察开发板上电状态。 | 已通过 | 开发板上电，板载绿色 LED 亮。 | 板载绿色 LED 已亮。 | 保存上电照片 `power_on_green_led.jpg`。 |
-| CH340 USB 串口 | 在 Windows 设备管理器检查串口设备。 | 已通过 | 识别到 USB-SERIAL CH340 和硬件 ID。 | USB-SERIAL CH340，`USB\VID_1A86&PID_7523`。 | 上传设备管理器截图。 |
-| COM5 串口通信 | 使用 SSCOM 打开 COM5。 | 已通过 | COM5 可打开并持续接收数据。 | SSCOM COM5 已打开，R:32236。 | 保存 SSCOM 截图和完整日志。 |
+| CH340 USB 串口 | 在 Windows PowerShell 检查串口设备。 | 已通过 | 识别到 USB-SERIAL CH340 和硬件 ID。 | USB-SERIAL CH340，`USB\VID_1A86&PID_7523`；证据：`docs/assets/bringup/windows_ch340_com5_powershell.png`。 | 如需复核，可再次运行 PowerShell 串口查询命令。 |
+| COM5 串口通信 | 使用 SSCOM 打开 COM5。 | 已通过 | COM5 可打开并持续接收数据。 | SSCOM COM5 已打开，R:32236；证据：`docs/assets/bringup/sscom_touch_log_COM5.png`、`docs/assets/bringup/sscom_screen_touch_loop_COM5_2026-06-28.txt`。 | 后续继续保存完整测试日志。 |
 | 启动日志 | 观察串口启动输出。 | 已通过 | 出现厂商、构建版本和挂载成功日志。 | SiFli Corporation；build on May 23 2025, 2.4.0；mount /dev success。 | 保存完整自动检测日志。 |
-| 屏幕显示 | 观察出厂自动检测屏幕画面。 | 已通过初步验证 | 屏幕点亮并显示测试画面。 | 屏幕显示全屏绿色测试画面。 | 上传 `screen_green_factory_test.jpg`。 |
-| 触摸屏 | 触摸屏幕并观察 SSCOM 输出。 | 已通过初步验证 | 触摸时输出连续 Touch down 坐标。 | Touch down [223,280] 等坐标日志。 | 上传触摸日志截图和文本日志。 |
+| 屏幕显示 | 观察出厂自动检测屏幕画面。 | 已通过 | 屏幕点亮并显示测试画面。 | 屏幕显示全屏绿色测试画面；证据：`docs/assets/bringup/screen_green_factory_test.jpg`。 | 后续可补充更多测试色块照片。 |
+| 触摸屏坐标输出 | 触摸屏幕并观察 SSCOM 输出。 | 已通过 | 触摸时输出连续 Touch down 坐标。 | Touch down [223,280] 等坐标日志；证据：`docs/assets/bringup/sscom_touch_log_COM5.png`、`docs/assets/bringup/sscom_screen_touch_loop_COM5_2026-06-28.txt`。 | 后续继续验证 KEY / 应用层触摸事件。 |
 | KEY1 | 按下 KEY1 并观察串口日志。 | 待测试 | 串口输出 KEY1 相关日志或状态变化。 | 待补充人工结果。 | 执行 KEY1 短按 / 长按测试。 |
 | KEY2 | 执行 KEY2 自动检测流程并保存日志。 | 待补充完整流程结果 | 有完整自动检测流程结果。 | 待补充人工结果。 | 执行并保存 KEY2 自动检测日志。 |
 | 喇叭 | 播放测试音或提示音。 | 待测试 | 可听到测试音，日志无错误。 | 待补充人工结果。 | 确认喇叭接入方式并录制测试结果。 |
@@ -37,4 +37,3 @@
 - 没有实测证据的模块必须保持“待测试 / 待复测 / 待补充人工结果”。
 - 当前不得声明 KEY1、KEY2、喇叭、麦克风、震动马达、VelaBridge 自定义固件或串口 JSON 闭环已通过。
 - Codex 不得伪造图片、视频、日志或硬件测试结果。
-
