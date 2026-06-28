@@ -1,5 +1,9 @@
 # VelaBridge 第一周任务板
 
+队伍名称：维拉星核。项目名称：VelaBridge。比赛编号：039。
+
+维拉星核团队开发的 VelaBridge，是一款基于 openvela 的多模态无障碍 AI 沟通与伴行终端。
+
 | Issue 标题 | 负责人角色 | 目录 | 验收标准 | 是否需要开发板 | 优先级 |
 | --- | --- | --- | --- | --- | --- |
 | openvela 开发环境跑通 | 固件工程师 | `README.md` / 外层 openvela 工作区 | 能按官方命令 `repo sync`，并找到 `build.sh` 与目标 board config。 | 是 | P0 |
@@ -19,4 +23,3 @@
 | GitHub 协作规范 | 项目负责人 | `AGENTS.md` / `README.md` | 写清小步提交、测试、PR 描述、AI Coding 日志和禁止事项。 | 否 | P1 |
 
 > 当前环境 `gh` CLI 已安装但未登录，暂不自动创建 GitHub Issues。可使用 `docs/github_issues_seed.md` 复制创建。
-
