@@ -45,13 +45,14 @@
 | Flow control | None |
 | SSCOM 状态 | COM5 已打开 |
 | 接收计数 | R:32236 |
+| 当前现象 | 出厂自动检测 / Factory Test 停留在屏幕 / 触摸测试循环 |
 
 ## 屏幕测试
 
 | 项目 | 内容 |
 | --- | --- |
 | 当前现象 | 屏幕已点亮，显示全屏绿色测试画面 |
-| 状态 | 已通过 |
+| 状态 | 已通过初步验证 |
 | 证据 | `docs/assets/bringup/screen_green_factory_test.jpg` |
 
 ## 触摸测试
@@ -59,7 +60,7 @@
 | 项目 | 内容 |
 | --- | --- |
 | 当前现象 | 触摸屏幕时，SSCOM 输出 Touch down 坐标 |
-| 状态 | 已通过 |
+| 状态 | 已通过初步验证 |
 | 证据 | `docs/assets/bringup/sscom_touch_log_COM5.png`、`docs/assets/bringup/sscom_screen_touch_loop_COM5_2026-06-28.txt` |
 
 ### Touch down 坐标日志示例
@@ -112,23 +113,23 @@ mount /dev success
 | CH340 串口识别 | 已通过 | Windows 已识别 USB-SERIAL CH340，硬件 ID 为 `USB\VID_1A86&PID_7523`；证据：`docs/assets/bringup/windows_ch340_com5_powershell.png`。 |
 | COM5 串口连接 | 已通过 | SSCOM V5.13.1 已打开 COM5；证据：`docs/assets/bringup/sscom_touch_log_COM5.png`、`docs/assets/bringup/sscom_screen_touch_loop_COM5_2026-06-28.txt`。 |
 | 启动日志输出 | 已通过 | 串口日志包含 SiFli Corporation、build on May 23 2025, 2.4.0、mount /dev success。 |
-| 屏幕点亮 | 已通过 | 屏幕已点亮，显示全屏绿色测试画面；证据：`docs/assets/bringup/screen_green_factory_test.jpg`。 |
-| 触摸坐标输出 | 已通过 | 触摸时 SSCOM 连续输出 Touch down 坐标日志；证据：`docs/assets/bringup/sscom_touch_log_COM5.png`、`docs/assets/bringup/sscom_screen_touch_loop_COM5_2026-06-28.txt`。 |
+| 屏幕点亮 | 已通过初步验证 | 屏幕已点亮，显示全屏绿色测试画面；证据：`docs/assets/bringup/screen_green_factory_test.jpg`。 |
+| 触摸坐标输出 | 已通过初步验证 | 触摸时 SSCOM 连续输出 Touch down 坐标日志；证据：`docs/assets/bringup/sscom_touch_log_COM5.png`、`docs/assets/bringup/sscom_screen_touch_loop_COM5_2026-06-28.txt`。 |
 | KEY1 | 待测试 | 需要补充按键日志。 |
 | KEY2 | 待补充完整结果 | 需要补充完整自动检测流程结果。 |
-| 喇叭 | 待测试 | 不得标记为已通过。 |
-| 麦克风 | 待测试 | 不得标记为已通过。 |
+| 喇叭 | 未触发测试 / 待复测 | 出厂自动检测当前停留在屏幕 / 触摸测试循环，未进入音频 / 喇叭测试流程；不得标记为已通过或失败。 |
+| 麦克风 | 未触发测试 / 待复测 | 出厂自动检测当前停留在屏幕 / 触摸测试循环，未进入麦克风录音或输入电平测试流程；不得标记为已通过或失败。 |
 | 震动马达 | 待测试 | 需要确认是否有板载震动马达或马达接口。 |
 | VelaBridge 固件烧录 | 待做 | 需要拉取完整 openvela workspace 后编译 / 烧录。 |
 
 ## 当前结论
 
-黄山派 SF32LB52 已完成基础上电、USB 串口枚举、COM5 串口通信、启动日志输出、屏幕点亮和触摸坐标输出验证，具备进入 openvela 应用适配和 VelaBridge MVP 设备端开发的条件。
+黄山派 SF32LB52 已完成基础上电、USB 串口枚举、COM5 串口通信、启动日志输出、屏幕点亮和触摸坐标输出验证，具备进入 openvela 应用适配和 VelaBridge MVP 设备端开发的条件。当前出厂自动检测停留在屏幕 / 触摸测试循环，音频 / 喇叭 / 麦克风未进入测试流程，需后续单独复测；KEY1、KEY2、震动马达和 VelaBridge 固件烧录仍待测试或待做。
 
 ## 下一步
 
 - 测试 KEY1 / KEY2。
-- 测试喇叭和麦克风。
+- 不再卡出厂音频测试，后续用单独 demo 或 VelaBridge 固件验证喇叭和麦克风。
 - 确认震动马达或马达接口。
 - 拉取完整 openvela workspace。
 - 编译官方 hello_app。
