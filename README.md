@@ -1,5 +1,87 @@
 # contest2026_039_weilaxinghe
 
+| 项目身份 | 内容 |
+| --- | --- |
+| 队伍名称 | 维拉星核 |
+| 项目名称 | VelaBridge |
+| 比赛编号 | 039 |
+| 仓库 | `contest2026_039_weilaxinghe` |
+| 比赛 | 2026 首届 openvela AI 硬件开发者大赛 |
+| 项目方向 | AI 硬件 / openvela / 可穿戴设备 / 无障碍沟通 / 多模态交互 |
+
+## VelaBridge 项目简介
+
+维拉星核团队开发的 VelaBridge，是一款基于 openvela 的多模态无障碍 AI 沟通与伴行终端。
+
+VelaBridge 面向听障、视障、语言表达困难者，在校园问路、窗口服务、食堂点餐、读门牌、一键求助等场景中，把外界语音、文字和用户按键事件转换为字幕、语音播报、震动反馈和快捷回复。
+
+本项目参加 2026 首届 openvela AI 硬件开发者大赛，当前选择 **AI 硬件产品创新** 方向。第一批最小任务先完成电脑端 AI Bridge mock、串口 JSON 协议、MVP 文档、演示脚本、测试样例、AI Coding 日志模板和 GitHub 协作规范。
+
+VelaBridge 不声称替代医疗设备、导盲杖或导盲犬；默认不保存原始音频和图片，只保存脱敏文字摘要、按键事件、状态变化和错误码。
+
+## 当前 MVP 范围
+
+- 串口 JSON Lines 通信：`protocol/velabridge_protocol.md` 定义设备端与 AI Bridge 的消息格式。
+- 字幕显示：`caption` 支持普通字幕和“教务处 / 盖章”分步骤简化。
+- 按键状态机：设备端预留 `NORMAL`、`CAPTION_MODE`、`BLIND_MODE`、`OCR_MODE`、`HELP_MODE`、`DEMO_MODE`。
+- 震动反馈：协议支持 `none`、`short`、`long`、`urgent`、`double`。
+- 快捷回复：`quick_reply` 用于“请您说慢一点”等低门槛表达。
+- 一键求助：`help` 生成求助摘要并进入 HELP_MODE。
+- 演示模式：`python3 ai_bridge/mock_bridge.py --demo --jsonl` 输出固定演示消息。
+
+## 仓库目录说明
+
+```text
+ai_bridge/                 # 电脑端 AI Bridge mock，不接真实 API Key
+protocol/                  # 串口 JSON Lines 协议文档
+docs/                      # MVP 计划、任务板、演示脚本
+tests/                     # Python 标准库 unittest 测试
+logs/                      # AI Coding 日志模板和官方日志示例目录
+app/hello_app/             # 官方应用形态样例，当前批次不修改
+quickapp/hello_quickapp/   # 官方快应用形态样例，当前批次不修改
+board/contest_board/       # 官方板级适配样例，当前批次不修改
+```
+
+当前批次不修改 `openvela.xml`，不修改官方 `app/hello_app`，也不写真实硬件驱动。
+
+## 运行 AI Bridge Mock
+
+```bash
+python3 ai_bridge/mock_bridge.py "我要去教务处盖章，请问流程是什么" --jsonl
+python3 ai_bridge/mock_bridge.py "小心，前面危险" --jsonl
+python3 ai_bridge/mock_bridge.py --demo --jsonl
+```
+
+如果需要后续串口发送，可在安装 `pyserial` 后使用 `--serial-port`；未安装 `pyserial` 时脚本不会因为缺少串口依赖而退出。
+
+## 运行测试
+
+```bash
+python3 -m unittest tests/test_mock_bridge.py
+```
+
+测试覆盖普通字幕、教务处长句简化、危险关键词 urgent 震动、求助、盲人模式菜单和 demo 输出数量。
+
+> Windows 环境如果 `python3` 指向 WindowsApps 占位入口，可使用 `py` 替代，例如 `py -m unittest tests/test_mock_bridge.py`。
+
+## 第一周开发目标
+
+1. 用 `ai_bridge/mock_bridge.py` 跑通 demo JSON Lines 输出。
+2. 用 `tests/test_mock_bridge.py` 固化普通字幕、简化字幕、危险提醒、求助、盲人菜单和 demo 测试。
+3. 根据 `protocol/velabridge_protocol.md` 评审设备端与 AI Bridge 的消息字段和错误码。
+4. 使用 `docs/demo_script.md` 准备 5 分钟演示视频。
+5. 根据 `docs/task_board.md` 拆分后续设备端 app、串口、屏幕、按键和震动任务。
+6. 按 `logs/ai_coding_log.md` 记录 AI Coding 过程，并按官方 `logs/README.md` 归集真实 JSONL 日志。
+
+## 代码与 AI Coding 日志提交要求
+
+- 小步提交，PR 描述写清修改文件、测试命令、开发板人工验证项和风险。
+- 不提交密钥、API Key、原始音频、原始图片或未授权个人信息。
+- 保留官方比赛模板文件，不删除 `hello_app`、`hello_quickapp`、`contest_board` 和 `logs/README.md`。
+- 每次较大变更同步更新 README、协议文档、任务板或 AI Coding 日志模板。
+
+---
+
 👋 欢迎参加 **2026 首届 openvela AI 硬件开发者大赛**！
 
 这是组委会为你的队伍创建的**专属参赛仓库**（本仓为样例/模板，队伍编号 `039`；你看到的将是你自己的 `contest2026_<编号>_<队伍名>`）。比赛期间，你的全部参赛代码、打包产物与 AI Coding 日志都提交到这里。
