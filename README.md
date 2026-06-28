@@ -7,6 +7,8 @@
 | 比赛编号 | 039 |
 | 仓库 | `contest2026_039_weilaxinghe` |
 | 比赛 | 2026 首届 openvela AI 硬件开发者大赛 |
+| GitHub 账号 | `chenzeyuan233` |
+| 比赛邮箱 | `13045875890@163.com` |
 | 项目方向 | AI 硬件 / openvela / 可穿戴设备 / 无障碍沟通 / 多模态交互 |
 
 ## VelaBridge 项目简介

@@ -23,6 +23,7 @@
 - `tests/test_mock_bridge.py`
 - `protocol/velabridge_protocol.md`
 - `app/velabridge_app/`
+- `docs/account_and_submission_check.md`
 
 ## 已确认通过项
 
@@ -36,6 +37,9 @@
 - 屏幕显示全屏绿色测试画面，状态为已通过初步验证。
 - 触摸屏输出 Touch down 坐标日志，状态为已通过初步验证。
 - 证据文件已归档到 `docs/assets/bringup/`，仓库根目录没有残留原始证据文件。
+- 当前仓库远端为 `open-vela/contest2026_039_weilaxinghe`。
+- 当前分支基于 `dev-ai-contest-2026`。
+- 文档账号统一为 `chenzeyuan233` / `13045875890@163.com`。
 
 ## 发现的问题
 
@@ -43,6 +47,7 @@
 - 部分文档曾将喇叭和麦克风写为笼统“待测试”，没有说明出厂自动检测尚未进入音频流程。
 - `docs/next_hardware_steps.md` 仍包含已完成的证据上传动作。
 - AI Coding 日志缺少早期 MVP scaffold 和队伍名称统一记录。
+- 仓库文档缺少独立账号与提交检查记录。
 
 ## 已修复的问题
 
@@ -52,6 +57,9 @@
 - 补充说明音频 / 喇叭 / 麦克风不能写失败，也不能写通过。
 - 更新任务板中的硬件 bring-up 状态和下一步。
 - 更新 AI Coding 日志，补齐 MVP scaffold、队伍名称统一、bring-up 证据审查记录。
+- 新增 `docs/account_and_submission_check.md`，记录正确仓库、开发分支、比赛账号、比赛邮箱、本地 git config 建议和后续提交要求。
+- 更新 README 与 AGENTS 中的比赛账号信息。
+- 追加 AI Coding 日志，记录比赛账号统一事件。
 
 ## 测试结果
 
@@ -59,6 +67,17 @@
 - `python3 -m unittest tests/test_mock_bridge.py`：当前 Windows 环境中 `python3` 指向 WindowsApps 占位入口，返回 1 且无输出。
 - `py -X utf8 ai_bridge/mock_bridge.py --demo --jsonl`：通过，输出 7 条 JSON Lines 演示消息。
 - `py -X utf8 -m unittest tests/test_mock_bridge.py`：通过，6 个 unittest 用例 OK。
+
+## 账号与提交检查
+
+- 仓库是否正确：已确认，远端为 `open-vela/contest2026_039_weilaxinghe`。
+- 分支是否正确：当前修复分支基于 `dev-ai-contest-2026`。
+- 文档账号是否统一：已统一为 `chenzeyuan233` / `13045875890@163.com`。
+- 证据文件是否在 `docs/assets/bringup/`：已确认，4 个 bring-up 证据文件均在该目录。
+- 未测试硬件是否没有被误标通过：已确认，喇叭、麦克风、震动马达仍未标记为已通过。
+- README 是否说明当前只是 bring-up 阶段：已确认。
+- `logs/ai_coding_log.md` 是否记录账号统一事件：已追加记录。
+- 历史 commit author 是否重写：未重写历史 commit author。
 
 ## 仍需人工完成的事项
 

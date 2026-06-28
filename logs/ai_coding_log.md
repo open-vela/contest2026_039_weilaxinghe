@@ -152,3 +152,22 @@ python3 -m unittest tests/test_mock_bridge.py
   - 未测试硬件不得标记通过。
   - 音频 / 喇叭 / 麦克风不能写失败，也不能写通过。
   - VelaBridge 固件烧录、串口 JSON 闭环、字幕显示功能仍待开发板验证。
+
+## 2026-06-28 统一比赛 GitHub 账号与提交信息
+
+- 日期：2026-06-28
+- 事件：统一比赛 GitHub 账号与提交信息。
+- 人工确认：
+  - GitHub 账号：`chenzeyuan233`
+  - 邮箱：`13045875890@163.com`
+  - 队伍：维拉星核
+  - 项目：VelaBridge
+- Codex 工作：
+  - 检查文档中的账号信息。
+  - 修正非比赛账号引用。
+  - 创建账号与提交检查记录。
+  - 设置当前仓库本地 git config 为比赛账号。
+  - 保留历史 commit，不做 rewrite history。
+- 人工审核：
+  - 需要人工确认 Codex 连接的 GitHub 账号是否为 `chenzeyuan233`。
+  - 需要人工确认本地 WSL git config 是否已改为比赛账号。

@@ -4,6 +4,8 @@
 
 队伍名称：维拉星核。项目名称：VelaBridge。仓库名称：`contest2026_039_weilaxinghe`。比赛：2026 首届 openvela AI 硬件开发者大赛。
 
+比赛 GitHub 账号：`chenzeyuan233`。比赛邮箱：`13045875890@163.com`。后续 PR、Issue、README、AI Coding 日志和提交说明统一使用“维拉星核 / VelaBridge / chenzeyuan233”。
+
 维拉星核团队开发的 VelaBridge，是一款基于 openvela 的多模态无障碍 AI 沟通与伴行终端。
 
 项目面向听障、视障、语言表达困难者，在校园问路、窗口服务、食堂点餐、读门牌、一键求助等场景中，把外界语音、文字和用户按键事件转换为字幕、语音播报、震动反馈和快捷回复。
