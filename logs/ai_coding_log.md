@@ -70,3 +70,31 @@ python3 -m unittest tests/test_mock_bridge.py
 - 修改文件：`docs/bringup_log.md`、`docs/hardware_validation.md`、`docs/task_board.md`、`logs/ai_coding_log.md`、`README.md`。
 - 测试结果：文档更新，无需开发板构建；后续需用 SSCOM 连接 USB-SERIAL CH340，COM5，波特率 1000000 采集触摸日志。
 - 风险与后续 TODO：触摸、喇叭、麦克风、震动仍需人工补充确认结果。
+
+## 2026-06-28 黄山派 SF32LB52 屏幕与触摸 bring-up 记录
+
+- 日期：2026-06-28
+- 工具：GPT / Codex
+- 事件：黄山派 SF32LB52 屏幕与触摸 bring-up 记录
+- 人工实测事实：
+  - USB-SERIAL CH340 COM5 已识别。
+  - 硬件 ID 为 `USB\VID_1A86&PID_7523`。
+  - SSCOM V5.13.1 已打开 COM5。
+  - 串口参数为 1000000 8N1，无流控。
+  - 接收计数达到 R:32236。
+  - 开发板已上电，板载绿色 LED 已亮。
+  - 开发板已进入出厂自动检测 / Factory Test 流程。
+  - 屏幕显示全屏绿色测试画面。
+  - 触摸屏输出 Touch down 坐标日志。
+  - 启动日志出现 SiFli Corporation、build on May 23 2025、mount /dev success。
+- Codex 工作：
+  - 更新 bring-up 文档。
+  - 更新硬件验证清单。
+  - 更新任务板。
+  - 更新 README 当前硬件进展。
+  - 更新证据文件清单。
+  - 新增下一阶段硬件任务清单。
+- 人工审核要求：
+  - 未测试硬件不得标记通过。
+  - 后续需要上传图片、串口日志和完整自动检测结果。
+  - 后续需要人工验证 KEY1、KEY2、喇叭、麦克风、震动马达和 VelaBridge 固件。

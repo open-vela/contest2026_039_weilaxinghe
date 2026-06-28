@@ -33,17 +33,24 @@ VelaBridge 不声称替代医疗设备、导盲杖或导盲犬；默认不保存
 
 | 项目 | 状态 | 说明 |
 | --- | --- | --- |
-| 开发板 | 已进入出厂自动检测流程 | 黄山派 SF32LB52。 |
-| 屏幕点亮 / 循环显示 | 已通过 | 屏幕正在循环点亮 / 变换显示，显示链路已初步通过。 |
-| 触摸 | 待确认触摸日志 | 当前正在确认触摸日志，暂不标记通过。 |
-| 串口 | 已识别 | USB-SERIAL CH340，COM5。 |
-| 串口工具 | 已确认 | SSCOM。 |
-| 波特率 | 已确认 | 1000000。 |
+| 开发板 | 已进入出厂自动检测流程 | 黄山派 SF32LB52 开发板已到货并完成初步 bring-up。 |
+| USB 供电 | 已通过 | 开发板已上电，板载绿色 LED 已亮。 |
+| 串口 | 已通过 | Windows 已识别 USB-SERIAL CH340，COM 口为 COM5，硬件 ID 为 `USB\VID_1A86&PID_7523`。 |
+| 串口工具 | 已通过 | SSCOM V5.13.1 已打开 COM5。 |
+| 串口参数 | 已通过 | 1000000 8N1，无流控；接收计数已达到 R:32236。 |
+| 启动日志 | 已通过 | 串口日志出现 SiFli Corporation、build on May 23 2025、mount /dev success。 |
+| 屏幕显示 | 已通过初步验证 | 屏幕已点亮，显示全屏绿色测试画面。 |
+| 触摸屏 | 已通过初步验证 | 触摸屏已输出 Touch down 坐标日志。 |
+| KEY1 | 待测试 | 需要补充按键日志。 |
+| KEY2 | 待补充完整流程结果 | 需要补充完整自动检测流程结果。 |
 | 喇叭 | 待测试 | 暂无人工确认结果。 |
 | 麦克风 | 待测试 | 暂无人工确认结果。 |
 | 震动 | 待测试 | 暂无人工确认结果。 |
+| VelaBridge 自定义固件 | 待做 | 尚未完成 VelaBridge 固件烧录。 |
 
-详细记录见 `docs/bringup_log.md` 和 `docs/hardware_validation.md`。当前不要声明触摸、喇叭、麦克风、震动已通过，除非后续补充人工确认记录。
+当前结果只代表硬件 bring-up 阶段，不代表 VelaBridge 应用功能已经完成。下一步是测试 KEY1 / KEY2、喇叭、麦克风、震动马达，并开始 openvela workspace 编译和 VelaBridge 最小设备端适配。
+
+详细记录见 `docs/bringup_log.md`、`docs/hardware_validation.md`、`docs/assets/bringup/README.md` 和 `docs/next_hardware_steps.md`。没有实测证据的模块不能标记为已通过。
 
 ## 仓库目录说明
 
