@@ -21,5 +21,8 @@
 | OCR 读字 mock | AI 工程师 | `ai_bridge/` / `protocol/` | 输入“读字”或“门牌”输出 `ocr_result`，设备端显示 / 播报字段明确。 | 否 | P1 |
 | 危险关键词提醒 | AI / 固件工程师 | `ai_bridge/` / `app/velabridge_app/` | “危险”“让开”“报警”“小心”触发 `danger_alert` 和 `urgent` 震动。 | 是 | P1 |
 | GitHub 协作规范 | 项目负责人 | `AGENTS.md` / `README.md` | 写清小步提交、测试、PR 描述、AI Coding 日志和禁止事项。 | 否 | P1 |
+| 黄山派 SF32LB52 屏幕出厂检测记录 | 硬件 / 固件工程师 | `docs/bringup_log.md` / `docs/hardware_validation.md` | 记录出厂自动检测、CH340 COM5、SSCOM、1000000 波特率；屏幕点亮 / 循环显示标记为已通过。 | 是 | P0 |
+| 触摸日志确认 | 硬件 / 固件工程师 | `docs/hardware_validation.md` | 使用 SSCOM 连接 COM5，波特率 1000000，保存触摸日志并确认是否通过。 | 是 | P0 |
+| 喇叭 / 麦克风 / 震动验证 | 硬件 / 固件工程师 | `docs/hardware_validation.md` | 分别完成测试并补充人工确认结果；当前保持待测试。 | 是 | P1 |
 
 > 当前环境 `gh` CLI 已安装但未登录，暂不自动创建 GitHub Issues。可使用 `docs/github_issues_seed.md` 复制创建。
