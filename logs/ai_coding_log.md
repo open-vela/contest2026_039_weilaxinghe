@@ -60,3 +60,13 @@ python3 -m unittest tests/test_mock_bridge.py
 - 隐私 / 安全风险：
 - 协议兼容风险：
 - 下一步：
+
+## 2026-06-28 硬件 bring-up 记录
+
+- 使用工具：Codex
+- Prompt：根据黄山派 SF32LB52 出厂自动检测结果更新 VelaBridge 硬件 bring-up 文档。
+- AI 输出摘要：新增 / 更新硬件验证文档，记录屏幕点亮 / 循环显示已通过，触摸待确认日志，喇叭、麦克风、震动待测试。
+- 人工审核意见：当前只确认屏幕显示链路初步通过；不得声明触摸、喇叭、麦克风、震动已通过。
+- 修改文件：`docs/bringup_log.md`、`docs/hardware_validation.md`、`docs/task_board.md`、`logs/ai_coding_log.md`、`README.md`。
+- 测试结果：文档更新，无需开发板构建；后续需用 SSCOM 连接 USB-SERIAL CH340，COM5，波特率 1000000 采集触摸日志。
+- 风险与后续 TODO：触摸、喇叭、麦克风、震动仍需人工补充确认结果。
