@@ -71,6 +71,24 @@ python3 -m unittest tests/test_mock_bridge.py
 - 测试结果：文档更新，无需开发板构建；后续需用 SSCOM 连接 USB-SERIAL CH340，COM5，波特率 1000000 采集触摸日志。
 - 风险与后续 TODO：触摸、喇叭、麦克风、震动仍需人工补充确认结果。
 
+## 2026-06-28 Codex 初始化 VelaBridge MVP scaffold
+
+- 日期：2026-06-28
+- 工具：Codex
+- 事件：初始化 VelaBridge MVP scaffold。
+- AI 输出摘要：创建电脑端 AI Bridge mock、JSON Lines 协议文档、MVP 计划、任务板、演示脚本、AI Coding 日志模板和最小测试样例。
+- 人工审核要求：不接真实 API Key，不写真实硬件驱动，不删除官方比赛模板。
+- 测试结果：使用 Python unittest 验证 `tests/test_mock_bridge.py`；后续需在开发板上验证设备端闭环。
+
+## 2026-06-28 Codex 更新队伍名称“维拉星核”
+
+- 日期：2026-06-28
+- 工具：Codex
+- 事件：统一项目身份信息。
+- AI 输出摘要：将正式表述统一为“维拉星核团队开发的 VelaBridge，是一款基于 openvela 的多模态无障碍 AI 沟通与伴行终端。”
+- 人工审核要求：项目名仍为 VelaBridge，队伍名为维拉星核；不得将项目名改成队伍名。
+- 测试结果：文档更新，无需开发板构建。
+
 ## 2026-06-28 黄山派 SF32LB52 屏幕与触摸 bring-up 记录
 
 - 日期：2026-06-28
@@ -115,3 +133,22 @@ python3 -m unittest tests/test_mock_bridge.py
 - 人工审核：
   - 确认证据文件为真实测试结果。
   - 未测试硬件不得标记通过。
+
+## 2026-06-28 审查黄山派 SF32LB52 bring-up 记录与证据
+
+- 日期：2026-06-28
+- 事件：审查黄山派 SF32LB52 bring-up 记录、证据文件、README、任务板和 AI Coding 日志。
+- Codex 工作：
+  - 检查证据文件路径与根目录残留。
+  - 修正屏幕 / 触摸状态为“已通过初步验证”。
+  - 修正喇叭 / 麦克风状态为“未触发测试 / 待复测”。
+  - 补充 `docs/review_checklist.md`。
+- 测试结果：
+  - `python3 ai_bridge/mock_bridge.py --demo --jsonl`：当前 Windows 环境中 `python3` 指向 WindowsApps 占位入口，返回 1 且无输出。
+  - `python3 -m unittest tests/test_mock_bridge.py`：当前 Windows 环境中 `python3` 指向 WindowsApps 占位入口，返回 1 且无输出。
+  - `py -X utf8 ai_bridge/mock_bridge.py --demo --jsonl`：通过，输出 7 条 JSON Lines 演示消息。
+  - `py -X utf8 -m unittest tests/test_mock_bridge.py`：通过，6 个 unittest 用例 OK。
+- 人工审核：
+  - 未测试硬件不得标记通过。
+  - 音频 / 喇叭 / 麦克风不能写失败，也不能写通过。
+  - VelaBridge 固件烧录、串口 JSON 闭环、字幕显示功能仍待开发板验证。

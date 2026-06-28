@@ -39,18 +39,18 @@ VelaBridge 不声称替代医疗设备、导盲杖或导盲犬；默认不保存
 | 串口工具 | 已通过 | SSCOM V5.13.1 已打开 COM5。 |
 | 串口参数 | 已通过 | 1000000 8N1，无流控；接收计数已达到 R:32236。 |
 | 启动日志 | 已通过 | 串口日志出现 SiFli Corporation、build on May 23 2025、mount /dev success。 |
-| 屏幕显示 | 已通过 | 屏幕已点亮，显示全屏绿色测试画面。 |
-| 触摸屏坐标输出 | 已通过 | 触摸屏已输出 Touch down 坐标日志。 |
+| 屏幕显示 | 已通过初步验证 | 屏幕已点亮，显示全屏绿色测试画面。 |
+| 触摸屏坐标输出 | 已通过初步验证 | 触摸屏已输出 Touch down 坐标日志。 |
 | KEY1 | 待测试 | 需要补充按键日志。 |
 | KEY2 | 待补充完整流程结果 | 需要补充完整自动检测流程结果。 |
-| 喇叭 | 待测试 | 暂无人工确认结果。 |
-| 麦克风 | 待测试 | 暂无人工确认结果。 |
+| 喇叭 | 未触发测试 / 待复测 | 出厂自动检测停留在屏幕 / 触摸测试循环，当前没有进入音频测试流程。 |
+| 麦克风 | 未触发测试 / 待复测 | 出厂自动检测停留在屏幕 / 触摸测试循环，当前没有进入录音或输入电平测试流程。 |
 | 震动 | 待测试 | 暂无人工确认结果。 |
 | VelaBridge 自定义固件 | 待做 | 尚未完成 VelaBridge 固件烧录。 |
 
 硬件证据文件已保存到 `docs/assets/bringup/`，包括 CH340 COM5 PowerShell 截图、屏幕绿色出厂测试照片、SSCOM 触摸日志截图和串口原始日志。
 
-当前结果只代表硬件 bring-up 阶段，不代表 VelaBridge 应用功能已经完成。下一步是测试 KEY1 / KEY2、喇叭、麦克风、震动马达，并开始 openvela workspace 编译和 VelaBridge 最小设备端适配。
+当前结果只代表硬件 bring-up 阶段，不代表 VelaBridge 应用功能已经完成；还没有完成设备端字幕显示、AI Bridge 串口 JSON 闭环或 VelaBridge 自定义固件烧录。下一步是测试 KEY1 / KEY2 日志；音频不再卡出厂测试流程，后续用单独 demo 或 VelaBridge 固件验证；继续测试震动马达，并开始 openvela workspace 编译、官方 hello_app 编译和 VelaBridge 最小设备端适配。
 
 详细记录见 `docs/bringup_log.md`、`docs/hardware_validation.md`、`docs/assets/bringup/README.md` 和 `docs/next_hardware_steps.md`。没有实测证据的模块不能标记为已通过。
 
