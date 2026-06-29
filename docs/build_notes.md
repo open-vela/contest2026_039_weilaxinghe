@@ -88,6 +88,16 @@ chip.h: Too many levels of symbolic links
 - 不要批量乱链接整个 `sf32lb52` 目录。
 - 不要把 `nuttx/` 或 `vendor/sifli/` 的临时修改提交到比赛仓库。
 
+## 为什么不能继续靠手动软链接补头文件
+
+手动软链接可以作为一次性排查手段，用来判断下一个编译错误会落在哪里，但不能作为 VelaBridge Watch 的正式构建修复方案。
+
+- 软链接容易污染 `chip.h`、`arch/arm/src/chip` 和 `vendor/sifli/chips/sf32lb52` 等底层路径；本地已经出现过 `chip.h: Too many levels of symbolic links`。
+- HAL / CMSIS 头文件在本地 `vendor/sifli` 中多数真实存在，继续手动补文件无法回答真正问题：当前 board config、include path、toolchain flags 和 chip 映射是否符合官方预期。
+- 当前已经证明 VelaBridge app 可被构建系统识别，日志出现 `Register: velabridge_app`；blocker 更接近 SF32LB52 board config / HAL 路径问题，不是应用层业务代码问题。
+- 应优先确认官方推荐的 build config、完整构建命令、额外 HAL/CMSIS 依赖来源、repo sync 参数、分支或 SDK 包。
+- 在官方确认前，底层 workaround 只能保存在本地排查记录中，不提交到 `nuttx/`、`vendor/sifli/`、`apps/` 或 `packages/`。
+
 ## 风险说明
 
 - 当前尚未证明 VelaBridge Watch 固件已完整编译通过。

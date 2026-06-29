@@ -195,3 +195,31 @@ python3 -m unittest tests/test_mock_bridge.py
   - 不修改 `openvela.xml`。
   - 官方确认前不声称固件已编译通过。
   - 不把本地 workaround 写成官方修复。
+
+## 2026-06-30 转向官方资料搜索与构建诊断脚本
+
+- 日期：2026-06-30
+- 事件：转向官方资料搜索与构建诊断脚本。
+- 人工输入：
+  - 手动补 HAL/CMSIS 头文件进入循环。
+  - 决定暂停手动修底层，不再扩大软链接 workaround。
+  - 当前目标是查官方推荐 board config、构建命令、依赖来源和可复现环境。
+- Codex 工作：
+  - 整理网络资料搜索结果与来源。
+  - 搜索当前仓库与 openvela workspace 中的 SF32LB52 board config、HAL/CMSIS 头文件、`ipc_queue/Make.defs` 和 FPU / SOC 配置。
+  - 创建 `docs/sf32lb52_build_research.md`。
+  - 创建 `scripts/setup_openvela_wsl_deps.sh`。
+  - 创建 `scripts/diagnose_sf32lb52_build.sh`。
+  - 更新 `docs/build_notes.md`，说明为什么不能继续靠手动软链接补头文件。
+  - 更新 `docs/official_question_sf32lb52_build.md`，整理成适合发给官方的问题稿。
+  - 更新 `docs/task_board.md`。
+- 测试结果：
+  - `bash -n scripts/setup_openvela_wsl_deps.sh`：通过。
+  - `bash -n scripts/diagnose_sf32lb52_build.sh`：通过。
+  - `py -X utf8 ai_bridge/mock_bridge.py --demo --jsonl`：通过，输出 7 条 JSON Lines 演示消息。
+  - `py -X utf8 -m unittest tests/test_mock_bridge.py`：通过，6 个 unittest 用例 OK。
+- 人工审核：
+  - 不提交 `nuttx/` 或 `vendor/sifli/` 临时改动。
+  - 不修改 `openvela.xml`。
+  - 不声称固件已编译通过。
+  - 不把网络未确认内容写成官方结论。

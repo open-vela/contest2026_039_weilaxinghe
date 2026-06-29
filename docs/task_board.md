@@ -26,6 +26,12 @@
 | 喇叭 / 麦克风 / 震动验证 | 硬件 / 固件工程师 | `docs/hardware_validation.md` | 分别完成测试并补充人工确认结果；当前喇叭 / 麦克风保持未触发测试 / 待复测，震动保持待测试。 | 是 | P1 |
 | 记录 SF32LB52 构建问题 | 固件 / 文档负责人 | `docs/build_notes.md` | 写清 repo sync、board config、VelaBridge app Register、底层缺失头文件和 workaround 风险。 | 否 | P0 |
 | 询问官方推荐 build config | 项目负责人 / 固件工程师 | `docs/official_question_sf32lb52_build.md` | 形成可发给官方群、GitHub issue 或指导老师的问题说明。 | 否 | P0 |
+| 查询官方 SF32LB52 推荐编译方式 | 项目负责人 / 固件工程师 | `docs/sf32lb52_build_research.md` | 整理 openvela 官方文档、比赛 README、SiFli / 立创资料和本地证据；找不到直接说明时写明“未找到官方直接说明”。 | 否 | P0 |
+| 运行 diagnose_sf32lb52_build.sh | 固件工程师 | `scripts/diagnose_sf32lb52_build.sh` | 在 openvela workspace 根目录运行只读诊断脚本，保存 board config、HAL/CMSIS 路径、git-lfs、repo、toolchain 输出。 | 否 | P0 |
+| 安装/确认 WSL 编译依赖 | 固件工程师 | `scripts/setup_openvela_wsl_deps.sh` | 安装或确认 Git、CMake、Ninja、Git LFS、Python、repo 和 ARM 工具链状态；不执行 repo sync 或烧录。 | 否 | P0 |
+| 等官方回复后修复 build | 固件工程师 | 外层 openvela workspace | 官方确认推荐 config、构建命令和 HAL/CMSIS 依赖后，再做可复现修复并记录。 | 是 | P1 |
+| 暂停手工软链接底层头文件 | 固件工程师 | `docs/build_notes.md` | 停止提交或扩大 `nuttx/`、`vendor/sifli/` 手工软链接 workaround；保留风险说明。 | 否 | P1 |
+| 并行推进 VelaBridge Watch 应用层 UI/AI Bridge/用户调研 | 产品 / AI / 固件工程师 | `ai_bridge/` / `app/velabridge_app/` / `docs/` | 在底层 build blocker 等官方确认期间，继续推进 UI 流程、AI Bridge mock、协议、演示脚本和用户调研。 | 否 | P1 |
 | 保持 VelaBridge Watch 应用层开发推进 | AI / 固件工程师 | `ai_bridge/` / `app/velabridge_app/` / `docs/` | 在底层 build blocker 未解决前，继续推进 mock、协议、状态机和演示脚本。 | 否 | P0 |
 | 等官方确认后修复底层 build | 固件工程师 | 外层 openvela workspace | 官方确认推荐 config 和 HAL / CMSIS 依赖后，再修复本地构建链路。 | 是 | P1 |
 | 编译 VelaBridge app | 固件工程师 | `app/velabridge_app/` | `Register: velabridge_app` 后继续完成完整编译，不把未通过写成已完成。 | 是 | P1 |
