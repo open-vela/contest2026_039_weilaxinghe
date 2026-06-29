@@ -24,6 +24,12 @@
 | 黄山派 SF32LB52 屏幕出厂检测记录 | 硬件 / 固件工程师 | `docs/bringup_log.md` / `docs/hardware_validation.md` | 记录出厂自动检测、CH340 COM5、SSCOM、1000000 波特率；屏幕点亮 / 循环显示标记为已通过初步验证。 | 是 | P0 |
 | 触摸日志确认 | 硬件 / 固件工程师 | `docs/hardware_validation.md` | 使用 SSCOM 连接 COM5，波特率 1000000，保存触摸日志并确认是否通过。 | 是 | P0 |
 | 喇叭 / 麦克风 / 震动验证 | 硬件 / 固件工程师 | `docs/hardware_validation.md` | 分别完成测试并补充人工确认结果；当前喇叭 / 麦克风保持未触发测试 / 待复测，震动保持待测试。 | 是 | P1 |
+| 记录 SF32LB52 构建问题 | 固件 / 文档负责人 | `docs/build_notes.md` | 写清 repo sync、board config、VelaBridge app Register、底层缺失头文件和 workaround 风险。 | 否 | P0 |
+| 询问官方推荐 build config | 项目负责人 / 固件工程师 | `docs/official_question_sf32lb52_build.md` | 形成可发给官方群、GitHub issue 或指导老师的问题说明。 | 否 | P0 |
+| 保持 VelaBridge Watch 应用层开发推进 | AI / 固件工程师 | `ai_bridge/` / `app/velabridge_app/` / `docs/` | 在底层 build blocker 未解决前，继续推进 mock、协议、状态机和演示脚本。 | 否 | P0 |
+| 等官方确认后修复底层 build | 固件工程师 | 外层 openvela workspace | 官方确认推荐 config 和 HAL / CMSIS 依赖后，再修复本地构建链路。 | 是 | P1 |
+| 编译 VelaBridge app | 固件工程师 | `app/velabridge_app/` | `Register: velabridge_app` 后继续完成完整编译，不把未通过写成已完成。 | 是 | P1 |
+| 烧录黄山派验证 | 硬件 / 固件工程师 | 外层 openvela workspace / 开发板 | 固件完整编译通过后再烧录黄山派，验证启动日志和应用入口。 | 是 | P1 |
 
 > 当前环境 `gh` CLI 已安装但未登录，暂不自动创建 GitHub Issues。可使用 `docs/github_issues_seed.md` 复制创建。
 
@@ -40,5 +46,8 @@
 | 麦克风输入 | P0 | 未触发测试 / 待复测 | 出厂自动检测停留在屏幕 / 触摸循环，尚无录音或输入电平结果。 | 后续用单独 demo 或 VelaBridge 固件验证。 |
 | 震动反馈 | P0 | 待测试 | 待补充人工结果。 | 确认板载震动马达或马达接口。 |
 | 串口 JSON 接收 | P0 | 待做 | 待补充人工结果。 | 依赖 VelaBridge 自定义固件接入。 |
-| openvela workspace 编译 | P0 | 待做 | 待补充人工结果。 | 拉取完整 openvela workspace。 |
-| VelaBridge 设备端最小程序 | P0 | 待做 | 待补充人工结果。 | 确认 `app/velabridge_app` 构建方式并编译。 |
+| openvela repo sync | P0 | 已完成 | WSL2 Ubuntu 中 `repo sync` 已成功。 | 继续确认官方推荐 build config。 |
+| VelaBridge app Register | P0 | 已确认 | 构建日志多次出现 `Register: velabridge_app`。 | 继续排查底层 HAL / CMSIS include 链路。 |
+| SF32LB52 构建 blocker | P0 | 阻塞中 | `ipc_queue/Make.defs` 与 HAL / CMSIS 头文件连续缺失。 | 询问官方 / 老师推荐 config 和依赖同步方式。 |
+| openvela workspace 编译 | P0 | 阻塞中 | 当前 blocker 属于 SF32LB52 / Huangshanpai board config 底层依赖链路。 | 官方确认前不写固件已编译通过。 |
+| VelaBridge 设备端最小程序 | P0 | 待做 | 构建系统已 Register，但完整编译和烧录尚未通过。 | 等底层 build blocker 解决后编译。 |
