@@ -171,3 +171,27 @@ python3 -m unittest tests/test_mock_bridge.py
 - 人工审核：
   - 需要人工确认 Codex 连接的 GitHub 账号是否为 `chenzeyuan233`。
   - 需要人工确认本地 WSL git config 是否已改为比赛账号。
+
+## 2026-06-29 黄山派 SF32LB52 构建链路排查记录
+
+- 日期：2026-06-29
+- 事件：黄山派 SF32LB52 构建链路排查记录。
+- 人工输入事实：
+  - openvela `repo sync` 成功。
+  - 团队仓库已切回 `dev-ai-contest-2026` 分支。
+  - `ai_bridge/mock_bridge.py --demo --jsonl` 可运行。
+  - `python3 -m unittest tests/test_mock_bridge.py` 已通过，6 tests OK。
+  - VelaBridge app 已 Register，构建日志多次出现 `Register: velabridge_app`。
+  - 编译连续缺失 `ipc_queue/Make.defs` 与 HAL / CMSIS 头文件。
+  - `chip.h` 曾被软链接污染，已认识到不能提交临时 workaround。
+- Codex 工作：
+  - 整理 `docs/build_notes.md`。
+  - 生成 `docs/official_question_sf32lb52_build.md`。
+  - 创建本地 workaround 脚本 `scripts/local_sf32lb52_build_workaround.sh`。
+  - 更新 `docs/task_board.md`。
+  - 更新 `README.md` 当前构建进展。
+- 人工审核：
+  - 不提交 `nuttx/` 或 `vendor/sifli/` 临时改动。
+  - 不修改 `openvela.xml`。
+  - 官方确认前不声称固件已编译通过。
+  - 不把本地 workaround 写成官方修复。

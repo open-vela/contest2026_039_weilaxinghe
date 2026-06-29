@@ -9,13 +9,15 @@
 | 比赛 | 2026 首届 openvela AI 硬件开发者大赛 |
 | GitHub 账号 | `chenzeyuan233` |
 | 比赛邮箱 | `13045875890@163.com` |
-| 项目方向 | AI 硬件 / openvela / 可穿戴设备 / 无障碍沟通 / 多模态交互 |
+| 项目方向 | AI 硬件 / openvela / 智能手表 / 无障碍沟通 / 多模态交互 |
 
 ## VelaBridge 项目简介
 
 维拉星核团队开发的 VelaBridge，是一款基于 openvela 的多模态无障碍 AI 沟通与伴行终端。
 
 VelaBridge 面向听障、视障、语言表达困难者，在校园问路、窗口服务、食堂点餐、读门牌、一键求助等场景中，把外界语音、文字和用户按键事件转换为字幕、语音播报、震动反馈和快捷回复。
+
+当前设备形态按 VelaBridge Watch 推进：基于黄山派 SF32LB52 的多模态无障碍 AI 智能手表。历史文档中的 VelaBridge 表示同一项目的通用名称。
 
 本项目参加 2026 首届 openvela AI 硬件开发者大赛，当前选择 **AI 硬件产品创新** 方向。第一批最小任务先完成电脑端 AI Bridge mock、串口 JSON 协议、MVP 文档、演示脚本、测试样例、AI Coding 日志模板和 GitHub 协作规范。
 
@@ -56,12 +58,27 @@ VelaBridge 不声称替代医疗设备、导盲杖或导盲犬；默认不保存
 
 详细记录见 `docs/bringup_log.md`、`docs/hardware_validation.md`、`docs/assets/bringup/README.md` 和 `docs/next_hardware_steps.md`。没有实测证据的模块不能标记为已通过。
 
+## 当前构建进展
+
+| 项目 | 状态 | 说明 |
+| --- | --- | --- |
+| openvela repo sync | 已完成 | WSL2 Ubuntu 中完整 workspace 已同步成功。 |
+| 团队仓库分支 | 已完成 | 团队仓库已切回 `dev-ai-contest-2026`。 |
+| AI Bridge mock | 已通过 | `ai_bridge/mock_bridge.py --demo --jsonl` 可运行。 |
+| Python unittest | 已通过 | `python3 -m unittest tests/test_mock_bridge.py` 已通过，6 tests OK。 |
+| VelaBridge app Register | 已确认 | 构建日志多次出现 `Register: velabridge_app`。 |
+| 当前 build blocker | 阻塞中 | 黄山派 SF32LB52 board config 底层 HAL / CMSIS include 链路不完整。 |
+| 官方确认 | 待确认 | 正在等待官方 / 老师确认推荐 build config 和依赖同步方式。 |
+
+当前不能写“固件已编译通过”，也不能写“已经可以烧录”。构建问题记录见 `docs/build_notes.md`，官方 / 老师提问稿见 `docs/official_question_sf32lb52_build.md`。
+
 ## 仓库目录说明
 
 ```text
 ai_bridge/                 # 电脑端 AI Bridge mock，不接真实 API Key
 protocol/                  # 串口 JSON Lines 协议文档
 docs/                      # MVP 计划、任务板、演示脚本
+scripts/                   # 本地临时排查脚本，不提交生成的 openvela 公共源码改动
 tests/                     # Python 标准库 unittest 测试
 logs/                      # AI Coding 日志模板和官方日志示例目录
 app/hello_app/             # 官方应用形态样例，当前批次不修改
