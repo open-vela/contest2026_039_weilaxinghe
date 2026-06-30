@@ -31,7 +31,7 @@ vendor/sifli/boards/sf32lb52/lckfb_huangshan_pi/configs/nsh
 vendor/sifli/boards/sf32lb52/sf32lb52_devkit_lcd/configs/nsh
 ```
 
-clean build 使用 `lckfb_huangshan_pi/configs/nsh` 时，连续遇到底层依赖缺失。对照 `sf32lb52_devkit_lcd/configs/nsh` 时，也遇到过 `ipc_queue/Make.defs` 缺失。当前判断问题不在 VelaBridge app 业务代码，而更像是 SF32LB52 / Huangshanpai board config 的依赖链路、include 路径或工具链配置尚未确认。
+clean build 使用 `lckfb_huangshan_pi/configs/nsh` 时，连续遇到底层依赖缺失。对照 `sf32lb52_devkit_lcd/configs/nsh` 时，也遇到过 `ipc_queue/Make.defs` 缺失。继续推进到 `sf32lb52_lchspi_ulp` / HAL 编译阶段后，又出现 HAL 宏配置缺失和 ARM intrinsic 隐式声明问题。当前判断问题不在 VelaBridge app 业务代码，而更像是 SF32LB52 / Huangshanpai board config 的依赖链路、include 路径、`rtconfig.h` / HAL config 或工具链编译宏配置尚未确认。
 
 ## 错误摘要
 
@@ -54,7 +54,16 @@ fatal error: bt_mac.h: No such file or directory
 fatal error: cache.h: No such file or directory
 fatal error: mpu_armv8.h: No such file or directory
 fatal error: core_mstar.h: No such file or directory
+error: LCPU2BCPU_MB_CH1_BUF_END_ADDR is not defined
+error: USE_HAL_COMP_REGISTER_CALLBACKS is not defined
+error: USE_HAL_RNG_REGISTER_CALLBACKS is not defined
+error: USE_HAL_HCD_REGISTER_CALLBACKS is not defined
+warning: implicit declaration of function '__arm_cx2d'
+warning: implicit declaration of function '__arm_mcr2'
+warning: implicit declaration of function '__arm_cx2da'
 ```
+
+这些新错误说明当前已经不是简单缺头文件，也不像 Ubuntu 系统依赖缺包；更像是 openvela `build.sh` 链路下没有拿到完整的 SiFli HAL config、`rtconfig.h`、LCPU / BCPU mailbox 地址宏、HAL callback 宏或匹配的 ARM intrinsic 配置。
 
 ## 本地搜索到的线索
 
@@ -64,7 +73,8 @@ fatal error: core_mstar.h: No such file or directory
   - `vendor/sifli/boards/sf32lb52/lckfb_huangshan_pi/configs/nsh/defconfig`
   - `vendor/sifli/boards/sf32lb52/sf32lb52_devkit_lcd/configs/nsh/defconfig`
   - `vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh/defconfig`
-- 因此当前更像是构建方式、include path、chip 映射或工具链配置问题，而不是简单缺少单个文件。
+- 因此当前更像是构建方式、include path、chip 映射、`rtconfig.h` / HAL config 或工具链宏配置问题，而不是简单缺少单个文件。
+- VelaBridge app 已经可以被构建系统 `Register`，当前 blocker 仍然不在应用层代码。
 
 ## 想请官方确认的问题
 
@@ -76,8 +86,12 @@ fatal error: core_mstar.h: No such file or directory
 6. 是否需要额外 `repo init` / `repo sync` 参数，例如 `--git-lfs`、特定 manifest、特定分支或额外 SDK 包？
 7. 比赛 SF32LB52 构建是否支持 WSL2 Ubuntu？如果不支持，推荐的原生 Ubuntu 版本和依赖清单是什么？
 8. 是否需要使用指定的 ARM GCC 工具链版本或先执行某个 openvela / SiFli 环境脚本？
-9. 遇到 `ipc_queue/Make.defs` 和 HAL / CMSIS 头文件缺失时，官方建议如何排查？
-10. 是否明确不建议用手工软链接 workaround 修复这些底层路径？
+9. openvela `build.sh` 是否是黄山派 SF32LB52 推荐构建入口，还是应使用 SiFli SDK / `scons` 链路？
+10. openvela 链路下是否提供 `rtconfig.h` / SiFli HAL config？如果提供，应由哪个脚本、仓库或配置生成？
+11. `LCPU2BCPU_MB_CH1_BUF_END_ADDR`、`USE_HAL_COMP_REGISTER_CALLBACKS`、`USE_HAL_RNG_REGISTER_CALLBACKS`、`USE_HAL_HCD_REGISTER_CALLBACKS` 这些宏应由哪个配置文件定义？
+12. `__arm_cx2d`、`__arm_mcr2`、`__arm_cx2da` 隐式声明是否说明当前工具链、架构 flags 或 CMSIS intrinsic 配置不匹配？
+13. 遇到 `ipc_queue/Make.defs`、HAL / CMSIS 头文件缺失和 HAL 宏配置缺失时，官方建议如何排查？
+14. 是否明确不建议用手工软链接头文件或手写 `rtconfig.h` workaround 修复这些底层路径？
 
 ## 已停止的临时做法
 
@@ -89,4 +103,4 @@ chip.h: Too many levels of symbolic links
 
 后来通过清理 `nuttx` 和 `vendor/sifli` 后恢复。目前已经停止批量软链接，避免把临时 workaround 当成正式修复；也不会把 `nuttx/`、`vendor/sifli/`、`apps/` 或 `packages/` 的临时改动提交到比赛仓库。
 
-希望官方能确认推荐 config、构建命令和依赖同步方式，谢谢！
+我们也不准备手写 `rtconfig.h` 或零散 HAL 宏来压过错误，因为这可能掩盖官方配置链路缺失。希望官方能确认推荐 config、构建命令、HAL config 来源和依赖同步方式，谢谢！

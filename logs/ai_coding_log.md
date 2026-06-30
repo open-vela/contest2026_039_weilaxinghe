@@ -223,3 +223,21 @@ python3 -m unittest tests/test_mock_bridge.py
   - 不修改 `openvela.xml`。
   - 不声称固件已编译通过。
   - 不把网络未确认内容写成官方结论。
+
+## 2026-06-30 更新 SF32LB52 HAL config blocker 分析
+
+- 日期：2026-06-30
+- 事件：更新 SF32LB52 HAL config blocker 分析。
+- 人工输入：
+  - 构建已经从缺失 `ipc_queue`、FPU、HAL / CMSIS 头文件阶段继续推进到 HAL 宏配置缺失阶段。
+  - 当前错误包括 `LCPU2BCPU_MB_CH1_BUF_END_ADDR is not defined`、`USE_HAL_COMP_REGISTER_CALLBACKS is not defined`、`USE_HAL_RNG_REGISTER_CALLBACKS is not defined`、`USE_HAL_HCD_REGISTER_CALLBACKS is not defined`。
+  - 当前还出现 `__arm_cx2d`、`__arm_mcr2`、`__arm_cx2da` 隐式声明。
+- Codex 工作：
+  - 更新 `docs/build_notes.md`，记录 HAL config / `rtconfig.h` / ARM intrinsic 配置缺失阶段。
+  - 更新 `docs/official_question_sf32lb52_build.md`，将官方问题聚焦到推荐 board config、openvela `build.sh` vs SiFli SDK `scons`、HAL config / `rtconfig.h` 来源和额外依赖。
+  - 更新 `README.md` 当前构建进展。
+- 人工审核：
+  - 不提交 `nuttx/`、`vendor/sifli/`、`apps/`、`packages/` 或 `openvela.xml` 的临时改动。
+  - 不继续手动软链接头文件。
+  - 不手写 `rtconfig.h` 或零散 HAL 宏作为正式修复。
+  - 保留结论：VelaBridge app 已经可以 `Register`，当前 blocker 不在应用层代码。

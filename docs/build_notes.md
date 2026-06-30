@@ -40,13 +40,15 @@ Register: velabridge_app
 
 ## 当前卡点
 
-当前问题不是 VelaBridge app 业务代码问题，而是黄山派 SF32LB52 / Huangshanpai board config 的底层编译依赖和 include 路径问题。
+当前问题不是 VelaBridge app 业务代码问题，而是黄山派 SF32LB52 / Huangshanpai board config 的底层编译依赖、include 路径和 HAL 宏配置问题。
 
 主要表现为：
 
 - `lckfb_huangshan_pi/configs/nsh` 构建时缺少 `ipc_queue/Make.defs`。
 - 修过 `ipc_queue` 后，继续出现 SiFli HAL / CMSIS / board driver 头文件缺失。
 - 对照 `sf32lb52_devkit_lcd/configs/nsh` 也曾遇到 `ipc_queue/Make.defs` 缺失，说明问题可能在 SF32LB52 通用编译链路或 HAL / CMSIS include 路径，而不只是 VelaBridge app。
+- 当前已经从缺失 `ipc_queue`、FPU、HAL / CMSIS 头文件阶段继续推进到 HAL 宏配置缺失阶段，说明问题不是简单缺头文件，也不是 Ubuntu 系统依赖缺包。
+- 当前 blocker 更可能是 `sf32lb52_lchspi_ulp` 在 openvela `build.sh` 链路下缺少正确的 SiFli HAL config / `rtconfig.h` / 编译宏配置，仍需官方确认。
 
 ## 已出现错误列表
 
@@ -66,7 +68,26 @@ fatal error: system_bf0_ap.h: No such file or directory
 fatal error: dma_config.h: No such file or directory
 fatal error: tim_config.h: No such file or directory
 fatal error: bt_mac.h: No such file or directory
+error: LCPU2BCPU_MB_CH1_BUF_END_ADDR is not defined
+error: USE_HAL_COMP_REGISTER_CALLBACKS is not defined
+error: USE_HAL_RNG_REGISTER_CALLBACKS is not defined
+error: USE_HAL_HCD_REGISTER_CALLBACKS is not defined
+warning: implicit declaration of function '__arm_cx2d'
+warning: implicit declaration of function '__arm_mcr2'
+warning: implicit declaration of function '__arm_cx2da'
 ```
+
+## HAL 宏配置缺失阶段结论
+
+新一轮错误已经不再只是 `No such file or directory`。`LCPU2BCPU_MB_CH1_BUF_END_ADDR`、`USE_HAL_COMP_REGISTER_CALLBACKS`、`USE_HAL_RNG_REGISTER_CALLBACKS`、`USE_HAL_HCD_REGISTER_CALLBACKS` 等宏缺失，以及 `__arm_cx2d` / `__arm_mcr2` / `__arm_cx2da` 隐式声明，说明当前构建链路还没有拿到完整的 SiFli HAL config、`rtconfig.h` 或匹配的 ARM intrinsic / 编译宏配置。
+
+当前判断：
+
+- 这不是简单缺头文件问题；HAL / CMSIS 头文件多处已经能在 `vendor/sifli` 中找到。
+- 这不是单纯 Ubuntu 依赖问题；继续安装系统包无法自动生成正确的 SiFli HAL 配置宏。
+- 更可能是 `sf32lb52_lchspi_ulp` 或其他 SF32LB52 config 在 openvela `build.sh` 下缺少正确的 HAL config / `rtconfig.h` / 编译宏注入方式。
+- 不建议继续手动软链接头文件，也不建议手写 `rtconfig.h` 或零散宏定义来“压过”错误；这容易把本地临时状态误当成可复现修复。
+- VelaBridge app 已经可以 `Register`，当前 blocker 仍属于 SF32LB52 / SiFli 底层 build config，不是应用层代码问题。
 
 ## 本地 workaround 尝试记录
 
@@ -94,8 +115,10 @@ chip.h: Too many levels of symbolic links
 
 - 软链接容易污染 `chip.h`、`arch/arm/src/chip` 和 `vendor/sifli/chips/sf32lb52` 等底层路径；本地已经出现过 `chip.h: Too many levels of symbolic links`。
 - HAL / CMSIS 头文件在本地 `vendor/sifli` 中多数真实存在，继续手动补文件无法回答真正问题：当前 board config、include path、toolchain flags 和 chip 映射是否符合官方预期。
+- 新阶段错误已经进入 HAL 宏配置缺失层面，继续补头文件无法解决 `rtconfig.h`、HAL callback 宏、LCPU/BCPU mailbox 地址或 ARM intrinsic 配置来源问题。
 - 当前已经证明 VelaBridge app 可被构建系统识别，日志出现 `Register: velabridge_app`；blocker 更接近 SF32LB52 board config / HAL 路径问题，不是应用层业务代码问题。
 - 应优先确认官方推荐的 build config、完整构建命令、额外 HAL/CMSIS 依赖来源、repo sync 参数、分支或 SDK 包。
+- 需要官方确认是否应使用 openvela `build.sh`，还是应该使用 SiFli SDK / `scons` 链路，以及 openvela 链路下 `rtconfig.h` / HAL config 应由哪里提供。
 - 在官方确认前，底层 workaround 只能保存在本地排查记录中，不提交到 `nuttx/`、`vendor/sifli/`、`apps/` 或 `packages/`。
 
 ## 风险说明
@@ -111,7 +134,9 @@ chip.h: Too many levels of symbolic links
 
 1. 询问官方 / 指导老师：黄山派 SF32LB52 推荐的官方 build config 是哪个。
 2. 确认是否应使用 `lckfb_huangshan_pi/configs/nsh`，还是应改用其他 SF32LB52 config。
-3. 确认是否需要额外同步 SiFli HAL / CMSIS 依赖。
-4. 确认是否有官方推荐的编译命令。
-5. 在官方确认前，先继续推进 VelaBridge Watch 应用层、AI Bridge mock、协议、演示脚本和测试样例。
-6. 本地 workaround 只用于临时定位，不作为长期维护方案。
+3. 确认 `sf32lb52_lchspi_ulp` 是否适合黄山派，且是否支持 openvela `build.sh`。
+4. 确认应使用 openvela `build.sh` 还是 SiFli SDK / `scons`。
+5. 确认是否提供 `rtconfig.h` / SiFli HAL config，以及这些配置应从哪里生成或同步。
+6. 确认是否需要额外同步 SiFli SDK / HAL / CMSIS 依赖。
+7. 在官方确认前，先继续推进 VelaBridge Watch 应用层、AI Bridge mock、协议、演示脚本和测试样例。
+8. 本地 workaround 只用于临时定位，不作为长期维护方案。

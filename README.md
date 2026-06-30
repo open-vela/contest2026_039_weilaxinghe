@@ -67,8 +67,8 @@ VelaBridge 不声称替代医疗设备、导盲杖或导盲犬；默认不保存
 | AI Bridge mock | 已通过 | `ai_bridge/mock_bridge.py --demo --jsonl` 可运行。 |
 | Python unittest | 已通过 | `python3 -m unittest tests/test_mock_bridge.py` 已通过，6 tests OK。 |
 | VelaBridge app Register | 已确认 | 构建日志多次出现 `Register: velabridge_app`。 |
-| 当前 build blocker | 阻塞中 | 黄山派 SF32LB52 board config 底层 HAL / CMSIS include 链路不完整。 |
-| 官方确认 | 待确认 | 正在等待官方 / 老师确认推荐 build config 和依赖同步方式。 |
+| 当前 build blocker | 阻塞中 | 已从 `ipc_queue`、FPU、HAL / CMSIS 头文件缺失推进到 HAL 宏配置 / `rtconfig.h` / ARM intrinsic 配置缺失阶段。 |
+| 官方确认 | 待确认 | 正在等待官方 / 老师确认推荐 board config、是否使用 openvela `build.sh` 或 SiFli SDK `scons`、HAL config 来源和依赖同步方式。 |
 
 当前不能写“固件已编译通过”，也不能写“已经可以烧录”。构建问题记录见 `docs/build_notes.md`，官方 / 老师提问稿见 `docs/official_question_sf32lb52_build.md`。
 
