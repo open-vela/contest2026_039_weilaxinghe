@@ -13,7 +13,7 @@ if LVX_USE_DEMO_CONTEST2026_039_VELABRIDGE_APP
 
 config LVX_USE_DEMO_CONTEST2026_039_VELABRIDGE_APP_STACKSIZE
 	int "VelaBridge app stack size"
-	default 12288
+	default 16384
 	---help---
 		Stack size for the VelaBridge watch UI app. LVGL's NuttX
 		backend requires at least 8192 bytes, so the default keeps

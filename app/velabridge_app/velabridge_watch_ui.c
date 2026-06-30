@@ -77,6 +77,27 @@ static const char *g_vb_screen_names[VB_SCREEN_COUNT] =
   "Settings",
 };
 
+static enum vb_watch_screen vb_next_screen(enum vb_watch_screen screen)
+{
+  switch (screen)
+    {
+      case VB_SCREEN_BOOT:
+        return VB_SCREEN_FACE;
+      case VB_SCREEN_FACE:
+        return VB_SCREEN_HEART;
+      case VB_SCREEN_HEART:
+        return VB_SCREEN_WORKOUT;
+      case VB_SCREEN_WORKOUT:
+        return VB_SCREEN_SLEEP;
+      case VB_SCREEN_SLEEP:
+        return VB_SCREEN_SETTINGS;
+      case VB_SCREEN_SETTINGS:
+        return VB_SCREEN_FACE;
+      default:
+        return VB_SCREEN_FACE;
+    }
+}
+
 static void *vb_lvgl_default_display(void)
 {
 #if VB_LVGL_VERSION_MAJOR >= 9
@@ -220,6 +241,16 @@ static int vb_lvgl_display_init(void)
   if (touch_available)
     {
       printf("[velabridge][watch_ui] touchscreen path %s\n", touch_path);
+      if (g_vb_nuttx_result.indev != NULL)
+        {
+          printf("[velabridge][watch_ui] touch initialized path=%s\n",
+                 touch_path);
+        }
+      else
+        {
+          printf("[velabridge][watch_ui] touchscreen open failed, "
+                 "continue display-only\n");
+        }
     }
   else
     {
@@ -314,22 +345,10 @@ static lv_obj_t *vb_label(lv_obj_t *parent, const char *text,
   return label;
 }
 
-static void vb_anim_y_cb(void *obj, int32_t value)
-{
-  lv_obj_set_y((lv_obj_t *)obj, value);
-}
-
 static void vb_card_float(lv_obj_t *card, int32_t delay)
 {
-  lv_anim_t anim;
-
-  lv_anim_init(&anim);
-  lv_anim_set_var(&anim, card);
-  lv_anim_set_exec_cb(&anim, vb_anim_y_cb);
-  lv_anim_set_values(&anim, lv_obj_get_y(card) + 8, lv_obj_get_y(card));
-  lv_anim_set_time(&anim, 220);
-  lv_anim_set_delay(&anim, delay);
-  lv_anim_start(&anim);
+  (void)card;
+  (void)delay;
 }
 
 lv_obj_t *vb_create_screen_base(void)
@@ -461,26 +480,48 @@ void vb_switch_screen(enum vb_watch_screen next)
     }
 
   g_vb_current_screen = next;
-  printf("[velabridge][watch_ui] screen=%s\n", g_vb_screen_names[next]);
+  printf("[velabridge][watch_ui] switch screen=%s\n",
+         g_vb_screen_names[next]);
   fflush(stdout);
 
-  lv_scr_load_anim(g_vb_screens[next], LV_SCR_LOAD_ANIM_FADE_IN,
-                   180, 0, false);
+  lv_scr_load(g_vb_screens[next]);
 }
 
 static void vb_card_clicked(lv_event_t *event)
 {
   uintptr_t next = (uintptr_t)lv_event_get_user_data(event);
 
+  printf("[velabridge][watch_ui] touch event\n");
+  printf("[velabridge][watch_ui] next screen=%s\n",
+         g_vb_screen_names[(enum vb_watch_screen)next]);
+  fflush(stdout);
   vb_switch_screen((enum vb_watch_screen)next);
+}
+
+static void vb_screen_clicked(lv_event_t *event)
+{
+  enum vb_watch_screen next = vb_next_screen(g_vb_current_screen);
+
+  (void)event;
+  printf("[velabridge][watch_ui] touch event\n");
+  printf("[velabridge][watch_ui] next screen=%s\n",
+         g_vb_screen_names[next]);
+  fflush(stdout);
+  vb_switch_screen(next);
 }
 
 static void vb_demo_timer_cb(lv_timer_t *timer)
 {
-  enum vb_watch_screen next = (g_vb_current_screen + 1) % VB_SCREEN_COUNT;
+  enum vb_watch_screen next = vb_next_screen(g_vb_current_screen);
 
   (void)timer;
   vb_switch_screen(next);
+}
+
+static void vb_bind_screen_next(lv_obj_t *obj)
+{
+  lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
+  lv_obj_add_event_cb(obj, vb_screen_clicked, LV_EVENT_CLICKED, NULL);
 }
 
 static void vb_bind_next(lv_obj_t *obj, enum vb_watch_screen next)
@@ -490,10 +531,10 @@ static void vb_bind_next(lv_obj_t *obj, enum vb_watch_screen next)
                       (void *)(uintptr_t)next);
 }
 
-static void vb_create_metric_card(lv_obj_t *parent, int16_t x, int16_t y,
-                                  int16_t w, int16_t h,
-                                  const char *label, const char *value,
-                                  uint32_t color)
+static lv_obj_t *vb_create_metric_card(lv_obj_t *parent, int16_t x,
+                                       int16_t y, int16_t w, int16_t h,
+                                       const char *label,
+                                       const char *value, uint32_t color)
 {
   lv_obj_t *card = vb_create_card(parent, x, y, w, h);
   lv_obj_t *title = vb_label(card, label, VB_COLOR_MUTED, vb_font_small());
@@ -502,6 +543,8 @@ static void vb_create_metric_card(lv_obj_t *parent, int16_t x, int16_t y,
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 0, 0);
   lv_obj_align(number, LV_ALIGN_BOTTOM_LEFT, 0, 0);
   vb_card_float(card, x / 2);
+
+  return card;
 }
 
 static void vb_build_boot(void)
@@ -522,6 +565,7 @@ static void vb_build_boot(void)
   lv_obj_align(brand, LV_ALIGN_TOP_MID, 0, 218);
   lv_obj_align(product, LV_ALIGN_TOP_MID, 0, 255);
   lv_obj_align(pill, LV_ALIGN_TOP_MID, 0, 286);
+  vb_bind_screen_next(screen);
   vb_bind_next(mark, VB_SCREEN_FACE);
 
   g_vb_screens[VB_SCREEN_BOOT] = screen;
@@ -534,6 +578,9 @@ static void vb_build_face(void)
   lv_obj_t *brand;
   lv_obj_t *pill;
   lv_obj_t *battery;
+  lv_obj_t *heart;
+  lv_obj_t *move;
+  lv_obj_t *sleep;
 
   vb_create_status_bar(screen, "Watch");
   time = vb_label(screen, "09:39", VB_COLOR_TEXT, vb_font_big());
@@ -545,14 +592,20 @@ static void vb_build_face(void)
   pill = vb_create_pill(screen, "AI Ready", VB_COLOR_BLUE);
   lv_obj_align(pill, LV_ALIGN_TOP_LEFT, 38, 172);
 
-  vb_create_metric_card(screen, 28, 222, 104, 88, "Heart", "72", VB_COLOR_RED);
-  vb_create_metric_card(screen, 143, 222, 104, 88, "Move", "58%", VB_COLOR_GREEN);
-  vb_create_metric_card(screen, 258, 222, 104, 88, "Sleep", "7h", VB_COLOR_PURPLE);
+  heart = vb_create_metric_card(screen, 28, 222, 104, 88, "Heart", "72",
+                                VB_COLOR_RED);
+  move = vb_create_metric_card(screen, 143, 222, 104, 88, "Move", "58%",
+                               VB_COLOR_GREEN);
+  sleep = vb_create_metric_card(screen, 258, 222, 104, 88, "Sleep", "7h",
+                                VB_COLOR_PURPLE);
+  vb_bind_next(heart, VB_SCREEN_HEART);
+  vb_bind_next(move, VB_SCREEN_WORKOUT);
+  vb_bind_next(sleep, VB_SCREEN_SLEEP);
 
   battery = vb_label(screen, "Battery 86%", VB_COLOR_MUTED, vb_font_small());
   lv_obj_align(battery, LV_ALIGN_BOTTOM_MID, 0, -28);
 
-  vb_bind_next(screen, VB_SCREEN_HEART);
+  vb_bind_screen_next(screen);
   g_vb_screens[VB_SCREEN_FACE] = screen;
 }
 
@@ -584,6 +637,7 @@ static void vb_build_heart(void)
   lv_obj_align(peak, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
 
   vb_card_float(card, 0);
+  vb_bind_screen_next(screen);
   vb_bind_next(card, VB_SCREEN_WORKOUT);
   g_vb_screens[VB_SCREEN_HEART] = screen;
 }
@@ -616,6 +670,7 @@ static void vb_build_workout(void)
   lv_obj_align(calories, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
 
   vb_card_float(card, 0);
+  vb_bind_screen_next(screen);
   vb_bind_next(card, VB_SCREEN_SLEEP);
   g_vb_screens[VB_SCREEN_WORKOUT] = screen;
 }
@@ -658,6 +713,7 @@ static void vb_build_sleep(void)
   vb_segment(card, 234, 64, VB_COLOR_ORANGE, "REM");
 
   vb_card_float(card, 0);
+  vb_bind_screen_next(screen);
   vb_bind_next(card, VB_SCREEN_SETTINGS);
   g_vb_screens[VB_SCREEN_SLEEP] = screen;
 }
@@ -690,9 +746,10 @@ static void vb_build_settings(void)
       lv_obj_align(text, LV_ALIGN_LEFT_MID, 0, 0);
       lv_obj_align(arrow, LV_ALIGN_RIGHT_MID, 0, 0);
       vb_card_float(row, i * 40);
-      vb_bind_next(row, VB_SCREEN_BOOT);
+      vb_bind_next(row, VB_SCREEN_FACE);
     }
 
+  vb_bind_screen_next(screen);
   g_vb_screens[VB_SCREEN_SETTINGS] = screen;
 }
 
@@ -727,20 +784,30 @@ int velabridge_watch_ui_start(void)
          VB_WATCH_WIDTH, VB_WATCH_HEIGHT);
 
   vb_build_all_screens();
-  vb_switch_screen(VB_SCREEN_BOOT);
+  g_vb_current_screen = VB_SCREEN_BOOT;
+  lv_scr_load(g_vb_screens[VB_SCREEN_BOOT]);
+  printf("[velabridge][watch_ui] screen=Boot\n");
+  fflush(stdout);
 
   if (g_vb_demo_timer == NULL)
     {
-      g_vb_demo_timer = lv_timer_create(vb_demo_timer_cb, 2000, NULL);
+      g_vb_demo_timer = lv_timer_create(vb_demo_timer_cb, 3000, NULL);
     }
 
-  printf("[velabridge][watch_ui] auto demo timer=2000ms\n");
+  printf("[velabridge][watch_ui] auto demo timer=3000ms\n");
+  printf("[velabridge][watch_ui] ui loop start\n");
   fflush(stdout);
 
   while (1)
     {
-      lv_timer_handler();
-      usleep(20 * 1000);
+      uint32_t idle = lv_timer_handler();
+
+      if (idle == 0 || idle > 20)
+        {
+          idle = 20;
+        }
+
+      usleep(idle * 1000);
     }
 
 #if LV_USE_NUTTX
