@@ -159,6 +159,33 @@ a {
   font-size: 0.9rem;
 }
 
+.header-actions {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.language-toggle {
+  min-width: 42px;
+  min-height: 38px;
+  border: 1px solid rgba(245, 245, 247, 0.14);
+  border-radius: 999px;
+  background: rgba(245, 245, 247, 0.035);
+  color: var(--silver);
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.language-toggle:hover,
+.language-toggle:focus-visible {
+  color: var(--space-white);
+  border-color: var(--blue-line);
+  background: rgba(42, 123, 255, 0.08);
+}
+
 .nav-action:hover,
 .nav-action:focus-visible {
   border-color: var(--blue-line);
@@ -968,12 +995,22 @@ body.motion-ready .reveal.is-visible,
     padding: 0 18px;
   }
 
+  .header-actions {
+    gap: 8px;
+  }
+
   .brand-en {
     display: none;
   }
 
   .nav-action {
     display: none;
+  }
+
+  .language-toggle {
+    min-width: 40px;
+    min-height: 34px;
+    font-size: 0.8rem;
   }
 
   .hero {

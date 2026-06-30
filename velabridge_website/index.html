@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="VelaBridge Watch by XINGYU, an AI accessibility watch built on openvela and SF32LB52 DevKit ULP.">
+    <meta name="description" content="星阈 XINGYU 的 VelaBridge Watch，是维拉星核团队基于 openvela 和 SF32LB52 DevKit ULP 打造的 AI 无障碍智能手表。">
     <title>VelaBridge Watch | XINGYU</title>
     <link rel="stylesheet" href="styles.css">
   </head>
@@ -17,13 +17,16 @@
         <span class="brand-en">XINGYU</span>
       </a>
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="#product">Product</a>
-        <a href="#technology">Technology</a>
-        <a href="#demo">Demo</a>
-        <a href="#proof">Proof</a>
-        <a href="#team">Team</a>
+        <a href="#product" data-i18n="navProduct">产品</a>
+        <a href="#technology" data-i18n="navTechnology">技术</a>
+        <a href="#demo" data-i18n="navDemoShort">演示</a>
+        <a href="#proof" data-i18n="navProof">实证</a>
+        <a href="#team" data-i18n="navTeam">团队</a>
       </nav>
-      <a class="nav-action" href="#demo">View Demo</a>
+      <div class="header-actions">
+        <button class="language-toggle" type="button" data-language-toggle aria-label="Switch to English">EN</button>
+        <a class="nav-action" href="#demo" data-i18n="navDemo">查看演示</a>
+      </div>
     </header>
 
     <main id="top">
@@ -49,102 +52,102 @@
           </div>
           <p class="eyebrow">Team 039 · openvela · SF32LB52</p>
           <h1 id="hero-title"><span>VelaBridge</span> <span>Watch</span></h1>
-          <p class="hero-subtitle">An AI accessibility watch built on openvela.</p>
-          <p class="hero-copy">让字幕、识别、提醒与回应，在腕上完成。</p>
+          <p class="hero-subtitle" data-i18n="heroSubtitle">基于 openvela 的 AI 无障碍智能手表。</p>
+          <p class="hero-copy" data-i18n="heroCopy">让字幕、识别、提醒与回应，在腕上完成。</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#demo">Watch Demo</a>
-            <a class="button button-secondary" href="#proof">View Technical Proof</a>
+            <a class="button button-primary" href="#demo" data-i18n="heroPrimary">观看演示</a>
+            <a class="button button-secondary" href="#proof" data-i18n="heroSecondary">查看技术实证</a>
           </div>
         </div>
       </section>
 
       <section id="product" class="vision section-band" aria-labelledby="vision-title">
         <div class="section-heading reveal">
-          <p class="eyebrow">Product Vision</p>
-          <h2 id="vision-title">Bridging perception and response.</h2>
-          <p>A lightweight AI layer for real-world accessibility.</p>
+          <p class="eyebrow" data-i18n="visionEyebrow">产品愿景</p>
+          <h2 id="vision-title" data-i18n="visionTitle">连接感知与回应。</h2>
+          <p data-i18n="visionCopy">面向真实无障碍场景的轻量 AI 交互层。</p>
         </div>
         <div class="vision-grid">
           <article class="audience-card tilt-card reveal">
             <span class="card-index">01</span>
-            <h3>Hearing impaired</h3>
-            <p>Speech becomes concise visual information that can be read at a glance.</p>
+            <h3 data-i18n="audience1Title">听障用户</h3>
+            <p data-i18n="audience1Copy">把外界语音转成可快速阅读的字幕，降低沟通压力。</p>
           </article>
           <article class="audience-card tilt-card reveal">
             <span class="card-index">02</span>
-            <h3>Visually impaired</h3>
-            <p>Environmental text and simple spatial cues become spoken or tactile prompts.</p>
+            <h3 data-i18n="audience2Title">视障用户</h3>
+            <p data-i18n="audience2Copy">把环境文字和简单提示转成语音、震动或可理解反馈。</p>
           </article>
           <article class="audience-card tilt-card reveal">
             <span class="card-index">03</span>
-            <h3>Elderly users</h3>
-            <p>Small, calm interactions reduce cognitive load during everyday service scenes.</p>
+            <h3 data-i18n="audience3Title">老年用户</h3>
+            <p data-i18n="audience3Copy">用克制、明确的腕上提醒，辅助窗口服务、问路和点餐。</p>
           </article>
         </div>
       </section>
 
       <section class="features section-band" aria-labelledby="features-title">
         <div class="section-heading reveal">
-          <p class="eyebrow">Core Features</p>
-          <h2 id="features-title">Accessibility signals, delivered clearly.</h2>
+          <p class="eyebrow" data-i18n="featuresEyebrow">核心能力</p>
+          <h2 id="features-title" data-i18n="featuresTitle">把复杂信号，变成清晰回应。</h2>
         </div>
         <div class="feature-grid">
           <article class="feature-card tilt-card reveal">
             <div class="feature-line"></div>
-            <h3>Live Caption</h3>
-            <p>Speech becomes readable in real time.</p>
-            <code>Teacher: please go to the academic service desk.</code>
+            <h3 data-i18n="feature1Title">实时字幕</h3>
+            <p data-i18n="feature1Copy">把语音实时转成可读字幕。</p>
+            <code data-i18n="feature1Output">老师说：请先到教务处服务窗口</code>
           </article>
           <article class="feature-card tilt-card reveal">
             <div class="feature-line"></div>
-            <h3>OCR Vision</h3>
-            <p>Text in the environment becomes actionable.</p>
-            <code>Cafeteria Window 1: today's meal is 15 yuan.</code>
+            <h3 data-i18n="feature2Title">OCR 识别</h3>
+            <p data-i18n="feature2Copy">把环境文字变成可行动信息。</p>
+            <code data-i18n="feature2Output">食堂一号窗口，今日套餐 15 元</code>
           </article>
           <article class="feature-card tilt-card reveal">
             <div class="feature-line"></div>
-            <h3>Danger Alert</h3>
-            <p>Spatial cues become timely warnings.</p>
-            <code>Step detected ahead, please be careful.</code>
+            <h3 data-i18n="feature3Title">危险提醒</h3>
+            <p data-i18n="feature3Copy">把空间线索转成及时提醒。</p>
+            <code data-i18n="feature3Output">检测到前方台阶，请小心</code>
           </article>
           <article class="feature-card tilt-card reveal">
             <div class="feature-line"></div>
-            <h3>Quick Reply</h3>
-            <p>A simple response, delivered at the right moment.</p>
-            <code>Please speak slower, I am reading captions.</code>
+            <h3 data-i18n="feature4Title">快捷回复</h3>
+            <p data-i18n="feature4Copy">在合适时刻给出简单、明确的回应。</p>
+            <code data-i18n="feature4Output">请您说慢一点，我正在看字幕</code>
           </article>
         </div>
       </section>
 
       <section id="technology" class="architecture section-band" aria-labelledby="architecture-title">
         <div class="section-heading reveal">
-          <p class="eyebrow">Technology</p>
-          <h2 id="architecture-title">From sensor input to accessible response.</h2>
+          <p class="eyebrow" data-i18n="techEyebrow">技术链路</p>
+          <h2 id="architecture-title" data-i18n="techTitle">从传感输入，到无障碍回应。</h2>
         </div>
         <div class="architecture-map reveal" data-architecture>
           <div class="arch-node" data-step="0">
-            <span>User</span>
-            <small>need</small>
+            <span data-i18n="arch1Title">用户</span>
+            <small data-i18n="arch1Small">需求</small>
           </div>
           <div class="arch-link"></div>
           <div class="arch-node" data-step="1">
-            <span>Watch Sensor</span>
-            <small>input</small>
+            <span data-i18n="arch2Title">手表传感</span>
+            <small data-i18n="arch2Small">输入</small>
           </div>
           <div class="arch-link"></div>
           <div class="arch-node" data-step="2">
             <span>VelaBridge App</span>
-            <small>state</small>
+            <small data-i18n="arch3Small">状态机</small>
           </div>
           <div class="arch-link"></div>
           <div class="arch-node" data-step="3">
             <span>AI Bridge</span>
-            <small>mock</small>
+            <small data-i18n="arch4Small">模拟推理</small>
           </div>
           <div class="arch-link"></div>
           <div class="arch-node" data-step="4">
-            <span>Response</span>
-            <small>caption · voice · haptic</small>
+            <span data-i18n="arch5Title">回应</span>
+            <small data-i18n="arch5Small">字幕 · 语音 · 震动</small>
           </div>
         </div>
       </section>
@@ -152,15 +155,15 @@
       <section id="proof" class="proof section-band" aria-labelledby="proof-title">
         <div class="proof-layout">
           <div class="proof-copy reveal">
-            <p class="eyebrow">Real Board Proof</p>
-            <h2 id="proof-title">Verified on real hardware.</h2>
+            <p class="eyebrow" data-i18n="proofEyebrow">真实硬件实证</p>
+            <h2 id="proof-title" data-i18n="proofTitle">已在真实开发板验证。</h2>
             <dl class="proof-specs">
-              <div><dt>Board</dt><dd>SF32LB52 DevKit ULP</dd></div>
-              <div><dt>OS</dt><dd>openvela / NuttX</dd></div>
-              <div><dt>App</dt><dd>velabridge_app</dd></div>
-              <div><dt>Flash</dt><dd>0x12010000</dd></div>
-              <div><dt>Shell</dt><dd>NuttShell</dd></div>
-              <div><dt>Status</dt><dd>Running</dd></div>
+              <div><dt data-i18n="specBoard">开发板</dt><dd>SF32LB52 DevKit ULP</dd></div>
+              <div><dt data-i18n="specOS">系统</dt><dd>openvela / NuttX</dd></div>
+              <div><dt data-i18n="specApp">应用</dt><dd>velabridge_app</dd></div>
+              <div><dt data-i18n="specFlash">烧录地址</dt><dd>0x12010000</dd></div>
+              <div><dt data-i18n="specShell">终端</dt><dd>NuttShell</dd></div>
+              <div><dt data-i18n="specStatus">状态</dt><dd data-i18n="specStatusValue">运行中</dd></div>
             </dl>
           </div>
           <div class="terminal-window reveal" role="img" aria-label="NuttShell output showing VelaBridge Watch demo">
@@ -186,8 +189,8 @@ VelaBridge Watch demo finished<span class="cursor"></span></code></pre>
 
       <section id="demo" class="watch-demo section-band" aria-labelledby="demo-title">
         <div class="section-heading reveal">
-          <p class="eyebrow">Watch Demo</p>
-          <h2 id="demo-title">A calm interface for urgent moments.</h2>
+          <p class="eyebrow" data-i18n="demoEyebrow">手表演示</p>
+          <h2 id="demo-title" data-i18n="demoTitle">在关键时刻，给出冷静清晰的界面。</h2>
         </div>
         <div class="watch-stage reveal">
           <div class="watch-body" aria-live="polite">
@@ -197,18 +200,18 @@ VelaBridge Watch demo finished<span class="cursor"></span></code></pre>
                 <span>09:39</span>
               </div>
               <div class="watch-card is-active" data-watch-card>
-                <span class="watch-tag">Caption</span>
-                <p>Teacher: please go to the academic service desk.</p>
+                <span class="watch-tag" data-i18n="watchTag1">字幕</span>
+                <p data-i18n="watchCard1">老师说：请先到教务处服务窗口</p>
               </div>
               <div class="watch-card" data-watch-card>
                 <span class="watch-tag">OCR</span>
-                <p>Cafeteria Window 1: today's meal is 15 yuan.</p>
+                <p data-i18n="watchCard2">食堂一号窗口，今日套餐 15 元</p>
               </div>
               <div class="watch-card" data-watch-card>
-                <span class="watch-tag danger">Danger</span>
-                <p>Step detected ahead, please be careful.</p>
+                <span class="watch-tag danger" data-i18n="watchTag3">危险</span>
+                <p data-i18n="watchCard3">检测到前方台阶，请小心</p>
               </div>
-              <div class="watch-hint">openvela · mock bridge ready</div>
+              <div class="watch-hint" data-i18n="watchHint">openvela · AI Bridge mock 就绪</div>
             </div>
           </div>
         </div>
@@ -223,21 +226,21 @@ VelaBridge Watch demo finished<span class="cursor"></span></code></pre>
               <strong>XINGYU</strong>
             </div>
           </div>
-          <p class="eyebrow">Brand Identity</p>
+          <p class="eyebrow" data-i18n="brandEyebrow">品牌识别</p>
           <h2 id="brand-title">XINGYU</h2>
           <p class="brand-line">智启新边界</p>
-          <p>A quiet technology identity for intelligent accessibility.</p>
+          <p data-i18n="brandCopy">为智能无障碍而生的安静科技品牌。</p>
         </div>
       </section>
 
       <section id="team" class="team section-band" aria-labelledby="team-title">
         <div class="team-panel reveal">
-          <p class="eyebrow">Team</p>
+          <p class="eyebrow" data-i18n="teamEyebrow">团队</p>
           <h2 id="team-title">Team 039 · 维拉星核</h2>
           <div class="team-facts">
             <span>openvela AI 硬件开发者大赛</span>
-            <span>Real-board validated</span>
-            <span>Built with openvela</span>
+            <span data-i18n="teamFact2">真实开发板验证</span>
+            <span data-i18n="teamFact3">基于 openvela 构建</span>
           </div>
         </div>
       </section>
@@ -245,7 +248,7 @@ VelaBridge Watch demo finished<span class="cursor"></span></code></pre>
 
     <footer class="site-footer">
       <strong>XINGYU / VelaBridge Watch</strong>
-      <span>Bridging intelligence and accessibility.</span>
+      <span data-i18n="footerCopy">连接智能与无障碍。</span>
     </footer>
 
     <script src="main.js"></script>
