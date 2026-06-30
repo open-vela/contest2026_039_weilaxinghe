@@ -248,15 +248,19 @@ int main(int argc, char *argv[])
   (void)argc;
   (void)argv;
 
-  printf("VelaBridge boot\n");
-  printf("mode=%s\n", velabridge_state_name(g_velabridge_state));
-  printf("waiting for JSON messages\n");
-
-  velabridge_dispatch_event(EVT_BOOT, "app_main");
-  velabridge_dispatch_event(EVT_KEY_SHORT, "self_test_short_press");
-  velabridge_handle_json_line("{\"type\":\"caption\",\"text\":\"stub\"}");
-  velabridge_handle_json_line("{\"type\":\"danger_alert\",\"text\":\"stub\"}");
-  velabridge_dispatch_event(EVT_TIMEOUT, "self_test_done");
+  printf("VelaBridge Watch started\n");
+  printf("Board: SF32LB52 DevKit ULP\n");
+  printf("Mode: normal\n");
+  printf("Blind mode: available\n");
+  printf("AI bridge: mock ready\n");
+  printf("\n");
+  printf("[caption] 老师说：请先到教务处服务窗口\n");
+  printf("[ocr] 食堂一号窗口，今日套餐 15 元\n");
+  printf("[danger_alert] 检测到前方台阶，请小心\n");
+  printf("[quick_reply] 请您说慢一点，我正在看字幕\n");
+  printf("\n");
+  printf("VelaBridge Watch demo finished\n");
+  fflush(stdout);
 
   return 0;
 }
