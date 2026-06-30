@@ -8,6 +8,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
+#if defined(CONFIG_BOARDCTL) && !defined(CONFIG_NSH_ARCHINIT)
+#  include <sys/boardctl.h>
+#endif
 
 #include "velabridge_watch_ui.h"
 
@@ -27,6 +33,10 @@
 #if defined(CONFIG_GRAPHICS_LVGL) || defined(CONFIG_LVGL)
 
 #include <lvgl.h>
+
+#if defined(CONFIG_BOARDCTL) && !defined(CONFIG_NSH_ARCHINIT)
+#  define VB_NEED_BOARDINIT 1
+#endif
 
 #if defined(LVGL_VERSION_MAJOR)
 #  define VB_LVGL_VERSION_MAJOR LVGL_VERSION_MAJOR
@@ -51,6 +61,12 @@ static lv_obj_t *g_vb_screens[VB_SCREEN_COUNT];
 static lv_timer_t *g_vb_demo_timer;
 static enum vb_watch_screen g_vb_current_screen = VB_SCREEN_BOOT;
 
+#if LV_USE_NUTTX
+static lv_nuttx_result_t g_vb_nuttx_result;
+static bool g_vb_nuttx_initialized;
+static bool g_vb_lvgl_initialized_by_app;
+#endif
+
 static const char *g_vb_screen_names[VB_SCREEN_COUNT] =
 {
   "Boot",
@@ -61,16 +77,35 @@ static const char *g_vb_screen_names[VB_SCREEN_COUNT] =
   "Settings",
 };
 
+static void *vb_lvgl_default_display(void)
+{
+#if VB_LVGL_VERSION_MAJOR >= 9
+  return lv_display_get_default();
+#else
+  return lv_disp_get_default();
+#endif
+}
+
+static void vb_lvgl_set_default_display(void *display)
+{
+  if (display == NULL)
+    {
+      return;
+    }
+
+#if VB_LVGL_VERSION_MAJOR >= 9
+  lv_display_set_default((lv_display_t *)display);
+#else
+  lv_disp_set_default((lv_disp_t *)display);
+#endif
+}
+
 bool velabridge_watch_ui_available(void)
 {
   printf("[velabridge][watch_ui] checking default display\n");
   fflush(stdout);
 
-#if VB_LVGL_VERSION_MAJOR >= 9
-  if (lv_display_get_default() == NULL)
-#else
-  if (lv_disp_get_default() == NULL)
-#endif
+  if (vb_lvgl_default_display() == NULL)
     {
       printf("[velabridge][watch_ui] no default display, fallback\n");
       fflush(stdout);
@@ -80,6 +115,115 @@ bool velabridge_watch_ui_available(void)
   printf("[velabridge][watch_ui] default display ready\n");
   fflush(stdout);
   return true;
+}
+
+static int vb_lvgl_display_init(void)
+{
+  if (vb_lvgl_default_display() != NULL)
+    {
+      printf("[velabridge][watch_ui] default display already exists\n");
+      fflush(stdout);
+      return 0;
+    }
+
+#if LV_USE_NUTTX
+#ifdef VB_NEED_BOARDINIT
+  int ret;
+
+  printf("[velabridge][watch_ui] boardctl init for display devices\n");
+  ret = boardctl(BOARDIOC_INIT, 0);
+  if (ret < 0)
+    {
+      printf("[velabridge][watch_ui] boardctl init failed ret=%d\n", ret);
+    }
+#endif
+
+  if (!lv_is_initialized())
+    {
+      printf("[velabridge][watch_ui] lv_init\n");
+      lv_init();
+      g_vb_lvgl_initialized_by_app = true;
+    }
+  else
+    {
+      printf("[velabridge][watch_ui] lvgl already initialized\n");
+    }
+
+  if (vb_lvgl_default_display() != NULL)
+    {
+      printf("[velabridge][watch_ui] default display created by init\n");
+      fflush(stdout);
+      return 0;
+    }
+
+  memset(&g_vb_nuttx_result, 0, sizeof(g_vb_nuttx_result));
+  lv_nuttx_dsc_t info;
+  lv_nuttx_dsc_init(&info);
+
+#if defined(CONFIG_LV_USE_NUTTX_LCD) || LV_USE_NUTTX_LCD
+  info.fb_path = "/dev/lcd0";
+  printf("[velabridge][watch_ui] trying NuttX LCD backend %s\n",
+         info.fb_path);
+#else
+  info.fb_path = "/dev/fb0";
+  printf("[velabridge][watch_ui] trying NuttX framebuffer backend %s\n",
+         info.fb_path);
+#endif
+
+#if defined(CONFIG_LV_USE_NUTTX_TOUCHSCREEN) || defined(CONFIG_INPUT_TOUCHSCREEN)
+  info.input_path = "/dev/input0";
+  printf("[velabridge][watch_ui] touchscreen path %s\n", info.input_path);
+#else
+  info.input_path = NULL;
+#endif
+
+  lv_nuttx_init(&info, &g_vb_nuttx_result);
+  g_vb_nuttx_initialized = true;
+
+  if (g_vb_nuttx_result.disp == NULL)
+    {
+      printf("[velabridge][watch_ui] lv_nuttx_init failed path=%s\n",
+             info.fb_path ? info.fb_path : "(null)");
+      lv_nuttx_deinit(&g_vb_nuttx_result);
+      g_vb_nuttx_initialized = false;
+
+      if (g_vb_lvgl_initialized_by_app)
+        {
+          lv_deinit();
+          g_vb_lvgl_initialized_by_app = false;
+        }
+
+      fflush(stdout);
+      return -ENODEV;
+    }
+
+  vb_lvgl_set_default_display(g_vb_nuttx_result.disp);
+
+  if (vb_lvgl_default_display() == NULL)
+    {
+      printf("[velabridge][watch_ui] display created but no default set\n");
+      lv_nuttx_deinit(&g_vb_nuttx_result);
+      g_vb_nuttx_initialized = false;
+
+      if (g_vb_lvgl_initialized_by_app)
+        {
+          lv_deinit();
+          g_vb_lvgl_initialized_by_app = false;
+        }
+
+      fflush(stdout);
+      return -ENODEV;
+    }
+
+  printf("[velabridge][watch_ui] display initialized path=%s\n",
+         info.fb_path ? info.fb_path : "(null)");
+  fflush(stdout);
+  return 0;
+#else
+  printf("[velabridge][watch_ui] LVGL NuttX backend disabled\n");
+  fflush(stdout);
+  return -ENOSYS;
+#endif
 }
 
 static lv_color_t vb_color(uint32_t hex)
@@ -533,17 +677,23 @@ static void vb_build_all_screens(void)
 
 int velabridge_watch_ui_start(void)
 {
+  int ret;
+
   printf("[velabridge][watch_ui] LVGL enabled\n");
+  printf("[velabridge][watch_ui] checking default display\n");
+
+  ret = vb_lvgl_display_init();
+  if (ret < 0)
+    {
+      printf("[velabridge][watch_ui] display init failed ret=%d, fallback\n",
+             ret);
+      fflush(stdout);
+      return ret;
+    }
+
+  printf("[velabridge][watch_ui] display ready\n");
   printf("[velabridge][watch_ui] design=%dx%d\n",
          VB_WATCH_WIDTH, VB_WATCH_HEIGHT);
-
-  if (!velabridge_watch_ui_available())
-    {
-      printf("[velabridge][watch_ui] LVGL display not ready, "
-             "fallback to serial demo\n");
-      fflush(stdout);
-      return -ENODEV;
-    }
 
   vb_build_all_screens();
   vb_switch_screen(VB_SCREEN_BOOT);
@@ -555,6 +705,26 @@ int velabridge_watch_ui_start(void)
 
   printf("[velabridge][watch_ui] auto demo timer=2000ms\n");
   fflush(stdout);
+
+  while (1)
+    {
+      lv_timer_handler();
+      usleep(20 * 1000);
+    }
+
+#if LV_USE_NUTTX
+  if (g_vb_nuttx_initialized)
+    {
+      lv_nuttx_deinit(&g_vb_nuttx_result);
+      g_vb_nuttx_initialized = false;
+    }
+
+  if (g_vb_lvgl_initialized_by_app)
+    {
+      lv_deinit();
+      g_vb_lvgl_initialized_by_app = false;
+    }
+#endif
 
   return 0;
 }
