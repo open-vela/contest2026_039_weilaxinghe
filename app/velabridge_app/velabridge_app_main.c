@@ -254,10 +254,10 @@ int main(int argc, char *argv[])
   printf("Blind mode: available\n");
   printf("AI bridge: mock ready\n");
   printf("\n");
-  printf("[caption] 老师说：请先到教务处服务窗口\n");
-  printf("[ocr] 食堂一号窗口，今日套餐 15 元\n");
-  printf("[danger_alert] 检测到前方台阶，请小心\n");
-  printf("[quick_reply] 请您说慢一点，我正在看字幕\n");
+  printf("[caption] Teacher: please go to the academic service desk.\n");
+  printf("[ocr] Cafeteria Window 1: today's meal is 15 yuan.\n");
+  printf("[danger_alert] Step detected ahead, please be careful.\n");
+  printf("[quick_reply] Please speak slower, I am reading captions.\n");
   printf("\n");
   printf("VelaBridge Watch demo finished\n");
   fflush(stdout);
