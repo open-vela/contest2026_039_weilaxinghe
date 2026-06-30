@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="VelaBridge Watch by XINGYU, an AI accessibility watch built on openvela and SF32LB52 DevKit ULP.">
+    <title>VelaBridge Watch | XINGYU</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
+
+    <header class="site-header" data-header>
+      <a class="brand-lockup" href="#top" aria-label="XINGYU home">
+        <span class="brand-cn">星阈</span>
+        <span class="brand-en">XINGYU</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#product">Product</a>
+        <a href="#technology">Technology</a>
+        <a href="#demo">Demo</a>
+        <a href="#proof">Proof</a>
+        <a href="#team">Team</a>
+      </nav>
+      <a class="nav-action" href="#demo">View Demo</a>
+    </header>
+
+    <main id="top">
+      <section class="hero section-panel" aria-labelledby="hero-title">
+        <div class="hero-grid" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="orbital-system" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="orbit-node"></div>
+        </div>
+
+        <div class="hero-content reveal is-visible">
+          <div class="hero-visual" data-parallax>
+            <div class="brand-frame">
+              <img class="brand-image" src="assets/xingyu-brand.png" alt="XINGYU brand visual">
+              <div class="brand-fallback" aria-hidden="true">
+                <span>星阈</span>
+                <strong>XINGYU</strong>
+              </div>
+            </div>
+          </div>
+          <p class="eyebrow">Team 039 · openvela · SF32LB52</p>
+          <h1 id="hero-title"><span>VelaBridge</span> <span>Watch</span></h1>
+          <p class="hero-subtitle">An AI accessibility watch built on openvela.</p>
+          <p class="hero-copy">让字幕、识别、提醒与回应，在腕上完成。</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#demo">Watch Demo</a>
+            <a class="button button-secondary" href="#proof">View Technical Proof</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="product" class="vision section-band" aria-labelledby="vision-title">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Product Vision</p>
+          <h2 id="vision-title">Bridging perception and response.</h2>
+          <p>A lightweight AI layer for real-world accessibility.</p>
+        </div>
+        <div class="vision-grid">
+          <article class="audience-card tilt-card reveal">
+            <span class="card-index">01</span>
+            <h3>Hearing impaired</h3>
+            <p>Speech becomes concise visual information that can be read at a glance.</p>
+          </article>
+          <article class="audience-card tilt-card reveal">
+            <span class="card-index">02</span>
+            <h3>Visually impaired</h3>
+            <p>Environmental text and simple spatial cues become spoken or tactile prompts.</p>
+          </article>
+          <article class="audience-card tilt-card reveal">
+            <span class="card-index">03</span>
+            <h3>Elderly users</h3>
+            <p>Small, calm interactions reduce cognitive load during everyday service scenes.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="features section-band" aria-labelledby="features-title">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Core Features</p>
+          <h2 id="features-title">Accessibility signals, delivered clearly.</h2>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card tilt-card reveal">
+            <div class="feature-line"></div>
+            <h3>Live Caption</h3>
+            <p>Speech becomes readable in real time.</p>
+            <code>Teacher: please go to the academic service desk.</code>
+          </article>
+          <article class="feature-card tilt-card reveal">
+            <div class="feature-line"></div>
+            <h3>OCR Vision</h3>
+            <p>Text in the environment becomes actionable.</p>
+            <code>Cafeteria Window 1: today's meal is 15 yuan.</code>
+          </article>
+          <article class="feature-card tilt-card reveal">
+            <div class="feature-line"></div>
+            <h3>Danger Alert</h3>
+            <p>Spatial cues become timely warnings.</p>
+            <code>Step detected ahead, please be careful.</code>
+          </article>
+          <article class="feature-card tilt-card reveal">
+            <div class="feature-line"></div>
+            <h3>Quick Reply</h3>
+            <p>A simple response, delivered at the right moment.</p>
+            <code>Please speak slower, I am reading captions.</code>
+          </article>
+        </div>
+      </section>
+
+      <section id="technology" class="architecture section-band" aria-labelledby="architecture-title">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Technology</p>
+          <h2 id="architecture-title">From sensor input to accessible response.</h2>
+        </div>
+        <div class="architecture-map reveal" data-architecture>
+          <div class="arch-node" data-step="0">
+            <span>User</span>
+            <small>need</small>
+          </div>
+          <div class="arch-link"></div>
+          <div class="arch-node" data-step="1">
+            <span>Watch Sensor</span>
+            <small>input</small>
+          </div>
+          <div class="arch-link"></div>
+          <div class="arch-node" data-step="2">
+            <span>VelaBridge App</span>
+            <small>state</small>
+          </div>
+          <div class="arch-link"></div>
+          <div class="arch-node" data-step="3">
+            <span>AI Bridge</span>
+            <small>mock</small>
+          </div>
+          <div class="arch-link"></div>
+          <div class="arch-node" data-step="4">
+            <span>Response</span>
+            <small>caption · voice · haptic</small>
+          </div>
+        </div>
+      </section>
+
+      <section id="proof" class="proof section-band" aria-labelledby="proof-title">
+        <div class="proof-layout">
+          <div class="proof-copy reveal">
+            <p class="eyebrow">Real Board Proof</p>
+            <h2 id="proof-title">Verified on real hardware.</h2>
+            <dl class="proof-specs">
+              <div><dt>Board</dt><dd>SF32LB52 DevKit ULP</dd></div>
+              <div><dt>OS</dt><dd>openvela / NuttX</dd></div>
+              <div><dt>App</dt><dd>velabridge_app</dd></div>
+              <div><dt>Flash</dt><dd>0x12010000</dd></div>
+              <div><dt>Shell</dt><dd>NuttShell</dd></div>
+              <div><dt>Status</dt><dd>Running</dd></div>
+            </dl>
+          </div>
+          <div class="terminal-window reveal" role="img" aria-label="NuttShell output showing VelaBridge Watch demo">
+            <div class="terminal-bar">
+              <span></span><span></span><span></span>
+              <strong>NuttShell</strong>
+            </div>
+            <pre><code>NuttShell (NSH)
+nsh&gt; velabridge_app
+VelaBridge Watch started
+Board: SF32LB52 DevKit ULP
+Mode: normal
+Blind mode: available
+AI bridge: mock ready
+[caption] Teacher: please go to the academic service desk.
+[ocr] Cafeteria Window 1: today's meal is 15 yuan.
+[danger_alert] Step detected ahead, please be careful.
+[quick_reply] Please speak slower, I am reading captions.
+VelaBridge Watch demo finished<span class="cursor"></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="demo" class="watch-demo section-band" aria-labelledby="demo-title">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Watch Demo</p>
+          <h2 id="demo-title">A calm interface for urgent moments.</h2>
+        </div>
+        <div class="watch-stage reveal">
+          <div class="watch-body" aria-live="polite">
+            <div class="watch-screen">
+              <div class="watch-status">
+                <span>VelaBridge</span>
+                <span>09:39</span>
+              </div>
+              <div class="watch-card is-active" data-watch-card>
+                <span class="watch-tag">Caption</span>
+                <p>Teacher: please go to the academic service desk.</p>
+              </div>
+              <div class="watch-card" data-watch-card>
+                <span class="watch-tag">OCR</span>
+                <p>Cafeteria Window 1: today's meal is 15 yuan.</p>
+              </div>
+              <div class="watch-card" data-watch-card>
+                <span class="watch-tag danger">Danger</span>
+                <p>Step detected ahead, please be careful.</p>
+              </div>
+              <div class="watch-hint">openvela · mock bridge ready</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="brand-section section-panel" aria-labelledby="brand-title">
+        <div class="brand-showcase reveal">
+          <div class="brand-emblem">
+            <img class="brand-image" src="assets/xingyu-brand.png" alt="XINGYU brand visual">
+            <div class="brand-fallback" aria-hidden="true">
+              <span>星阈</span>
+              <strong>XINGYU</strong>
+            </div>
+          </div>
+          <p class="eyebrow">Brand Identity</p>
+          <h2 id="brand-title">XINGYU</h2>
+          <p class="brand-line">智启新边界</p>
+          <p>A quiet technology identity for intelligent accessibility.</p>
+        </div>
+      </section>
+
+      <section id="team" class="team section-band" aria-labelledby="team-title">
+        <div class="team-panel reveal">
+          <p class="eyebrow">Team</p>
+          <h2 id="team-title">Team 039 · 维拉星核</h2>
+          <div class="team-facts">
+            <span>openvela AI 硬件开发者大赛</span>
+            <span>Real-board validated</span>
+            <span>Built with openvela</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <strong>XINGYU / VelaBridge Watch</strong>
+      <span>Bridging intelligence and accessibility.</span>
+    </footer>
+
+    <script src="main.js"></script>
+  </body>
+</html>
