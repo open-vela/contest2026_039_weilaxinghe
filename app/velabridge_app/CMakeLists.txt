@@ -2,7 +2,8 @@
 if(CONFIG_LVX_USE_DEMO_CONTEST2026_039_VELABRIDGE_APP)
   nuttx_add_application(
     NAME velabridge_app
-    SRCS velabridge_app_main.c
+    SRCS
+      velabridge_app_main.c
+      velabridge_watch_ui.c
     STACKSIZE 4096)
 endif()
-

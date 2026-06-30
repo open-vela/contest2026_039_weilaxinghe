@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "velabridge_watch_ui.h"
+
 enum velabridge_state
 {
   VELABRIDGE_STATE_NORMAL = 0,
@@ -245,9 +247,19 @@ void velabridge_handle_json_line(const char *line)
 
 int main(int argc, char *argv[])
 {
+  int ret;
+
   (void)argc;
   (void)argv;
 
+  ret = velabridge_watch_ui_start();
+  if (ret == 0)
+    {
+      return 0;
+    }
+
+  printf("[velabridge][watch_ui] fallback to serial demo ret=%d\n", ret);
+  printf("\n");
   printf("VelaBridge Watch started\n");
   printf("Board: SF32LB52 DevKit ULP\n");
   printf("Mode: normal\n");
