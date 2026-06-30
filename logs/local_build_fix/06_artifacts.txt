@@ -1,0 +1,2 @@
+/home/czy/openvela_contest/nuttx/nuttx	12944 KB
+/home/czy/openvela_contest/nuttx/nuttx.bin	1480 KB

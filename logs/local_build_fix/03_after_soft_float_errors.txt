@@ -1,63 +1,7 @@
-LIBCLANG_PATH set to: /home/czy/openvela_contest/prebuilts/rust/linux/extra_libs
-including vendor/infineon/boards/aurix/build/vendorsetup.sh
-including vendor/infineon/boards/aurix_tc3/build/vendorsetup.sh
-including vendor/openvela/boards/build/vendorsetup.sh
-Build command line:
-  /home/czy/openvela_contest/nuttx/tools/configure.sh -e /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
-  make -C /home/czy/openvela_contest/nuttx EXTRAFLAGS=-Wno-cpp -Wno-deprecated-declarations -j1
-  make -C /home/czy/openvela_contest/nuttx savedefconfig
-make: Entering directory '/home/czy/openvela_contest/nuttx'
-Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
-Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
-make: Leaving directory '/home/czy/openvela_contest/nuttx'
-  Copy files
-  Select CONFIG_HOST_LINUX=y
-  Refreshing...
-CP: arch/dummy/Kconfig to /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/sf32lb52/Kconfig
-CP: boards/dummy/Kconfig to /home/czy/openvela_contest/nuttx/../vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/Kconfig
-LN: platform/board to /home/czy/openvela_contest/apps/platform/dummy
-LN: include/arch to arch/arm/include
-LN: include/arch/board to /home/czy/openvela_contest/nuttx/../vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/include
-LN: drivers/platform to /home/czy/openvela_contest/nuttx/../vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/../drivers
-LN: include/arch/chip to /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/sf32lb52/include
-LN: arch/arm/src/chip to /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/sf32lb52
-LN: arch/arm/src/board to /home/czy/openvela_contest/nuttx/../vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/src
-mkkconfig in /home/czy/openvela_contest/apps/audioutils
-mkkconfig in /home/czy/openvela_contest/apps/benchmarks
-mkkconfig in /home/czy/openvela_contest/apps/boot
-mkkconfig in /home/czy/openvela_contest/apps/canutils
-mkkconfig in /home/czy/openvela_contest/apps/crypto
-mkkconfig in /home/czy/openvela_contest/apps/database
-mkkconfig in /home/czy/openvela_contest/apps/examples/elf/tests
-mkkconfig in /home/czy/openvela_contest/apps/examples/elf
-mkkconfig in /home/czy/openvela_contest/apps/examples/mcuboot
-mkkconfig in /home/czy/openvela_contest/apps/examples/module
-mkkconfig in /home/czy/openvela_contest/apps/examples/rust
-mkkconfig in /home/czy/openvela_contest/apps/examples/sotest
-mkkconfig in /home/czy/openvela_contest/apps/examples
-mkkconfig in /home/czy/openvela_contest/external/android/frameworks/native/cmds
-mkkconfig in /home/czy/openvela_contest/external/android/frameworks/native/services
-mkkconfig in /home/czy/openvela_contest/external/android/frameworks/native
-mkkconfig in /home/czy/openvela_contest/external/android/frameworks
-mkkconfig in /home/czy/openvela_contest/external/android/hardware
-mkkconfig in /home/czy/openvela_contest/external/android/system/core
-mkkconfig in /home/czy/openvela_contest/external/android/system
-mkkconfig in /home/czy/openvela_contest/external/android
-mkkconfig in /home/czy/openvela_contest/external/optee
-mkkconfig in /home/czy/openvela_contest/external
-mkkconfig in /home/czy/openvela_contest/frameworks/connectivity
-mkkconfig in /home/czy/openvela_contest/frameworks/graphics
-mkkconfig in /home/czy/openvela_contest/frameworks/multimedia
-mkkconfig in /home/czy/openvela_contest/frameworks/runtimes/services/xmsdemo
-mkkconfig in /home/czy/openvela_contest/frameworks/runtimes/services
-mkkconfig in /home/czy/openvela_contest/frameworks/runtimes/typescript
-mkkconfig in /home/czy/openvela_contest/frameworks/runtimes/wasm
-mkkconfig in /home/czy/openvela_contest/frameworks/runtimes
-mkkconfig in /home/czy/openvela_contest/frameworks/security/ca
-mkkconfig in /home/czy/openvela_contest/frameworks/security/ta
-mkkconfig in /home/czy/openvela_contest/frameworks/security/tools
-mkkconfig in /home/czy/openvela_contest/frameworks/security
-mkkconfig in /home/czy/openvela_contest/frameworks/system/binder/cmds
+--- first fatal errors ---
+130:[1KCPP:  etc/init.d/rc.sysinit-> etctmp/etc/init.d/rc.sysinit [1K[1KCPP:  etc/init.d/rcS-> etctmp/etc/init.d/rcS [1K./sifli_ap.c:40:10: fatal error: bf0_hal.h: No such file or directory
+
+--- tail ---
 mkkconfig in /home/czy/openvela_contest/frameworks/system/binder/examples
 mkkconfig in /home/czy/openvela_contest/frameworks/system/binder/performance
 mkkconfig in /home/czy/openvela_contest/frameworks/system/binder

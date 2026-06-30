@@ -1,0 +1,13 @@
+LIBCLANG_PATH set to: /home/czy/openvela_contest/prebuilts/rust/linux/extra_libs
+including vendor/infineon/boards/aurix/build/vendorsetup.sh
+including vendor/infineon/boards/aurix_tc3/build/vendorsetup.sh
+including vendor/openvela/boards/build/vendorsetup.sh
+Build command line:
+  /home/czy/openvela_contest/nuttx/tools/configure.sh -e /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+  make -C /home/czy/openvela_contest/nuttx EXTRAFLAGS=-Wno-cpp -Wno-deprecated-declarations distclean
+  make -C /home/czy/openvela_contest/nuttx savedefconfig
+No configuration change.
+make: Entering directory '/home/czy/openvela_contest/nuttx'
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+make: Leaving directory '/home/czy/openvela_contest/nuttx'

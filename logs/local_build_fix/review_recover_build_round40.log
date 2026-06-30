@@ -1,0 +1,41 @@
+LIBCLANG_PATH set to: /home/czy/openvela_contest/prebuilts/rust/linux/extra_libs
+including vendor/infineon/boards/aurix/build/vendorsetup.sh
+including vendor/infineon/boards/aurix_tc3/build/vendorsetup.sh
+including vendor/openvela/boards/build/vendorsetup.sh
+Build command line:
+  /home/czy/openvela_contest/nuttx/tools/configure.sh -e /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+  make -C /home/czy/openvela_contest/nuttx EXTRAFLAGS=-Wno-cpp -Wno-deprecated-declarations -j1
+  make -C /home/czy/openvela_contest/nuttx savedefconfig
+No configuration change.
+make: Entering directory '/home/czy/openvela_contest/nuttx'
+Create version.h
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+[1KCC:  misc/lib_utsname.c [1K[1KIN: libs/libc/libc.a -> staging/libc.a [1KMakefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+[1KCC:  arm_m/arm_systick.c [1K[1KIN: arch/arm/src/libarch.a -> staging/libarch.a [1K[1KCC:  nsh_parse.c [1K[1KIN: /home/czy/openvela_contest/apps/libapps.a -> staging/libapps.a [1K[1KCC:  procfs/fs_procfsversion.c [1K[1KIN: fs/libfs.a -> staging/libfs.a [1KMakefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+LD: nuttx
+[1KCC:  allsyms.tmp [1Karm-none-eabi-ld: warning: /home/czy/openvela_contest/nuttx/nuttx has a LOAD segment with RWX permissions
+Memory region         Used Size  Region Size  %age Used
+           flash:     1375152 B        16 MB      8.20%
+            sram:       69924 B       512 KB     13.34%
+           psram:           0 B         8 MB      0.00%
+[1KCC:  allsyms.tmp [1Karm-none-eabi-ld: warning: /home/czy/openvela_contest/nuttx/nuttx has a LOAD segment with RWX permissions
+Memory region         Used Size  Region Size  %age Used
+           flash:     1512680 B        16 MB      9.02%
+            sram:      119716 B       512 KB     22.83%
+           psram:           0 B         8 MB      0.00%
+[1KCC:  allsyms.tmp [1Karm-none-eabi-ld: warning: /home/czy/openvela_contest/nuttx/nuttx has a LOAD segment with RWX permissions
+Memory region         Used Size  Region Size  %age Used
+           flash:     1512680 B        16 MB      9.02%
+            sram:      119716 B       512 KB     22.83%
+           psram:           0 B         8 MB      0.00%
+[1KCC:  allsyms.tmp [1Karm-none-eabi-ld: warning: /home/czy/openvela_contest/nuttx/nuttx has a LOAD segment with RWX permissions
+Memory region         Used Size  Region Size  %age Used
+           flash:     1512680 B        16 MB      9.02%
+            sram:      119716 B       512 KB     22.83%
+           psram:           0 B         8 MB      0.00%
+CP: nuttx.bin
+make: Leaving directory '/home/czy/openvela_contest/nuttx'
+make: Entering directory '/home/czy/openvela_contest/nuttx'
+Loaded configuration '.config'
+Minimal configuration saved to 'defconfig.tmp'
+make: Leaving directory '/home/czy/openvela_contest/nuttx'

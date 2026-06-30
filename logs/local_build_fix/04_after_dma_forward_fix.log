@@ -1,0 +1,18 @@
+LIBCLANG_PATH set to: /home/czy/openvela_contest/prebuilts/rust/linux/extra_libs
+including vendor/infineon/boards/aurix/build/vendorsetup.sh
+including vendor/infineon/boards/aurix_tc3/build/vendorsetup.sh
+including vendor/openvela/boards/build/vendorsetup.sh
+Build command line:
+  /home/czy/openvela_contest/nuttx/tools/configure.sh -e /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+  make -C /home/czy/openvela_contest/nuttx EXTRAFLAGS=-Wno-cpp -Wno-deprecated-declarations -j1
+  make -C /home/czy/openvela_contest/nuttx savedefconfig
+No configuration change.
+make: Entering directory '/home/czy/openvela_contest/nuttx'
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+[1KCC:  misc/lib_utsname.c [1K[1KIN: libs/libc/libc.a -> staging/libc.a [1KMakefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+[1KAS:  common/gnu/fork.S /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/openvela_local_compat.h: Assembler messages:
+/home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/openvela_local_compat.h:12: Error: bad instruction `typedef struct __DMA_HandleTypeDef DMA_HandleTypeDef'
+make[1]: *** [Makefile:167: fork.o] Error 1
+make: *** [tools/LibTargets.mk:170: arch/arm/src/libarch.a] Error 2
+make: Leaving directory '/home/czy/openvela_contest/nuttx'
+Error: ############# build /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh fail ##############

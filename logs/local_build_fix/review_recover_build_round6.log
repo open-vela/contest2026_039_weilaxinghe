@@ -1,0 +1,30 @@
+LIBCLANG_PATH set to: /home/czy/openvela_contest/prebuilts/rust/linux/extra_libs
+including vendor/infineon/boards/aurix/build/vendorsetup.sh
+including vendor/infineon/boards/aurix_tc3/build/vendorsetup.sh
+including vendor/openvela/boards/build/vendorsetup.sh
+Build command line:
+  /home/czy/openvela_contest/nuttx/tools/configure.sh -e /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+  make -C /home/czy/openvela_contest/nuttx EXTRAFLAGS=-Wno-cpp -Wno-deprecated-declarations -j1
+  make -C /home/czy/openvela_contest/nuttx savedefconfig
+No configuration change.
+make: Entering directory '/home/czy/openvela_contest/nuttx'
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+In file included from /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:403,
+                 from /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal.h:22,
+                 from /home/czy/openvela_contest/nuttx/arch/arm/src/chip/bf0_hal.h:8,
+                 from ./sifli_ap.c:40:
+/home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_ptc.h:1207:2: error: #error "Not supported yet"
+ 1207 | #error "Not supported yet"
+      |  ^~~~~
+In file included from /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:419:
+/home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_lcpu_config.h:16:10: fatal error: lcpu_config_type.h: No such file or directory
+   16 | #include "lcpu_config_type.h"
+      |          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+ERROR: arm-none-eabi-gcc failed: 1
+       command: arm-none-eabi-gcc -MT ./sifli_ap.o  -M '-Wstrict-prototypes' '-Wno-attributes' '-Wno-unknown-pragmas' '-Wno-psabi' '-fno-omit-frame-pointer' '-funwind-tables' '-fasynchronous-unwind-tables' '--param=min-pagesize=0' '-Wno-alloc-size-larger-than' '-fno-common' '-Wall' '-Wshadow' '-Wundef' '-ffunction-sections' '-fdata-sections' '-g3' '-mlittle-endian' '-march=armv7-m' '-mtune=cortex-m3' '-mfloat-abi=soft' '-mfloat-abi=soft' '-mthumb' '-Wa,-mthumb' '-Wa,-mimplicit-it=always' '-isystem' '/home/czy/openvela_contest/nuttx/include' '-D__NuttX__' '-D__KERNEL__' '-Wno-cpp' '-Wno-deprecated-declarations' '-pipe' '-Werror=return-type' '-Werror' '-I' '/home/czy/openvela_contest/nuttx/sched' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/chip' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/common' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/armv8-m' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/arm_m' ./sifli_ap.c
+make[2]: *** [/home/czy/openvela_contest/nuttx/boards/Board.mk:103: .depend] Error 1
+make[1]: *** [Makefile:269: .depend] Error 2
+make: *** [tools/Unix.mk:660: pass2dep] Error 2
+make: Leaving directory '/home/czy/openvela_contest/nuttx'
+Error: ############# build /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh fail ##############

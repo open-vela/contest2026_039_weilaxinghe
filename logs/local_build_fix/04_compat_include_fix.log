@@ -1,0 +1,2 @@
+36:ARCHDEFINES += -DSOC_BF0_HCPU=1
+37:ARCHDEFINES += -include /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/openvela_local_compat.h

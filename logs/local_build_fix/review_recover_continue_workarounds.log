@@ -1,0 +1,219 @@
+[2026-06-30T21:37:56] header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_pin_const.h -> ../cmsis/sf32lb52x/bf0_pin_const.h
+[2026-06-30T21:37:56] header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/bf0_pin_const.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/bf0_pin_const.h
+[2026-06-30T21:37:56] build round 6 start
+[2026-06-30T21:37:58] build round 6 exit=2
+[2026-06-30T21:37:58] round 6: first missing header lcpu_config_type.h
+[2026-06-30T21:37:58] header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/lcpu_config_type.h -> ../cmsis/Include/lcpu_config_type.h
+[2026-06-30T21:37:58] header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/lcpu_config_type.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/Include/lcpu_config_type.h
+[2026-06-30T21:37:58] build round 7 start
+[2026-06-30T21:38:00] build round 7 exit=2
+[2026-06-30T21:38:00] round 7: first missing header lcpu_config_type_int.h
+[2026-06-30T21:38:00] header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/lcpu_config_type_int.h -> ../cmsis/sf32lb52x/lcpu_config_type_int.h
+[2026-06-30T21:38:00] header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/lcpu_config_type_int.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/lcpu_config_type_int.h
+[2026-06-30T21:38:00] build round 8 start
+[2026-06-30T21:38:02] build round 8 exit=2
+[2026-06-30T21:38:02] round 8: first missing header drv_io.h
+[2026-06-30T21:38:02] header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/drv_io.h -> ../../boards/include/drv_io.h
+[2026-06-30T21:38:02] header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/drv_io.h -> ../../../../../vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:02] build round 9 start
+[2026-06-30T21:38:03] build round 9 exit=2
+[2026-06-30T21:38:03] round 9: first missing header drv_io.h
+[2026-06-30T21:38:03] header link already ok: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/drv_io.h -> /home/czy/openvela_contest/vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:03] header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/drv_io.h -> ../../../../../vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:03] build round 10 start
+[2026-06-30T21:38:05] build round 10 exit=2
+[2026-06-30T21:38:05] round 10: first missing header drv_io.h
+[2026-06-30T21:38:05] header link already ok: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/drv_io.h -> /home/czy/openvela_contest/vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:05] header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/drv_io.h -> ../../../../../vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:05] build round 11 start
+[2026-06-30T21:38:06] build round 11 exit=2
+[2026-06-30T21:38:06] round 11: first missing header drv_io.h
+[2026-06-30T21:38:06] header link already ok: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/drv_io.h -> /home/czy/openvela_contest/vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:06] header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/drv_io.h -> ../../../../../vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:06] build round 12 start
+[2026-06-30T21:38:08] build round 12 exit=2
+[2026-06-30T21:38:08] round 12: first missing header drv_io.h
+[2026-06-30T21:38:08] header link already ok: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/drv_io.h -> /home/czy/openvela_contest/vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:08] header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/drv_io.h -> ../../../../../vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:08] build round 13 start
+[2026-06-30T21:38:10] build round 13 exit=2
+[2026-06-30T21:38:10] round 13: first missing header drv_io.h
+[2026-06-30T21:38:10] header link already ok: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/drv_io.h -> /home/czy/openvela_contest/vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:10] header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/drv_io.h -> ../../../../../vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:10] build round 14 start
+[2026-06-30T21:38:11] build round 14 exit=2
+[2026-06-30T21:38:11] round 14: first missing header drv_io.h
+[2026-06-30T21:38:11] header link already ok: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/drv_io.h -> /home/czy/openvela_contest/vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:11] header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/drv_io.h -> ../../../../../vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:11] build round 15 start
+[2026-06-30T21:38:13] build round 15 exit=2
+[2026-06-30T21:38:13] round 15: first missing header drv_io.h
+[2026-06-30T21:38:13] header link already ok: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/drv_io.h -> /home/czy/openvela_contest/vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:38:13] header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/drv_io.h -> ../../../../../vendor/sifli/chips/boards/include/drv_io.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/aes_acc.h -> ../drivers/cmsis/sf32lb52x/aes_acc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/atim.h -> ../drivers/cmsis/sf32lb52x/atim.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/audcodec.h -> ../drivers/cmsis/sf32lb52x/audcodec.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/audcodec_hp.h -> ../drivers/cmsis/sf32lb58x/audcodec_hp.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/audcodec_lp.h -> ../drivers/cmsis/sf32lb58x/audcodec_lp.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/audprc.h -> ../drivers/cmsis/sf32lb52x/audprc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/bf0_hal_conf_hcpu.h -> ../drivers/Include/bf0_hal_conf_hcpu.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/bf0_hal_conf_lcpu.h -> ../drivers/Include/bf0_hal_conf_lcpu.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/bf0_hal_hlp.h -> ../drivers/Include/bf0_hal_hlp.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/bf0_pin_const.h -> ../drivers/cmsis/sf32lb52x/bf0_pin_const.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/bt_mac.h -> ../drivers/cmsis/sf32lb52x/bt_mac.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/bt_phy.h -> ../drivers/cmsis/sf32lb52x/bt_phy.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/bt_rfc.h -> ../drivers/cmsis/sf32lb52x/bt_rfc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/btim.h -> ../drivers/cmsis/Include/btim.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/busmon.h -> ../drivers/cmsis/sf32lb52x/busmon.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/cache.h -> ../drivers/cmsis/sf32lb52x/cache.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/can.h -> ../drivers/cmsis/sf32lb52x/can.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/crc.h -> ../drivers/cmsis/Include/crc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/dmac.h -> ../drivers/cmsis/sf32lb52x/dmac.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/drv_io.h -> ../boards/include/drv_io.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/dsi_host.h -> ../drivers/cmsis/sf32lb58x/dsi_host.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/dsi_phy.h -> ../drivers/cmsis/sf32lb58x/dsi_phy.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/efusec.h -> ../drivers/cmsis/sf32lb52x/efusec.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/epic.h -> ../drivers/cmsis/sf32lb52x/epic.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/extdma.h -> ../drivers/cmsis/sf32lb52x/extdma.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/ezip.h -> ../drivers/cmsis/sf32lb52x/ezip.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/facc.h -> ../drivers/cmsis/sf32lb52x/facc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/fft.h -> ../drivers/cmsis/sf32lb52x/fft.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/gpadc.h -> ../drivers/cmsis/sf32lb52x/gpadc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/gpio1.h -> ../drivers/cmsis/sf32lb52x/gpio1.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/gpio2.h -> ../drivers/cmsis/sf32lb52x/gpio2.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/gpt.h -> ../drivers/cmsis/Include/gpt.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/hpsys_aon.h -> ../drivers/cmsis/sf32lb52x/hpsys_aon.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/hpsys_cfg.h -> ../drivers/cmsis/sf32lb52x/hpsys_cfg.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/hpsys_pinmux.h -> ../drivers/cmsis/sf32lb52x/hpsys_pinmux.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/hpsys_rcc.h -> ../drivers/cmsis/sf32lb52x/hpsys_rcc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/i2c.h -> ../drivers/cmsis/sf32lb52x/i2c.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/i2s.h -> ../drivers/cmsis/sf32lb52x/i2s.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/jpegdec.h -> ../drivers/cmsis/sf32lb58x/jpegdec.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/jpegenc.h -> ../drivers/cmsis/sf32lb58x/jpegenc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/lcd_if.h -> ../drivers/cmsis/sf32lb52x/lcd_if.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/lcpu_config_type.h -> ../drivers/cmsis/Include/lcpu_config_type.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/lcpu_config_type_int.h -> ../drivers/cmsis/sf32lb52x/lcpu_config_type_int.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/lpcomp.h -> ../drivers/cmsis/sf32lb52x/lpcomp.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/lpsys_aon.h -> ../drivers/cmsis/sf32lb52x/lpsys_aon.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/lpsys_cfg.h -> ../drivers/cmsis/sf32lb52x/lpsys_cfg.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/lpsys_pinmux.h -> ../drivers/cmsis/sf32lb52x/lpsys_pinmux.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/lpsys_rcc.h -> ../drivers/cmsis/sf32lb52x/lpsys_rcc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/lptim.h -> ../drivers/cmsis/Include/lptim.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/mailbox1.h -> ../drivers/cmsis/sf32lb52x/mailbox1.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/mailbox2.h -> ../drivers/cmsis/sf32lb52x/mailbox2.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/mem_map.h -> ../drivers/cmsis/sf32lb52x/mem_map.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/mpi.h -> ../drivers/cmsis/sf32lb52x/mpi.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/nn_acc.h -> ../drivers/cmsis/Include/nn_acc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/patch.h -> ../drivers/cmsis/sf32lb52x/patch.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/pdm.h -> ../drivers/cmsis/sf32lb52x/pdm.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/pmuc.h -> ../drivers/cmsis/sf32lb52x/pmuc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/ptc.h -> ../drivers/cmsis/sf32lb52x/ptc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/register.h -> ../drivers/cmsis/sf32lb52x/register.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/rtc.h -> ../drivers/cmsis/sf32lb52x/rtc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sci.h -> ../drivers/cmsis/sf32lb52x/sci.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sd.h -> ../drivers/cmsis/sf32lb52x/sd.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sdadc.h -> ../drivers/cmsis/sf32lb58x/sdadc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sdhci.h -> ../drivers/cmsis/sf32lb58x/sdhci.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sdmmc.h -> ../drivers/cmsis/sf32lb58x/sdmmc.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/secu1.h -> ../drivers/cmsis/sf32lb52x/secu1.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/secu2.h -> ../drivers/cmsis/sf32lb52x/secu2.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/spi.h -> ../drivers/cmsis/sf32lb52x/spi.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/trng.h -> ../drivers/cmsis/sf32lb52x/trng.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/tsen.h -> ../drivers/cmsis/Include/tsen.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/usbc_x.h -> ../drivers/cmsis/sf32lb52x/usbc_x.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/v2d_gpu.h -> ../drivers/cmsis/sf32lb58x/v2d_gpu.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/wdt.h -> ../drivers/cmsis/sf32lb52x/wdt.h
+[2026-06-30T21:40:13] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/drv_io.h -> ../boards/include/drv_io.h
+[2026-06-30T21:40:13] disabled HAL_PTC_ENABLED in /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h
+[2026-06-30T21:40:13] disabled HAL_PTC_ENABLED in /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h
+[2026-06-30T21:40:13] build round 16 start
+[2026-06-30T21:40:17] build round 16 exit=2
+[2026-06-30T21:40:17] round 16: first missing header sf32lb_spi.h
+[2026-06-30T21:40:17] driver header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/sf32lb_spi.h -> ../../sf32lb52/include/sf32lb_spi.h
+[2026-06-30T21:40:17] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sf32lb_spi.h -> include/sf32lb_spi.h
+[2026-06-30T21:40:17] build round 17 start
+[2026-06-30T21:40:18] build round 17 exit=2
+[2026-06-30T21:40:18] round 17: first missing header sf32lb_rtc.h
+[2026-06-30T21:40:18] driver header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/sf32lb_rtc.h -> ../../sf32lb52/include/sf32lb_rtc.h
+[2026-06-30T21:40:18] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sf32lb_rtc.h -> include/sf32lb_rtc.h
+[2026-06-30T21:40:18] build round 18 start
+[2026-06-30T21:40:20] build round 18 exit=2
+[2026-06-30T21:40:20] round 18: first missing header sf32lb_timer.h
+[2026-06-30T21:40:20] driver header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/sf32lb_timer.h -> ../../sf32lb52/include/sf32lb_timer.h
+[2026-06-30T21:40:20] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sf32lb_timer.h -> include/sf32lb_timer.h
+[2026-06-30T21:40:20] build round 19 start
+[2026-06-30T21:40:22] build round 19 exit=2
+[2026-06-30T21:40:22] round 19: first missing header sf32lb_pwm.h
+[2026-06-30T21:40:22] driver header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/sf32lb_pwm.h -> ../../sf32lb52/include/sf32lb_pwm.h
+[2026-06-30T21:40:22] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sf32lb_pwm.h -> include/sf32lb_pwm.h
+[2026-06-30T21:40:22] build round 20 start
+[2026-06-30T21:40:24] build round 20 exit=2
+[2026-06-30T21:40:24] round 20: first missing header sf32lb_serial.h
+[2026-06-30T21:40:24] driver header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/sf32lb_serial.h -> ../../sf32lb52/include/sf32lb_serial.h
+[2026-06-30T21:40:24] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sf32lb_serial.h -> include/sf32lb_serial.h
+[2026-06-30T21:40:24] build round 21 start
+[2026-06-30T21:40:25] build round 21 exit=2
+[2026-06-30T21:40:25] round 21: first missing header tim_config.h
+[2026-06-30T21:40:25] driver header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/tim_config.h -> ../../boards/include/config/sf32lb58x/tim_config.h
+[2026-06-30T21:40:25] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/tim_config.h -> ../boards/include/config/sf32lb58x/tim_config.h
+[2026-06-30T21:40:25] build round 22 start
+[2026-06-30T21:40:27] build round 22 exit=2
+[2026-06-30T21:40:27] round 22: first missing header spi_config.h
+[2026-06-30T21:40:27] driver header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/spi_config.h -> ../../boards/include/config/sf32lb58x/spi_config.h
+[2026-06-30T21:40:27] chip header relink: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/spi_config.h -> ../boards/include/config/sf32lb58x/spi_config.h
+[2026-06-30T21:41:21] link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/tim_config.h -> ../../boards/include/config/sf32lb52x/tim_config.h
+[2026-06-30T21:41:21] link: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/tim_config.h -> ../boards/include/config/sf32lb52x/tim_config.h
+[2026-06-30T21:41:21] link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/spi_config.h -> ../../boards/include/config/sf32lb52x/spi_config.h
+[2026-06-30T21:41:21] link: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/spi_config.h -> ../boards/include/config/sf32lb52x/spi_config.h
+[2026-06-30T21:41:21] link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/pwm_config.h -> ../../boards/include/config/sf32lb52x/pwm_config.h
+[2026-06-30T21:41:21] link: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/pwm_config.h -> ../boards/include/config/sf32lb52x/pwm_config.h
+[2026-06-30T21:41:21] link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/uart_config.h -> ../../boards/include/config/sf32lb52x/uart_config.h
+[2026-06-30T21:41:21] link: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/uart_config.h -> ../boards/include/config/sf32lb52x/uart_config.h
+[2026-06-30T21:41:21] build round 23 start
+[2026-06-30T21:41:24] build round 23 exit=2
+[2026-06-30T21:41:24] round 23: first missing header bf0_hal_adc.h
+[2026-06-30T21:41:24] real file kept: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_adc.h
+[2026-06-30T21:41:24] link: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/bf0_hal_adc.h -> ../drivers/Include/bf0_hal_adc.h
+[2026-06-30T21:41:24] build round 24 start
+[2026-06-30T21:41:25] build round 24 exit=2
+[2026-06-30T21:41:25] round 24: first missing header bf0_hal_mpi_ex.h
+[2026-06-30T21:41:25] real file kept: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_mpi_ex.h
+[2026-06-30T21:41:25] link: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/bf0_hal_mpi_ex.h -> ../drivers/Include/bf0_hal_mpi_ex.h
+[2026-06-30T21:41:25] build round 25 start
+[2026-06-30T21:41:27] build round 25 exit=2
+[2026-06-30T21:41:27] round 25: first missing header bf0_hal_rcc.h
+[2026-06-30T21:41:27] real file kept: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_rcc.h
+[2026-06-30T21:41:27] link: /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/bf0_hal_rcc.h -> ../drivers/Include/bf0_hal_rcc.h
+[2026-06-30T21:41:27] build round 26 start
+[2026-06-30T21:42:16] build round 26 exit=2
+[2026-06-30T21:47:42] write /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/openvela_local_compat.h
+[2026-06-30T21:47:42] symlink /home/czy/openvela_contest/nuttx/arch/arm/src/sifli_hal -> chip/../drivers/hal
+[2026-06-30T21:47:42] symlink /home/czy/openvela_contest/nuttx/arch/arm/src/sifli_cmsis -> chip/../drivers/cmsis
+[2026-06-30T21:47:42] backup /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/scripts/Make.defs -> /home/czy/openvela_contest/contest2026_039_weilaxinghe/logs/local_build_fix/Make.defs.before_scripts_make_review_restore_20260630
+[2026-06-30T21:47:42] updated /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/scripts/Make.defs
+[2026-06-30T21:47:42] backup /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/Make.defs -> /home/czy/openvela_contest/contest2026_039_weilaxinghe/logs/local_build_fix/Make.defs.before_chip_make_review_restore_20260630
+[2026-06-30T21:47:42] updated /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/Make.defs
+[2026-06-30T21:47:42] backup /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/src/Makefile -> /home/czy/openvela_contest/contest2026_039_weilaxinghe/logs/local_build_fix/Makefile.before_board_src_make_review_restore_20260630
+[2026-06-30T21:47:42] updated /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/src/Makefile
+[2026-06-30T21:47:42] backup /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h -> /home/czy/openvela_contest/contest2026_039_weilaxinghe/logs/local_build_fix/bf0_hal_conf_hcpu.h.before_hal_conf_review_restore_20260630
+[2026-06-30T21:47:42] updated /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h
+[2026-06-30T21:47:42] backup /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h -> /home/czy/openvela_contest/contest2026_039_weilaxinghe/logs/local_build_fix/bf0_hal_conf_lcpu.h.before_hal_conf_review_restore_20260630
+[2026-06-30T21:47:42] updated /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h
+[2026-06-30T21:47:42] backup /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_def.h -> /home/czy/openvela_contest/contest2026_039_weilaxinghe/logs/local_build_fix/bf0_hal_def.h.before_hal_def_review_restore_20260630
+[2026-06-30T21:47:42] updated /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_def.h
+[2026-06-30T21:47:42] backup /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_lcdc.h -> /home/czy/openvela_contest/contest2026_039_weilaxinghe/logs/local_build_fix/bf0_hal_lcdc.h.before_lcdc_review_restore_20260630
+[2026-06-30T21:47:42] updated /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_lcdc.h
+[2026-06-30T21:47:42] backup /home/czy/openvela_contest/vendor/sifli/chips/drivers/hal/bf0_hal_mpi_psram.c -> /home/czy/openvela_contest/contest2026_039_weilaxinghe/logs/local_build_fix/bf0_hal_mpi_psram.c.before_source_include_review_restore_20260630
+[2026-06-30T21:47:42] added #include "bf0_hal_aon.h" to /home/czy/openvela_contest/vendor/sifli/chips/drivers/hal/bf0_hal_mpi_psram.c
+[2026-06-30T21:47:42] backup /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sf32lb_adc.c -> /home/czy/openvela_contest/contest2026_039_weilaxinghe/logs/local_build_fix/sf32lb_adc.c.before_source_include_review_restore_20260630
+[2026-06-30T21:47:42] added #include "bf0_hal_dma.h" to /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sf32lb_adc.c
+[2026-06-30T21:47:42] backup /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sf32lb_flash.c -> /home/czy/openvela_contest/contest2026_039_weilaxinghe/logs/local_build_fix/sf32lb_flash.c.before_source_include_review_restore_20260630
+[2026-06-30T21:47:42] added #include "bf0_hal_dma.h" to /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/sf32lb_flash.c
+[2026-06-30T21:49:17] rewrote chip Make.defs HAL source paths to sifli_hal/*.c
+[2026-06-30T21:50:42] cleaned nested HAL workaround comments in /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h
+[2026-06-30T21:50:42] cleaned nested HAL workaround comments in /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h
+[2026-06-30T21:56:54] symlink /home/czy/openvela_contest/nuttx/arch/arm/src/sifli_external -> chip/../external
+[2026-06-30T21:56:54] added final link-stage chip sources
+[2026-06-30T21:56:54] added final link-stage board sources
+[2026-06-30T21:58:07] added RTOS2 include to /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/scripts/Make.defs
+[2026-06-30T21:58:07] added RTOS2 include to /home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/Make.defs

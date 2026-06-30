@@ -1,0 +1,23 @@
+LIBCLANG_PATH set to: /home/czy/openvela_contest/prebuilts/rust/linux/extra_libs
+including vendor/infineon/boards/aurix/build/vendorsetup.sh
+including vendor/infineon/boards/aurix_tc3/build/vendorsetup.sh
+including vendor/openvela/boards/build/vendorsetup.sh
+Build command line:
+  /home/czy/openvela_contest/nuttx/tools/configure.sh -e /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+  make -C /home/czy/openvela_contest/nuttx EXTRAFLAGS=-Wno-cpp -Wno-deprecated-declarations -j1
+  make -C /home/czy/openvela_contest/nuttx savedefconfig
+No configuration change.
+make: Entering directory '/home/czy/openvela_contest/nuttx'
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+./chip/sifli_spi.c:42:10: fatal error: spi_config.h: No such file or directory
+   42 | #include "spi_config.h"
+      |          ^~~~~~~~~~~~~~
+compilation terminated.
+ERROR: arm-none-eabi-gcc failed: 1
+       command: arm-none-eabi-gcc -MT ./sifli_spi.o  -M '-Wstrict-prototypes' '-Wno-attributes' '-Wno-unknown-pragmas' '-Wno-psabi' '-fno-omit-frame-pointer' '-funwind-tables' '-fasynchronous-unwind-tables' '--param=min-pagesize=0' '-Wno-alloc-size-larger-than' '-fno-common' '-Wall' '-Wshadow' '-Wundef' '-ffunction-sections' '-fdata-sections' '-g3' '-mlittle-endian' '-march=armv7-m' '-mtune=cortex-m3' '-mfloat-abi=soft' '-mfloat-abi=soft' '-mthumb' '-Wa,-mthumb' '-Wa,-mimplicit-it=always' '-isystem' '/home/czy/openvela_contest/nuttx/include' '-D__NuttX__' '-D__KERNEL__' '-Wno-cpp' '-Wno-deprecated-declarations' '-pipe' '-Werror=return-type' '-Werror' '-I' '/home/czy/openvela_contest/apps/crypto/mbedtls/include' '-I' '/home/czy/openvela_contest/apps/crypto/mbedtls/mbedtls/include' '-I' '/home/czy/openvela_contest/apps/frameworks/runtimes/feature/include' '-I' '/home/czy/openvela_contest/apps/external/protobuf-c/protobuf-c' '-I' '/home/czy/openvela_contest/apps/frameworks/security/include' '-I' '/home/czy/openvela_contest/apps/frameworks/system/utils/include' '-I' '/home/czy/openvela_contest/apps/graphics/lvgl' '-I' '/home/czy/openvela_contest/apps/graphics/lvgl/lvgl' '-I' '/home/czy/openvela_contest/apps/include' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/ipc_queue' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/ipc_queue/common' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/ipc_queue/porting/os/vela' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/ipc_queue/porting/sf32lb52x/hcpu' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/chip' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/common' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/armv8-m' '-I' '/home/czy/openvela_contest/nuttx/sched' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/arm_m' ./chip/sifli_spi.c
+make[2]: *** [/home/czy/openvela_contest/nuttx/tools/Config.mk:233: sifli_spi.ddc] Error 1
+make[1]: *** [Makefile:270: .depend] Error 2
+make: *** [tools/Unix.mk:660: pass2dep] Error 2
+make: Leaving directory '/home/czy/openvela_contest/nuttx'
+Error: ############# build /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh fail ##############

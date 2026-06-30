@@ -1,0 +1,13 @@
+    22	#include <nuttx/analog/adc.h>
+    23	#include <nuttx/analog/ioctl.h>
+    24	#include <nuttx/mutex.h>
+    25	
+    26	/* VelaBridge local workaround: bf0_hal_adc.h uses DMA_HandleTypeDef. */
+    27	#include "bf0_hal_dma.h"
+    28	#include "bf0_hal_adc.h"
+    29	#include "bf0_hal_lcpu_config.h"
+    30	#include "gpadc.h"
+    31	
+    32	#include "sf32lb_adc.h"
+    33	
+    34	/****************************************************************************

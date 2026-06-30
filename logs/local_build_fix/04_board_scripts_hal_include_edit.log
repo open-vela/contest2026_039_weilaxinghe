@@ -1,0 +1,34 @@
+    20	
+    21	include $(TOPDIR)/.config
+    22	include $(TOPDIR)/tools/Config.mk
+    23	
+    24	# we need to specify this Toolchain.defs according to chip arch,
+    25	# eg:risc-v, armv8-m, armv7-m
+    26	
+    27	include $(TOPDIR)/arch/arm/src/armv7-m/Toolchain.defs
+    28	
+    29	ARCHSCRIPT += $(BOARD_DIR)$(DELIM)scripts$(DELIM)ld.script
+    30	
+    31	ARCHPICFLAGS = -fpic
+    32	
+    33	# VelaBridge local workaround: board-level SiFli HAL/CMSIS include paths
+    34	# for sf32lb52_lchspi_ulp openvela build diagnosis. Do not submit upstream.
+    35	SIFLI_VENDOR_DIR = $(TOPDIR)$(DELIM)..$(DELIM)vendor$(DELIM)sifli
+    36	ARCHDEFINES += -DSOC_BF0_HCPU=1
+    37	ARCHINCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)drivers$(DELIM)Include
+    38	ARCHINCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)drivers$(DELIM)cmsis$(DELIM)Include
+    39	ARCHINCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)drivers$(DELIM)cmsis$(DELIM)sf32lb52x
+    40	ARCHINCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)external$(DELIM)CMSIS$(DELIM)Include
+    41	ARCHINCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)sf32lb52
+    42	ARCHINCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)sf32lb52$(DELIM)include
+    43	ARCHINCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)boards$(DELIM)include
+    44	ARCHINCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)boards$(DELIM)include$(DELIM)config$(DELIM)sf32lb52x
+    45	ARCHINCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)boards$(DELIM)sf32lb52$(DELIM)sf32lb52_lchspi_ulp$(DELIM)include
+    46	CFLAGS := $(ARCHCFLAGS) $(ARCHOPTIMIZATION) $(ARCHCPUFLAGS) $(ARCHINCLUDES) $(ARCHDEFINES) $(EXTRAFLAGS) -pipe -Werror=return-type -Werror
+    47	CPICFLAGS = $(ARCHPICFLAGS) $(CFLAGS)
+    48	CXXFLAGS := $(ARCHCXXFLAGS) $(ARCHOPTIMIZATION) $(ARCHCPUFLAGS) $(ARCHXXINCLUDES) $(ARCHDEFINES) $(EXTRAFLAGS) -pipe
+    49	CXXPICFLAGS = $(ARCHPICFLAGS) $(CXXFLAGS)
+    50	CPPFLAGS := $(ARCHINCLUDES) $(ARCHDEFINES) $(EXTRAFLAGS)
+    51	AFLAGS := $(CFLAGS) -D__ASSEMBLY__
+    52	
+    53	EXTRA_LIBS += $(wildcard $(shell readlink -f $(TOPDIR)/$(CONFIG_ARCH_BOARD_CUSTOM_DIR)/libs/$(CONFIG_ARCH_BOARD_CUSTOM_NAME))/*.a)

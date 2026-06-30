@@ -1,0 +1,7 @@
+    76	  /* Allocate memory for txbuffer */
+    77	
+    78	  local_trans.txbuffer = (void *)malloc(local_trans.nwords
+    79	                          * (cmd.nbits / 8));
+    80	  if (local_trans.txbuffer == NULL)
+    81	    {
+    82	      syslog(LOG_ERR, "Memory allocation for txbuffer failed!\n");

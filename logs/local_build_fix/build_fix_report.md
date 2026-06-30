@@ -1,80 +1,123 @@
-# SF32LB52 Local Build Fix Report
+# SF32LB52 local build fix report
 
-Date: 2026-06-30T11:41:16+08:00
+日期：2026-06-30
 
-- Team: Weilaxinghe
-- Project: VelaBridge Watch
-- Contest ID: 039
-- openvela workspace: /home/czy/openvela_contest
-- Team repo: /home/czy/openvela_contest/contest2026_039_weilaxinghe
-- Board config: vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+项目：VelaBridge Watch
+队伍：维拉星核
+开发板：黄山派 SF32LB52
+openvela workspace：`/home/czy/openvela_contest`
+队伍仓库：`/home/czy/openvela_contest/contest2026_039_weilaxinghe`
+board config：`vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh`
 
-## Stage Results
+## 结论
 
-| Stage | Result | Log |
-| --- | --- | --- |
-| Stage 0/1: environment check | Done. nuttx, vendor/sifli, and team repo are on dev-ai-contest-2026. Initial PATH did not include arm-none-eabi-gcc; subsequent builds used openvela prebuilt GCC 13.4.0. | 00_env_check.log, 00_prepare_clean_build.log |
-| Stage 2: official clean board build, no workaround | Failed. distclean hit ipc_queue/Make.defs. build hit hard-float FPU error. | 01_clean_build.log |
-| Stage 3: minimal ipc_queue workaround | Done. Created nuttx/arch/arm/src/ipc_queue -> chip/ipc_queue. Rebuild moved to hard-float FPU error. | 02_ipc_fix_analysis.log, 02_after_ipc_fix.log |
-| Stage 4: soft-float workaround | Done. Temporarily changed sf32lb52_lchspi_ulp defconfig to soft-float. Rebuild moved to bf0_hal.h include error. | 03_fpu_analysis_before.log, 03_soft_float_edit.log, 03_after_soft_float.log |
-| Stage 5: enable VelaBridge app | Not run. Clean board build has not passed yet. | - |
-| Stage 6: find firmware artifacts | Board build did not pass. Candidate artifact list was saved only for reference and does not prove this build succeeded. | 05_artifacts.txt |
+- clean board build：已通过。
+- VelaBridge app build：已通过。
+- VelaBridge app 已注册：`Register: velabridge_app`。
+- 固件产物已生成：
+  - `/home/czy/openvela_contest/nuttx/nuttx`
+  - `/home/czy/openvela_contest/nuttx/nuttx.bin`
+- 本次没有自动烧录开发板。
+- 可以进入人工烧录前检查和手动烧录验证阶段，但当前底层修改均为 local workaround，不能直接提交到 `nuttx/` 或 `vendor/sifli/`。
 
-## Local Changes
+## 测试命令
 
-All changes below are local workarounds. Do not commit them to the contest repo or openvela public repos.
+clean board build：
 
-1. nuttx local workaround:
-   - nuttx/arch/arm/src/ipc_queue -> chip/ipc_queue
-   - Purpose: work around relative include of ./ipc_queue/Make.defs from chip/Make.defs.
-
-2. vendor/sifli local workaround:
-   - Modified vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh/defconfig
-   - Disabled FPU / DPFPU / MVE / hard-float and enabled soft-float.
-   - Backup file: vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh/defconfig.velabridge-local-softfloat.bak.20260630113727
-
-## Does This Prove The Blocker Is Board/HAL Rather Than VelaBridge App?
-
-Yes. VelaBridge app was not enabled. The official clean board config already fails before app-level code is involved.
-
-Failure sequence:
-
-1. ipc_queue/Make.defs relative path issue.
-2. FPU hard-float mismatch with current armv7-m / cortex-m3 flags.
-3. After soft-float workaround, build reaches SiFli HAL/CMSIS include issue and stops at bf0_hal.h.
-
-Current blocker remains in the SF32LB52 / SiFli board, HAL, CMSIS, or build config chain, not in VelaBridge app code.
-
-## Last Blocker
-
-```text
-./sifli_ap.c:40:10: fatal error: bf0_hal.h: No such file or directory
+```bash
+cd /home/czy/openvela_contest
+./build.sh vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh distclean
+./build.sh vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh -j1
 ```
 
-See last_errors.txt for extracted key errors.
+VelaBridge app build：
 
-## Firmware Artifacts
+```bash
+cd /home/czy/openvela_contest
+./build.sh vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh -j1
+```
 
-The build did not finish. Do not claim firmware was generated or is flashable.
+关键日志：
 
-Artifact scan output was saved to 05_artifacts.txt. Any files listed there are only candidates from the workspace and do not prove this run succeeded.
+- clean board build 日志：`logs/local_build_fix/04_after_aon_distclean_rebuild.log`
+- VelaBridge app build 日志：`logs/local_build_fix/05_velabridge_build.log`
+- 产物清单：`logs/local_build_fix/06_artifacts.txt`
 
-## Can We Move To Flashing?
+## 产物
 
-No. Clean board build has not passed, and there is no confirmed bin/elf/hex/img artifact from this run.
+`logs/local_build_fix/06_artifacts.txt` 记录的相关产物：
 
-## Next Suggestions
+```text
+/home/czy/openvela_contest/nuttx/nuttx        12944 KB
+/home/czy/openvela_contest/nuttx/nuttx.bin    1480 KB
+```
 
-1. Do not batch-symlink HAL/CMSIS headers. Do not overwrite chip.h.
-2. Do not hand-write rtconfig.h or random HAL macros as a formal fix.
-3. Report to official maintainers that sf32lb52_lchspi_ulp + openvela build.sh + vendor/sifli dev-ai-contest-2026 still fails on clean board build.
-4. Ask which Make.defs / CMakeLists / config is supposed to inject HAL/CMSIS include paths for sf32lb52_lchspi_ulp under openvela build.sh.
-5. Ask whether hard-float should be disabled by default or whether different arch/toolchain flags are required.
-6. Continue VelaBridge Watch app-layer work such as AI Bridge, UI state machine, protocol, and user research while waiting for the lower-level build fix.
+`05_velabridge_build.log` 中最终内存摘要：
 
-## Warnings
+```text
+flash: 1514192 B / 16 MB, 9.03%
+sram: 119784 B / 512 KB, 22.85%
+psram: 0 B / 8 MB, 0.00%
+CP: nuttx.bin
+```
 
-- Do not commit nuttx/ or vendor/sifli/ local workarounds.
-- Do not commit build artifacts.
-- Do not modify openvela.xml.
-- Do not flash the board automatically.
+## 本地修改记录
+
+以下修改只用于本地诊断和打通构建链路，不能直接提交到底层仓库：
+
+- `nuttx/arch/arm/src/ipc_queue -> chip/ipc_queue`
+- `nuttx/arch/arm/src/sifli_hal -> chip/../drivers/hal`
+- `nuttx/arch/arm/src/sifli_cmsis -> chip/../drivers/cmsis`
+- `vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh/defconfig`
+  - soft-float workaround
+  - 启用 `CONFIG_LVX_USE_DEMO_CONTEST2026_039_VELABRIDGE_APP=y`
+- `vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/scripts/Make.defs`
+  - 增加 SiFli HAL/CMSIS include path
+  - 增加 `SOC_BF0_HCPU`、`SF32LB52X`、`USE_HAL_DRIVER`、`HAL_TICK_PER_SECOND`
+  - 临时降低部分 HAL warning 的致命性
+- `vendor/sifli/chips/sf32lb52/Make.defs`
+  - `ipc_queue/Make.defs` 改为 `chip/ipc_queue/Make.defs`
+  - 加入官方 HAL/CMSIS/GPIO/AON/LCPU/SysTick 源文件
+- `vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h`
+- `vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h`
+  - 增加 HAL callback 默认宏
+  - 保持 PTC、SDADC 等不匹配模块关闭
+  - 恢复 AON 模块以链接 HPAON/LPAON 实现
+- `vendor/sifli/chips/drivers/Include/bf0_hal_def.h`
+  - 增加 `DMA_HandleTypeDef` 前置声明，绕过 HAL DMA 循环 include
+- `vendor/sifli/chips/drivers/Include/bf0_hal_lcdc.h`
+  - 临时关闭 `HAL_RAMLESS_LCD_ENABLED`，避免 RAMLESS LCD 路径依赖当前未启用的 PTC 常量
+- `vendor/sifli/chips/drivers/hal/bf0_hal_mpi_psram.c`
+  - include `bf0_hal_aon.h`
+- `vendor/sifli/chips/sf32lb52/sf32lb_adc.c`
+- `vendor/sifli/chips/sf32lb52/sf32lb_flash.c`
+  - include `bf0_hal_dma.h`
+- `vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/src/Makefile`
+  - 增加官方板级 BSP、LCD、触摸、CO5300 源文件
+- `apps/examples/spi/spi_main.c`
+  - 修复一个导致编译失败的异常中文顿号字符
+
+## 阶段结果
+
+- 阶段 1：官方 clean build 初始失败，blocker 是 `ipc_queue/Make.defs` 路径缺失。
+- 阶段 2：修复 ipc_queue 路径后进入 FPU hard-float 错误。
+- 阶段 3：切到 soft-float 后进入 SiFli HAL/CMSIS include 和宏配置问题。
+- 阶段 4：补齐 HAL/CMSIS include、官方源文件、AON/LCPU/SysTick 后 clean board build 通过。
+- 阶段 5：启用 VelaBridge app 后 build 通过，日志显示 `Register: velabridge_app`。
+- 阶段 6：找到可烧录候选产物 `nuttx.bin`。
+
+## 风险
+
+- 当前成功是本地 workaround 叠加后的结果，不等价于官方推荐配置开箱即用。
+- 还没有烧录到黄山派 SF32LB52，也没有验证运行时串口、屏幕、触摸、按键、震动、音频。
+- RAMLESS LCD 和 PTC 相关配置被临时关闭，可能影响具体 LCD 刷新路径，需要官方确认正确配置。
+- soft-float、HAL 模块裁剪、源文件列表补齐方式都需要官方或维护者确认后再固化。
+- `nuttx/`、`vendor/sifli/`、`apps/`、`packages/` 中的对象文件、symlink、底层修改和 build 产物不要提交。
+
+## 下一步建议
+
+1. 人工确认烧录工具、烧录地址和黄山派 SF32LB52 官方烧录流程。
+2. 手动烧录 `/home/czy/openvela_contest/nuttx/nuttx.bin`，不要让 Codex 自动烧录。
+3. 串口使用 CH340 COM5 / 1000000 波特率观察 boot log。
+4. 验证 `velabridge_app` 是否能启动并打印状态机 boot log。
+5. 将本地 workaround 整理成最小补丁，优先提交给官方或在 issue 中询问推荐修法，不要直接把底层临时改动推到比赛仓库。

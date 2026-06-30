@@ -1,0 +1,7 @@
+PTC disabled in HAL config as local workaround
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:49:// VelaBridge local workaround: disabled PTC for sf32lb52 build diagnosis; bf0_hal_ptc.h reports Not supported yet.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:50:// #define HAL_PTC_ENABLED
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:404:#ifdef HAL_PTC_ENABLED
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h:35:// VelaBridge local workaround: disabled PTC for sf32lb52 build diagnosis; bf0_hal_ptc.h reports Not supported yet.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h:36:// #define HAL_PTC_ENABLED
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h:352:#ifdef HAL_PTC_ENABLED

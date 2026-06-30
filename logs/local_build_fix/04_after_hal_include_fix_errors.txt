@@ -1,0 +1,291 @@
+--- errors ---
+263:sifli_hal/bf0_hal_gpio.c:544:26: warning: implicit declaration of function 'HAL_HPAON_QueryWakeupPin' [-Wimplicit-function-declaration]
+266:sifli_hal/bf0_hal_gpio.c:547:17: warning: implicit declaration of function 'HAL_HPAON_CLEAR_WSR'; did you mean 'HAL_PMU_CLEAR_WSR'? [-Wimplicit-function-declaration]
+270:sifli_hal/bf0_hal_gpio.c:553:26: warning: implicit declaration of function 'HAL_LPAON_QueryWakeupPin' [-Wimplicit-function-declaration]
+273:sifli_hal/bf0_hal_gpio.c:556:17: warning: implicit declaration of function 'HAL_LPAON_CLEAR_WSR'; did you mean 'HAL_PMU_CLEAR_WSR'? [-Wimplicit-function-declaration]
+358:sifli_hal/bf0_hal_hcd.c:1566:5: warning: "USB_RX_DMA_ENABLED" is not defined, evaluates to 0 [-Wundef]
+497:sifli_hal/bf0_hal_i2c.c:76:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+500:sifli_hal/bf0_hal_i2c.c:83:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+503:sifli_hal/bf0_hal_i2c.c:91:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+506:sifli_hal/bf0_hal_i2c.c:107:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+509:sifli_hal/bf0_hal_i2c.c:114:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+512:sifli_hal/bf0_hal_i2c.c:1922:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+515:sifli_hal/bf0_hal_i2c.c:2216:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+518:sifli_hal/bf0_hal_i2c.c:2346:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+521:sifli_hal/bf0_hal_i2c.c:4068:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+524:sifli_hal/bf0_hal_i2c.c:4560:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+527:sifli_hal/bf0_hal_i2c.c:4794:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+530:sifli_hal/bf0_hal_i2c.c:4909:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+533:sifli_hal/bf0_hal_i2c.c:5217:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+536:sifli_hal/bf0_hal_i2c.c:5530:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+539:sifli_hal/bf0_hal_i2c.c:5572:5: warning: "HAL_I2CSLAVE_MODULE_ENABLED" is not defined, evaluates to 0 [-Wundef]
+614:sifli_hal/bf0_hal_lcdc.c:3310:67: error: 'PTC_OP_WRITE' undeclared (first use in this function)
+623:sifli_hal/bf0_hal_lcdc.c:3310:67: note: each undeclared identifier is reported only once for each function it appears in
+632:sifli_hal/bf0_hal_lcdc.c:3311:14: error: 'PTC_HCPU_PTC1_DONE1' undeclared (first use in this function)
+641:sifli_hal/bf0_hal_lcdc.c:3312:18: error: 'PTC_HCPU_PTC1_DONE2' undeclared (first use in this function)
+647:sifli_hal/bf0_hal_lcdc.c:3206:95: error: 'PTC_OP_ADD' undeclared (first use in this function)
+656:sifli_hal/bf0_hal_lcdc.c:3316:29: error: 'PTC_HCPU_PTC1_DONE3' undeclared (first use in this function)
+665:sifli_hal/bf0_hal_lcdc.c:3326:140: error: 'PTC_OP_OR' undeclared (first use in this function)
+671:sifli_hal/bf0_hal_lcdc.c:3354:65: error: 'PTC_OP_AND' undeclared (first use in this function)
+680:sifli_hal/bf0_hal_lcdc.c:3358:14: error: 'PTC_HCPU_LCDC1_DONE' undeclared (first use in this function)
+689:sifli_hal/bf0_hal_lcdc.c:3367:54: error: 'PTC_HCPU_PTC1_DONE8' undeclared (first use in this function)
+698:sifli_hal/bf0_hal_lcdc.c:3371:24: error: 'PTC_HCPU_PTC1_DONE5' undeclared (first use in this function)
+707:sifli_hal/bf0_hal_lcdc.c:3394:75: error: 'PTC_HCPU_PTC1_DONE4' undeclared (first use in this function)
+716:sifli_hal/bf0_hal_lcdc.c:3153:30: error: 'PTC_HCPU_BTIM2_UPDATE' undeclared (first use in this function); did you mean 'PTC_BTIM_UPDATE'?
+729:sifli_hal/bf0_hal_lcdc.c:3490:51: error: 'PTC_OP_AND' undeclared (first use in this function)
+738:sifli_hal/bf0_hal_lcdc.c:3491:52: error: 'PTC_OP_OR' undeclared (first use in this function)
+747:sifli_hal/bf0_hal_lcdc.c:3497:50: error: 'PTC_OP_WRITE' undeclared (first use in this function)
+757:sifli_hal/bf0_hal_lcdc.c:3545:65: error: 'PTC_OP_AND' undeclared (first use in this function)
+766:sifli_hal/bf0_hal_lcdc.c:3546:65: error: 'PTC_OP_OR' undeclared (first use in this function)
+775:sifli_hal/bf0_hal_lcdc.c:3206:95: error: 'PTC_OP_ADD' undeclared (first use in this function)
+784:sifli_hal/bf0_hal_lcdc.c:3207:95: error: 'PTC_OP_WRITE' undeclared (first use in this function)
+793:sifli_hal/bf0_hal_lcdc.c:3557:25: error: 'PTC_HCPU_LCDC1_BUSY' undeclared (first use in this function)
+802:sifli_hal/bf0_hal_lcdc.c:3565:14: error: 'PTC_HCPU_PTC1_DONE5' undeclared (first use in this function)
+812:sifli_hal/bf0_hal_lcdc.c:3207:95: error: 'PTC_OP_WRITE' undeclared (first use in this function)
+821:sifli_hal/bf0_hal_lcdc.c:3627:25: error: 'PTC_HCPU_LCDC1_BUSY' undeclared (first use in this function)
+830:sifli_hal/bf0_hal_lcdc.c:3628:67: error: 'PTC_OP_AND' undeclared (first use in this function)
+839:sifli_hal/bf0_hal_lcdc.c:3633:14: error: 'PTC_HCPU_PTC1_DONE6' undeclared (first use in this function)
+848:sifli_hal/bf0_hal_lcdc.c:3206:95: error: 'PTC_OP_ADD' undeclared (first use in this function)
+857:sifli_hal/bf0_hal_lcdc.c:3677:62: error: 'PTC_OP_OR' undeclared (first use in this function)
+
+--- tail ---
+      |                                                           ^~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3311:5: note: in expansion of macro 'PTC_CODE'
+ 3311 |     PTC_CODE(PTC_HCPU_PTC1_DONE1,        &(hwp_lcdc1->LCD_SINGLE),      PTC_OP_WRITE, lcdc_single_wr);    //send command,
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3312:18: error: 'PTC_HCPU_PTC1_DONE2' undeclared (first use in this function)
+ 3312 |     PTC_CODE_EXT(PTC_HCPU_PTC1_DONE2, cmd_duration_tick + porch_interval_tick, 1,  &(hwp_ptc1->MEM1),              PTC_OP_WRITE, 0);
+      |                  ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:59: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                                           ^~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3206:95: error: 'PTC_OP_ADD' undeclared (first use in this function)
+ 3206 | #define PTC_CODE_SET_NEXT_PHASE(trigger)    PTC_CODE_EXT((trigger), 0, 0, &(p_DMACH0->CM0AR), PTC_OP_ADD, PTC_TABLE_BYTE)
+      |                                                                                               ^~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3316:5: note: in expansion of macro 'PTC_CODE_SET_NEXT_PHASE'
+ 3316 |     PTC_CODE_SET_NEXT_PHASE(PTC_HCPU_PTC1_DONE3);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3316:29: error: 'PTC_HCPU_PTC1_DONE3' undeclared (first use in this function)
+ 3316 |     PTC_CODE_SET_NEXT_PHASE(PTC_HCPU_PTC1_DONE3);
+      |                             ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:59: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                                           ^~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3316:5: note: in expansion of macro 'PTC_CODE_SET_NEXT_PHASE'
+ 3316 |     PTC_CODE_SET_NEXT_PHASE(PTC_HCPU_PTC1_DONE3);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3326:140: error: 'PTC_OP_OR' undeclared (first use in this function)
+ 3326 |     PTC_CODE_EXT(PTC_HCPU_PTC1_DONE1,        cmd_duration_tick + porch_interval_tick,  front_porch_num - 1, &(hwp_ptc1->TCR1),             PTC_OP_OR,   PTC_TCR1_SWTRIG);
+      |                                                                                                                                            ^~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3354:65: error: 'PTC_OP_AND' undeclared (first use in this function)
+ 3354 |     PTC_CODE(PTC_DMACH0_TC,      &(hwp_lcdc1->SPI_IF_CONF),     PTC_OP_AND, ~LCD_IF_SPI_IF_CONF_SPI_CS_AUTO_DIS);    /*hold spi_cs */
+      |                                                                 ^~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3354:5: note: in expansion of macro 'PTC_CODE'
+ 3354 |     PTC_CODE(PTC_DMACH0_TC,      &(hwp_lcdc1->SPI_IF_CONF),     PTC_OP_AND, ~LCD_IF_SPI_IF_CONF_SPI_CS_AUTO_DIS);    /*hold spi_cs */
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3358:14: error: 'PTC_HCPU_LCDC1_DONE' undeclared (first use in this function)
+ 3358 |     PTC_CODE(PTC_HCPU_LCDC1_DONE,     &(hwp_lcdc1->CANVAS_TL_POS),   PTC_OP_ADD, 1 << LCD_IF_CANVAS_TL_POS_Y0_Pos);    //set data address for next line,
+      |              ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:59: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                                           ^~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3358:5: note: in expansion of macro 'PTC_CODE'
+ 3358 |     PTC_CODE(PTC_HCPU_LCDC1_DONE,     &(hwp_lcdc1->CANVAS_TL_POS),   PTC_OP_ADD, 1 << LCD_IF_CANVAS_TL_POS_Y0_Pos);    //set data address for next line,
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3367:54: error: 'PTC_HCPU_PTC1_DONE8' undeclared (first use in this function)
+ 3367 |     PTC_CODE_DELAY_TO_JUMP_PHASE(line_interval_tick, PTC_HCPU_PTC1_DONE8);//5
+      |                                                      ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:59: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                                           ^~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3367:5: note: in expansion of macro 'PTC_CODE_DELAY_TO_JUMP_PHASE'
+ 3367 |     PTC_CODE_DELAY_TO_JUMP_PHASE(line_interval_tick, PTC_HCPU_PTC1_DONE8);//5
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3371:24: error: 'PTC_HCPU_PTC1_DONE5' undeclared (first use in this function)
+ 3371 |     PTC_CODE_SET_PHASE(PTC_HCPU_PTC1_DONE5, 6); //3.if
+      |                        ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:59: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                                           ^~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3371:5: note: in expansion of macro 'PTC_CODE_SET_PHASE'
+ 3371 |     PTC_CODE_SET_PHASE(PTC_HCPU_PTC1_DONE5, 6); //3.if
+      |     ^~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3394:75: error: 'PTC_HCPU_PTC1_DONE4' undeclared (first use in this function)
+ 3394 |     PTC_CODE_DELAY_TO_JUMP_PHASE(cmd_duration_tick + porch_interval_tick, PTC_HCPU_PTC1_DONE4);
+      |                                                                           ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:59: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                                           ^~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3394:5: note: in expansion of macro 'PTC_CODE_DELAY_TO_JUMP_PHASE'
+ 3394 |     PTC_CODE_DELAY_TO_JUMP_PHASE(cmd_duration_tick + porch_interval_tick, PTC_HCPU_PTC1_DONE4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3153:30: error: 'PTC_HCPU_BTIM2_UPDATE' undeclared (first use in this function); did you mean 'PTC_BTIM_UPDATE'?
+ 3153 | #define PTC_BTIM_UPDATE      PTC_HCPU_BTIM2_UPDATE
+      |                              ^~~~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:59: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                                           ^~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3441:5: note: in expansion of macro 'PTC_CODE'
+ 3441 |     PTC_CODE(PTC_BTIM_UPDATE,  &(hwp_ptc1->MEM3),    PTC_OP_OR, RAMLESS_DONE_MAGIC_FLAG); //Stop flag
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3441:14: note: in expansion of macro 'PTC_BTIM_UPDATE'
+ 3441 |     PTC_CODE(PTC_BTIM_UPDATE,  &(hwp_ptc1->MEM3),    PTC_OP_OR, RAMLESS_DONE_MAGIC_FLAG); //Stop flag
+      |              ^~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c: In function 'SPI_AUX_HW_FSM_STOP':
+sifli_hal/bf0_hal_lcdc.c:3490:51: error: 'PTC_OP_AND' undeclared (first use in this function)
+ 3490 |     PTC_CODE(PTC_DMACH0_TC,  &(PTC_btim->CR1),    PTC_OP_AND,   ~BTIM_CR1_CEN);    //Stop BTIM2
+      |                                                   ^~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3490:5: note: in expansion of macro 'PTC_CODE'
+ 3490 |     PTC_CODE(PTC_DMACH0_TC,  &(PTC_btim->CR1),    PTC_OP_AND,   ~BTIM_CR1_CEN);    //Stop BTIM2
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3491:52: error: 'PTC_OP_OR' undeclared (first use in this function)
+ 3491 |     PTC_CODE(PTC_DMACH0_TC,  &(hwp_ptc1->MEM3),    PTC_OP_OR, RAMLESS_DONE_MAGIC_FLAG); //Stop flag
+      |                                                    ^~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3491:5: note: in expansion of macro 'PTC_CODE'
+ 3491 |     PTC_CODE(PTC_DMACH0_TC,  &(hwp_ptc1->MEM3),    PTC_OP_OR, RAMLESS_DONE_MAGIC_FLAG); //Stop flag
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3497:50: error: 'PTC_OP_WRITE' undeclared (first use in this function)
+ 3497 |     PTC_CODE(PTC_DMACH0_TC,  &(p_DMACH0->CCR),   PTC_OP_WRITE, ~DMAC_CCR8_EN);    //Stop dma
+      |                                                  ^~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3497:5: note: in expansion of macro 'PTC_CODE'
+ 3497 |     PTC_CODE(PTC_DMACH0_TC,  &(p_DMACH0->CCR),   PTC_OP_WRITE, ~DMAC_CCR8_EN);    //Stop dma
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c: In function 'RAMLESS_HW_FSM_READ_DATAS_START':
+sifli_hal/bf0_hal_lcdc.c:3545:65: error: 'PTC_OP_AND' undeclared (first use in this function)
+ 3545 |     PTC_CODE(PTC_DMACH0_TC,      &(hwp_lcdc1->SPI_IF_CONF),     PTC_OP_AND,  ~(LCD_IF_SPI_IF_CONF_CLK_DIV_Msk));
+      |                                                                 ^~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3545:5: note: in expansion of macro 'PTC_CODE'
+ 3545 |     PTC_CODE(PTC_DMACH0_TC,      &(hwp_lcdc1->SPI_IF_CONF),     PTC_OP_AND,  ~(LCD_IF_SPI_IF_CONF_CLK_DIV_Msk));
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3546:65: error: 'PTC_OP_OR' undeclared (first use in this function)
+ 3546 |     PTC_CODE(PTC_DMACH0_TC,      &(hwp_lcdc1->SPI_IF_CONF),     PTC_OP_OR,  clk_div << LCD_IF_SPI_IF_CONF_CLK_DIV_Pos);
+      |                                                                 ^~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3546:5: note: in expansion of macro 'PTC_CODE'
+ 3546 |     PTC_CODE(PTC_DMACH0_TC,      &(hwp_lcdc1->SPI_IF_CONF),     PTC_OP_OR,  clk_div << LCD_IF_SPI_IF_CONF_CLK_DIV_Pos);
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3206:95: error: 'PTC_OP_ADD' undeclared (first use in this function)
+ 3206 | #define PTC_CODE_SET_NEXT_PHASE(trigger)    PTC_CODE_EXT((trigger), 0, 0, &(p_DMACH0->CM0AR), PTC_OP_ADD, PTC_TABLE_BYTE)
+      |                                                                                               ^~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3551:5: note: in expansion of macro 'PTC_CODE_SET_NEXT_PHASE'
+ 3551 |     PTC_CODE_SET_NEXT_PHASE(PTC_DMACH0_TC);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3207:95: error: 'PTC_OP_WRITE' undeclared (first use in this function)
+ 3207 | #define PTC_CODE_JUMP_PHASE(trigger)        PTC_CODE_EXT((trigger), 0, 0, &(p_DMACH0->CNDTR), PTC_OP_WRITE, PTC_TABLE_WORD)
+      |                                                                                               ^~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3552:5: note: in expansion of macro 'PTC_CODE_JUMP_PHASE'
+ 3552 |     PTC_CODE_JUMP_PHASE(PTC_DMACH0_TC);
+      |     ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3557:25: error: 'PTC_HCPU_LCDC1_BUSY' undeclared (first use in this function)
+ 3557 |     PTC_CODE_JUMP_PHASE(PTC_HCPU_LCDC1_BUSY | PTC_TCR1_TRIGPOL);
+      |                         ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:59: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                                           ^~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3557:5: note: in expansion of macro 'PTC_CODE_JUMP_PHASE'
+ 3557 |     PTC_CODE_JUMP_PHASE(PTC_HCPU_LCDC1_BUSY | PTC_TCR1_TRIGPOL);
+      |     ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3565:14: error: 'PTC_HCPU_PTC1_DONE5' undeclared (first use in this function)
+ 3565 |     PTC_CODE(PTC_HCPU_PTC1_DONE5,        &(hwp_lcdc1->LCD_SINGLE),      PTC_OP_WRITE,     lcdc_single_rr);    //send command,
+      |              ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:59: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                                           ^~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3565:5: note: in expansion of macro 'PTC_CODE'
+ 3565 |     PTC_CODE(PTC_HCPU_PTC1_DONE5,        &(hwp_lcdc1->LCD_SINGLE),      PTC_OP_WRITE,     lcdc_single_rr);    //send command,
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c: In function 'RAMLESS_HW_FSM_WRITE_DATAS_START':
+sifli_hal/bf0_hal_lcdc.c:3207:95: error: 'PTC_OP_WRITE' undeclared (first use in this function)
+ 3207 | #define PTC_CODE_JUMP_PHASE(trigger)        PTC_CODE_EXT((trigger), 0, 0, &(p_DMACH0->CNDTR), PTC_OP_WRITE, PTC_TABLE_WORD)
+      |                                                                                               ^~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3627:5: note: in expansion of macro 'PTC_CODE_JUMP_PHASE'
+ 3627 |     PTC_CODE_JUMP_PHASE(PTC_HCPU_LCDC1_BUSY | PTC_TCR1_TRIGPOL);
+      |     ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3627:25: error: 'PTC_HCPU_LCDC1_BUSY' undeclared (first use in this function)
+ 3627 |     PTC_CODE_JUMP_PHASE(PTC_HCPU_LCDC1_BUSY | PTC_TCR1_TRIGPOL);
+      |                         ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:59: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                                           ^~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3627:5: note: in expansion of macro 'PTC_CODE_JUMP_PHASE'
+ 3627 |     PTC_CODE_JUMP_PHASE(PTC_HCPU_LCDC1_BUSY | PTC_TCR1_TRIGPOL);
+      |     ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3628:67: error: 'PTC_OP_AND' undeclared (first use in this function)
+ 3628 |     PTC_CODE(PTC_DMACH0_TC,        &(hwp_lcdc1->SPI_IF_CONF),     PTC_OP_AND, ~LCD_IF_SPI_IF_CONF_SPI_CS_AUTO_DIS);    /*hold spi_cs */
+      |                                                                   ^~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3628:5: note: in expansion of macro 'PTC_CODE'
+ 3628 |     PTC_CODE(PTC_DMACH0_TC,        &(hwp_lcdc1->SPI_IF_CONF),     PTC_OP_AND, ~LCD_IF_SPI_IF_CONF_SPI_CS_AUTO_DIS);    /*hold spi_cs */
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3633:14: error: 'PTC_HCPU_PTC1_DONE6' undeclared (first use in this function)
+ 3633 |     PTC_CODE(PTC_HCPU_PTC1_DONE6,  &(hwp_lcdc1->LCD_SINGLE),      PTC_OP_WRITE, lcdc_single_wr);    //send command,
+      |              ^~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:59: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                                           ^~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3633:5: note: in expansion of macro 'PTC_CODE'
+ 3633 |     PTC_CODE(PTC_HCPU_PTC1_DONE6,  &(hwp_lcdc1->LCD_SINGLE),      PTC_OP_WRITE, lcdc_single_wr);    //send command,
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3206:95: error: 'PTC_OP_ADD' undeclared (first use in this function)
+ 3206 | #define PTC_CODE_SET_NEXT_PHASE(trigger)    PTC_CODE_EXT((trigger), 0, 0, &(p_DMACH0->CM0AR), PTC_OP_ADD, PTC_TABLE_BYTE)
+      |                                                                                               ^~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3634:5: note: in expansion of macro 'PTC_CODE_SET_NEXT_PHASE'
+ 3634 |     PTC_CODE_SET_NEXT_PHASE(PTC_DMACH0_TC);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3677:62: error: 'PTC_OP_OR' undeclared (first use in this function)
+ 3677 |     PTC_CODE(PTC_DMACH0_TC,   &(hwp_lcdc1->SPI_IF_CONF),     PTC_OP_OR, (data_len_mod4 - 1) << LCD_IF_SPI_IF_CONF_WR_LEN_Pos);
+      |                                                              ^~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3187:32: note: in definition of macro 'PTC_CODE_EXT'
+ 3187 |         uint32_t _ptc_reg = (((op) << PTC_TCR1_OP_Pos) | (trigger));\
+      |                                ^~
+sifli_hal/bf0_hal_lcdc.c:3677:5: note: in expansion of macro 'PTC_CODE'
+ 3677 |     PTC_CODE(PTC_DMACH0_TC,   &(hwp_lcdc1->SPI_IF_CONF),     PTC_OP_OR, (data_len_mod4 - 1) << LCD_IF_SPI_IF_CONF_WR_LEN_Pos);
+      |     ^~~~~~~~
+sifli_hal/bf0_hal_lcdc.c: At top level:
+sifli_hal/bf0_hal_lcdc.c:5258:26: warning: 'LCDC_RAMLESS_Start' defined but not used [-Wunused-function]
+ 5258 | static HAL_StatusTypeDef LCDC_RAMLESS_Start(LCDC_HandleTypeDef *lcdc)
+      |                          ^~~~~~~~~~~~~~~~~~
+sifli_hal/bf0_hal_lcdc.c:3160:26: warning: 'hdma_ptc_ch0' defined but not used [-Wunused-variable]
+ 3160 | static DMA_HandleTypeDef hdma_ptc_ch0 = {0};
+      |                          ^~~~~~~~~~~~
+make[1]: *** [Makefile:170: sifli_hal/bf0_hal_lcdc.o] Error 1
+make: *** [tools/LibTargets.mk:170: arch/arm/src/libarch.a] Error 2
+make: Leaving directory '/home/czy/openvela_contest/nuttx'
+Error: ############# build /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh fail ##############

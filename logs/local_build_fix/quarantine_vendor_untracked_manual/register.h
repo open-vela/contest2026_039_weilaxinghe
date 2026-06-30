@@ -1,0 +1,1 @@
+/home/czy/openvela_contest/vendor/sifli/chips/drivers/cmsis/sf32lb58x/register.h

@@ -1,0 +1,169 @@
+LIBCLANG_PATH set to: /home/czy/openvela_contest/prebuilts/rust/linux/extra_libs
+including vendor/infineon/boards/aurix/build/vendorsetup.sh
+including vendor/infineon/boards/aurix_tc3/build/vendorsetup.sh
+including vendor/openvela/boards/build/vendorsetup.sh
+Build command line:
+  /home/czy/openvela_contest/nuttx/tools/configure.sh -e /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+  make -C /home/czy/openvela_contest/nuttx EXTRAFLAGS=-Wno-cpp -Wno-deprecated-declarations -j1
+  make -C /home/czy/openvela_contest/nuttx savedefconfig
+No configuration change.
+make: Entering directory '/home/czy/openvela_contest/nuttx'
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+[1KCC:  misc/lib_utsname.c [1K[1KIN: libs/libc/libc.a -> staging/libc.a [1KMakefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+[1KCC:  chip/sf32lb_adc.c In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:247,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal.h:22,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/cmsis/sf32lb52x/register.h:720,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_def.h:52,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_dma.h:16,
+                 from chip/sf32lb_adc.c:27:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_adc.h:140:5: error: unknown type name 'DMA_HandleTypeDef'
+  140 |     DMA_HandleTypeDef             *DMA_Handle;            /*!< Pointer DMA Handler */
+      |     ^~~~~~~~~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_mpi_ex.h:15,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:279:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_mpi.h:257:5: error: unknown type name 'DMA_HandleTypeDef'
+  257 |     DMA_HandleTypeDef                 *dma;         /*!< DMA handler */
+      |     ^~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_mpi_ex.h:311:34: error: unknown type name 'DMA_HandleTypeDef'; did you mean 'CRC_HandleTypeDef'?
+  311 |                                  DMA_HandleTypeDef *dma, struct dma_config *dma_cfg, uint16_t clk_div);
+      |                                  ^~~~~~~~~~~~~~~~~
+      |                                  CRC_HandleTypeDef
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_mpi_ex.h:524:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  524 | int HAL_QSPI_ENABLE_WDT();
+      | ^~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:283:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_i2c.h:190:5: error: unknown type name 'DMA_HandleTypeDef'
+  190 |     DMA_HandleTypeDef          *hdmatx;        /*!< I2C Tx DMA handle parameters              */
+      |     ^~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_i2c.h:192:5: error: unknown type name 'DMA_HandleTypeDef'
+  192 |     DMA_HandleTypeDef          *hdmarx;        /*!< I2C Rx DMA handle parameters              */
+      |     ^~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_i2c.h:585:68: warning: 'struct dma_config' declared inside parameter list will not be visible outside of this definition or declaration
+  585 | HAL_StatusTypeDef HAL_I2C_DMA_Init(I2C_HandleTypeDef *hi2c, struct dma_config *dma_rx, struct dma_config *dma_tx);
+      |                                                                    ^~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:287:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_i2s.h:120:5: error: unknown type name 'DMA_HandleTypeDef'
+  120 |     DMA_HandleTypeDef          *hdmatx;      /*!< I2S Tx DMA handle parameters */
+      |     ^~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_i2s.h:122:5: error: unknown type name 'DMA_HandleTypeDef'
+  122 |     DMA_HandleTypeDef          *hdmarx;      /*!< I2S Rx DMA handle parameters */
+      |     ^~~~~~~~~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:315:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_spi.h:134:5: error: unknown type name 'DMA_HandleTypeDef'
+  134 |     DMA_HandleTypeDef          *hdmatx;        /*!< SPI Tx DMA Handle parameters             */
+      |     ^~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_spi.h:136:5: error: unknown type name 'DMA_HandleTypeDef'
+  136 |     DMA_HandleTypeDef          *hdmarx;        /*!< SPI Rx DMA Handle parameters             */
+      |     ^~~~~~~~~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:319:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_tim.h:282:5: error: unknown type name 'DMA_HandleTypeDef'
+  282 |     DMA_HandleTypeDef           *hdma[7];      /*!< DMA Handlers array
+      |     ^~~~~~~~~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_tim.h:1289:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_tim_ex.h:256:31: error: unknown type name 'DMA_HandleTypeDef'; did you mean 'GPT_HandleTypeDef'?
+  256 | void TIMEx_DMACommutationCplt(DMA_HandleTypeDef *hdma);
+      |                               ^~~~~~~~~~~~~~~~~
+      |                               GPT_HandleTypeDef
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_tim_ex.h:257:35: error: unknown type name 'DMA_HandleTypeDef'; did you mean 'GPT_HandleTypeDef'?
+  257 | void TIMEx_DMACommutationHalfCplt(DMA_HandleTypeDef *hdma);
+      |                                   ^~~~~~~~~~~~~~~~~
+      |                                   GPT_HandleTypeDef
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_tim.h:2665:28: error: unknown type name 'DMA_HandleTypeDef'; did you mean 'GPT_HandleTypeDef'?
+ 2665 | void GPT_DMADelayPulseCplt(DMA_HandleTypeDef *hdma);
+      |                            ^~~~~~~~~~~~~~~~~
+      |                            GPT_HandleTypeDef
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_tim.h:2666:19: error: unknown type name 'DMA_HandleTypeDef'; did you mean 'GPT_HandleTypeDef'?
+ 2666 | void GPT_DMAError(DMA_HandleTypeDef *hdma);
+      |                   ^~~~~~~~~~~~~~~~~
+      |                   GPT_HandleTypeDef
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_tim.h:2667:25: error: unknown type name 'DMA_HandleTypeDef'; did you mean 'GPT_HandleTypeDef'?
+ 2667 | void GPT_DMACaptureCplt(DMA_HandleTypeDef *hdma);
+      |                         ^~~~~~~~~~~~~~~~~
+      |                         GPT_HandleTypeDef
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_tim.h:2668:29: error: unknown type name 'DMA_HandleTypeDef'; did you mean 'GPT_HandleTypeDef'?
+ 2668 | void GPT_DMACaptureHalfCplt(DMA_HandleTypeDef *hdma);
+      |                             ^~~~~~~~~~~~~~~~~
+      |                             GPT_HandleTypeDef
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:327:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_uart.h:230:5: error: unknown type name 'DMA_HandleTypeDef'
+  230 |     DMA_HandleTypeDef        *hdmatx;                  /*!< UART Tx DMA Handle parameters      */
+      |     ^~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_uart.h:232:5: error: unknown type name 'DMA_HandleTypeDef'
+  232 |     DMA_HandleTypeDef        *hdmarx;                  /*!< UART Rx DMA Handle parameters      */
+      |     ^~~~~~~~~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:379:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:167:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  167 | char *BSP_Get_UserOTP_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:168:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  168 | char *BSP_Get_CustOTP_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:170:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  170 | char *BSP_Get_SysCfg_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:175:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  175 | uint32_t BSP_Get_Sip1_Mode();
+      | ^~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:176:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  176 | uint32_t BSP_Get_Sip2_Mode();
+      | ^~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:383:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_pmu.h:510:35: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  510 | __STATIC_INLINE HAL_StatusTypeDef HAL_PMU_EnableChgWakeup()
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_pmu.h:518:35: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  518 | __STATIC_INLINE HAL_StatusTypeDef HAL_PMU_DisableChgWakeup()
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:415:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_pdm.h:141:5: error: unknown type name 'DMA_HandleTypeDef'
+  141 |     DMA_HandleTypeDef          *hdmarx;        /*!< PDM Rx DMA Handle parameters             */
+      |     ^~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_pdm.h:142:5: error: unknown type name 'DMA_HandleTypeDef'
+  142 |     DMA_HandleTypeDef          *hdmarx_r;      /*!< PDM Rx right channel DMA Handle para     */
+      |     ^~~~~~~~~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:431:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_lrc_cal.h:64:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+   64 | float HAL_LPTIM_GetFreq();
+      | ^~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:448:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audprc.h:157:5: error: unknown type name 'DMA_HandleTypeDef'
+  157 |     DMA_HandleTypeDef          *hdma[HAL_AUDPRC_INSTANC_CNT];   /*!< AUDPRC Tx/rx Channel DMA handle parameters */
+      |     ^~~~~~~~~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:456:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:182:5: error: unknown type name 'DMA_HandleTypeDef'
+  182 |     DMA_HandleTypeDef          *hdma[HAL_AUDCODEC_INSTANC_CNT];   /*!< AUDCODEC Tx/rx Channel DMA handle parameters */
+      |     ^~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:367:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  367 | void HAL_TURN_OFF_PLL();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:538:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  538 | uint8_t get_pll_state();
+      | ^~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:540:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  540 | uint8_t get_pll_freq_type();
+      | ^~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:543:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  543 | void bf0_disable_pll();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:544:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  544 | void HAL_TURN_ON_PLL();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_def.h:57: warning: "UNUSED" redefined
+   57 | #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
+      | 
+In file included from /home/czy/openvela_contest/nuttx/include/sys/types.h:31,
+                 from /home/czy/openvela_contest/nuttx/include/stddef.h:30,
+                 from /home/czy/openvela_contest/nuttx/include/inttypes.h:30,
+                 from chip/sf32lb_adc.c:13:
+/home/czy/openvela_contest/nuttx/include/nuttx/compiler.h:624: note: this is the location of the previous definition
+  624 | #    define UNUSED(a) ((void)(1 || &(a)))
+      | 
+chip/sf32lb_adc.c: In function 'sf32lb_adc_calibrate':
+chip/sf32lb_adc.c:176:14: warning: unused variable 'len' [-Wunused-variable]
+  176 |     uint16_t len = (uint16_t)sizeof(HAL_LCPU_CONFIG_ADC_T);
+      |              ^~~
+make[1]: *** [Makefile:170: sf32lb_adc.o] Error 1
+make: *** [tools/LibTargets.mk:170: arch/arm/src/libarch.a] Error 2
+make: Leaving directory '/home/czy/openvela_contest/nuttx'
+Error: ############# build /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh fail ##############
