@@ -1,0 +1,13 @@
+# Prepare clean build environment
+2026-06-30T11:35:35+08:00
+## add prebuilt toolchain to PATH
+/home/czy/openvela_contest/prebuilts/gcc/linux-x86_64/arm-none-eabi/bin/arm-none-eabi-gcc
+arm-none-eabi-gcc (GCC) 13.4.0
+Copyright (C) 2023 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+## remove pre-existing local workaround symlink for clean build
+lrwxrwxrwx 1 czy czy 14 Jun 30 10:38 nuttx/arch/arm/src/ipc_queue -> chip/ipc_queue
+removed local workaround symlink nuttx/arch/arm/src/ipc_queue
+## post-clean status

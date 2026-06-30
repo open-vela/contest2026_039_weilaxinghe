@@ -1,0 +1,15 @@
+# Stage 3 ipc_queue analysis and local workaround
+2026-06-30T11:36:21+08:00
+## current chip path
+lrwxrwxrwx 1 czy czy 63 Jun 30 10:36 nuttx/arch/arm/src/chip -> /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/sf32lb52
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/sf32lb52
+## check chip/ipc_queue/Make.defs
+-rw-r--r-- 1 czy czy 731 Jun 29 22:05 nuttx/arch/arm/src/chip/ipc_queue/Make.defs
+/home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/ipc_queue/Make.defs
+## check root-level ipc_queue before workaround
+ls: cannot access 'nuttx/arch/arm/src/ipc_queue': No such file or directory
+## local workaround: nuttx/arch/arm/src/ipc_queue -> chip/ipc_queue
+lrwxrwxrwx 1 czy czy 14 Jun 30 11:36 nuttx/arch/arm/src/ipc_queue -> chip/ipc_queue
+chip/ipc_queue
+## git status after local workaround
+?? arch/arm/src/ipc_queue

@@ -1,0 +1,4 @@
+contest2026_039_weilaxinghe/logs/local_build_fix/01_clean_build.log:chip/Make.defs:76: ipc_queue/Make.defs: No such file or directory
+contest2026_039_weilaxinghe/logs/local_build_fix/01_clean_build.log:cc1: error: '-mfloat-abi=hard': selected architecture lacks an FPU
+contest2026_039_weilaxinghe/logs/local_build_fix/02_after_ipc_fix.log:cc1: error: '-mfloat-abi=hard': selected architecture lacks an FPU
+contest2026_039_weilaxinghe/logs/local_build_fix/03_after_soft_float.log:[1KCPP:  etc/init.d/rc.sysinit-> etctmp/etc/init.d/rc.sysinit [1K[1KCPP:  etc/init.d/rcS-> etctmp/etc/init.d/rcS [1K./sifli_ap.c:40:10: fatal error: bf0_hal.h: No such file or directory
