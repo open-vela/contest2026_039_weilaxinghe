@@ -24,9 +24,17 @@
 #define VB_COLOR_ORANGE  0xffa132
 #define VB_COLOR_PURPLE  0x8c6cff
 
-#if defined(CONFIG_GRAPHICS_LVGL)
+#if defined(CONFIG_GRAPHICS_LVGL) || defined(CONFIG_LVGL)
 
 #include <lvgl.h>
+
+#if defined(LVGL_VERSION_MAJOR)
+#  define VB_LVGL_VERSION_MAJOR LVGL_VERSION_MAJOR
+#elif defined(LV_VERSION_MAJOR)
+#  define VB_LVGL_VERSION_MAJOR LV_VERSION_MAJOR
+#else
+#  define VB_LVGL_VERSION_MAJOR 8
+#endif
 
 enum vb_watch_screen
 {
@@ -52,6 +60,27 @@ static const char *g_vb_screen_names[VB_SCREEN_COUNT] =
   "Sleep",
   "Settings",
 };
+
+bool velabridge_watch_ui_available(void)
+{
+  printf("[velabridge][watch_ui] checking default display\n");
+  fflush(stdout);
+
+#if VB_LVGL_VERSION_MAJOR >= 9
+  if (lv_display_get_default() == NULL)
+#else
+  if (lv_disp_get_default() == NULL)
+#endif
+    {
+      printf("[velabridge][watch_ui] no default display, fallback\n");
+      fflush(stdout);
+      return false;
+    }
+
+  printf("[velabridge][watch_ui] default display ready\n");
+  fflush(stdout);
+  return true;
+}
 
 static lv_color_t vb_color(uint32_t hex)
 {
@@ -508,6 +537,14 @@ int velabridge_watch_ui_start(void)
   printf("[velabridge][watch_ui] design=%dx%d\n",
          VB_WATCH_WIDTH, VB_WATCH_HEIGHT);
 
+  if (!velabridge_watch_ui_available())
+    {
+      printf("[velabridge][watch_ui] LVGL display not ready, "
+             "fallback to serial demo\n");
+      fflush(stdout);
+      return -ENODEV;
+    }
+
   vb_build_all_screens();
   vb_switch_screen(VB_SCREEN_BOOT);
 
@@ -523,6 +560,11 @@ int velabridge_watch_ui_start(void)
 }
 
 #else
+
+bool velabridge_watch_ui_available(void)
+{
+  return false;
+}
 
 int velabridge_watch_ui_start(void)
 {
