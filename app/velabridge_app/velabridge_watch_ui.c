@@ -100,6 +100,11 @@ static void vb_lvgl_set_default_display(void *display)
 #endif
 }
 
+static bool vb_device_exists(const char *path)
+{
+  return path != NULL && access(path, F_OK) == 0;
+}
+
 bool velabridge_watch_ui_available(void)
 {
   printf("[velabridge][watch_ui] checking default display\n");
@@ -119,6 +124,11 @@ bool velabridge_watch_ui_available(void)
 
 static int vb_lvgl_display_init(void)
 {
+#if LV_USE_NUTTX
+  const char *touch_path = "/dev/input0";
+  bool touch_available = false;
+#endif
+
   if (vb_lvgl_default_display() != NULL)
     {
       printf("[velabridge][watch_ui] default display already exists\n");
@@ -130,7 +140,7 @@ static int vb_lvgl_display_init(void)
 #ifdef VB_NEED_BOARDINIT
   int ret;
 
-  printf("[velabridge][watch_ui] boardctl init for display devices\n");
+  printf("[velabridge][watch_ui] board init for display devices\n");
   ret = boardctl(BOARDIOC_INIT, 0);
   if (ret < 0)
     {
@@ -171,8 +181,15 @@ static int vb_lvgl_display_init(void)
 #endif
 
 #if defined(CONFIG_LV_USE_NUTTX_TOUCHSCREEN) || defined(CONFIG_INPUT_TOUCHSCREEN)
-  info.input_path = "/dev/input0";
-  printf("[velabridge][watch_ui] touchscreen path %s\n", info.input_path);
+  if (vb_device_exists(touch_path))
+    {
+      info.input_path = touch_path;
+      touch_available = true;
+    }
+  else
+    {
+      info.input_path = NULL;
+    }
 #else
   info.input_path = NULL;
 #endif
@@ -182,8 +199,8 @@ static int vb_lvgl_display_init(void)
 
   if (g_vb_nuttx_result.disp == NULL)
     {
-      printf("[velabridge][watch_ui] lv_nuttx_init failed path=%s\n",
-             info.fb_path ? info.fb_path : "(null)");
+      printf("[velabridge][watch_ui] lcd open failed ret=%d path=%s\n",
+             -ENODEV, info.fb_path ? info.fb_path : "(null)");
       lv_nuttx_deinit(&g_vb_nuttx_result);
       g_vb_nuttx_initialized = false;
 
@@ -196,6 +213,20 @@ static int vb_lvgl_display_init(void)
       fflush(stdout);
       return -ENODEV;
     }
+
+  printf("[velabridge][watch_ui] lcd display ready\n");
+
+#if defined(CONFIG_LV_USE_NUTTX_TOUCHSCREEN) || defined(CONFIG_INPUT_TOUCHSCREEN)
+  if (touch_available)
+    {
+      printf("[velabridge][watch_ui] touchscreen path %s\n", touch_path);
+    }
+  else
+    {
+      printf("[velabridge][watch_ui] touchscreen not available, "
+             "continue display-only\n");
+    }
+#endif
 
   vb_lvgl_set_default_display(g_vb_nuttx_result.disp);
 
