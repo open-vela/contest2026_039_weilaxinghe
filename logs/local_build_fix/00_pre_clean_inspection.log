@@ -1,0 +1,9 @@
+# Pre-clean inspection
+2026-06-30T11:35:00+08:00
+## nuttx/arch/arm/src/ipc_queue
+lrwxrwxrwx 1 czy czy 14 Jun 30 10:38 nuttx/arch/arm/src/ipc_queue -> chip/ipc_queue
+chip/ipc_queue
+nuttx/arch/arm/src/ipc_queue: symbolic link to chip/ipc_queue
+## toolchain candidates under /home/czy and openvela workspace
+/home/czy/openvela_contest/prebuilts/gcc/linux-x86_64/arm-none-eabi/bin/arm-none-eabi-gcc
+/home/czy/openvela_contest/prebuilts/gcc/linux-aarch64/arm-none-eabi/bin/arm-none-eabi-gcc

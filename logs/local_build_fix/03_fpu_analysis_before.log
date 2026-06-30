@@ -1,0 +1,10 @@
+# Stage 4 FPU config analysis before local workaround
+2026-06-30T11:37:01+08:00
+DEF=vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh/defconfig
+## defconfig FPU/MVE lines
+23:CONFIG_ARCH_FPU=y
+## nuttx/.config FPU/MVE lines
+429:CONFIG_ARCH_HAVE_FPU=y
+444:CONFIG_ARCH_FPU=y
+## git status before soft-float local workaround
+?? arch/arm/src/ipc_queue

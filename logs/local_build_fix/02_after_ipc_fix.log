@@ -1,0 +1,22 @@
+# Stage 3 build after ipc_queue local workaround
+2026-06-30T11:36:35+08:00
+BOARD=vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+LIBCLANG_PATH set to: /home/czy/openvela_contest/prebuilts/rust/linux/extra_libs
+including vendor/infineon/boards/aurix/build/vendorsetup.sh
+including vendor/infineon/boards/aurix_tc3/build/vendorsetup.sh
+including vendor/openvela/boards/build/vendorsetup.sh
+Build command line:
+  /home/czy/openvela_contest/nuttx/tools/configure.sh -e /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+  make -C /home/czy/openvela_contest/nuttx EXTRAFLAGS=-Wno-cpp -Wno-deprecated-declarations -j1
+  make -C /home/czy/openvela_contest/nuttx savedefconfig
+No configuration change.
+make: Entering directory '/home/czy/openvela_contest/nuttx'
+cc1: error: '-mfloat-abi=hard': selected architecture lacks an FPU
+ERROR: arm-none-eabi-gcc failed: 1
+       command: arm-none-eabi-gcc -MT ./clock_settime.o  -M '-Wstrict-prototypes' '-Wno-attributes' '-Wno-unknown-pragmas' '-Wno-psabi' '-fno-omit-frame-pointer' '-funwind-tables' '-fasynchronous-unwind-tables' '--param=min-pagesize=0' '-Wno-alloc-size-larger-than' '-fno-common' '-Wall' '-Wshadow' '-Wundef' '-ffunction-sections' '-fdata-sections' '-g3' '-mlittle-endian' '-march=armv7-m' '-mtune=cortex-m3' '-mfloat-abi=soft' '-mfloat-abi=hard' '-mthumb' '-Wa,-mthumb' '-Wa,-mimplicit-it=always' '-isystem' '/home/czy/openvela_contest/nuttx/include' '-D__NuttX__' '-D__KERNEL__' '-Wno-cpp' '-Wno-deprecated-declarations' '-pipe' '-Werror=return-type' '-Werror' '-I' '/home/czy/openvela_contest/nuttx/sched' ./clock/clock_settime.c
+make[2]: *** [/home/czy/openvela_contest/nuttx/tools/Config.mk:233: clock_settime.ddc] Error 1
+make[1]: *** [Makefile:73: .depend] Error 2
+make: *** [tools/Unix.mk:660: pass2dep] Error 2
+make: Leaving directory '/home/czy/openvela_contest/nuttx'
+Error: ############# build /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh fail ##############
+stage3_exit=2

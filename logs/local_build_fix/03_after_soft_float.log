@@ -1,0 +1,144 @@
+# Stage 4 build after soft-float local workaround
+2026-06-30T11:37:40+08:00
+BOARD=vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+LIBCLANG_PATH set to: /home/czy/openvela_contest/prebuilts/rust/linux/extra_libs
+including vendor/infineon/boards/aurix/build/vendorsetup.sh
+including vendor/infineon/boards/aurix_tc3/build/vendorsetup.sh
+including vendor/openvela/boards/build/vendorsetup.sh
+Build command line:
+  /home/czy/openvela_contest/nuttx/tools/configure.sh -e /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+  make -C /home/czy/openvela_contest/nuttx EXTRAFLAGS=-Wno-cpp -Wno-deprecated-declarations -j1
+  make -C /home/czy/openvela_contest/nuttx savedefconfig
+make: Entering directory '/home/czy/openvela_contest/nuttx'
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+make: Leaving directory '/home/czy/openvela_contest/nuttx'
+  Copy files
+  Select CONFIG_HOST_LINUX=y
+  Refreshing...
+CP: arch/dummy/Kconfig to /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/sf32lb52/Kconfig
+CP: boards/dummy/Kconfig to /home/czy/openvela_contest/nuttx/../vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/Kconfig
+LN: platform/board to /home/czy/openvela_contest/apps/platform/dummy
+LN: include/arch to arch/arm/include
+LN: include/arch/board to /home/czy/openvela_contest/nuttx/../vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/include
+LN: drivers/platform to /home/czy/openvela_contest/nuttx/../vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/../drivers
+LN: include/arch/chip to /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/sf32lb52/include
+LN: arch/arm/src/chip to /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/sf32lb52
+LN: arch/arm/src/board to /home/czy/openvela_contest/nuttx/../vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/src
+mkkconfig in /home/czy/openvela_contest/apps/audioutils
+mkkconfig in /home/czy/openvela_contest/apps/benchmarks
+mkkconfig in /home/czy/openvela_contest/apps/boot
+mkkconfig in /home/czy/openvela_contest/apps/canutils
+mkkconfig in /home/czy/openvela_contest/apps/crypto
+mkkconfig in /home/czy/openvela_contest/apps/database
+mkkconfig in /home/czy/openvela_contest/apps/examples/elf/tests
+mkkconfig in /home/czy/openvela_contest/apps/examples/elf
+mkkconfig in /home/czy/openvela_contest/apps/examples/mcuboot
+mkkconfig in /home/czy/openvela_contest/apps/examples/module
+mkkconfig in /home/czy/openvela_contest/apps/examples/rust
+mkkconfig in /home/czy/openvela_contest/apps/examples/sotest
+mkkconfig in /home/czy/openvela_contest/apps/examples
+mkkconfig in /home/czy/openvela_contest/external/android/frameworks/native/cmds
+mkkconfig in /home/czy/openvela_contest/external/android/frameworks/native/services
+mkkconfig in /home/czy/openvela_contest/external/android/frameworks/native
+mkkconfig in /home/czy/openvela_contest/external/android/frameworks
+mkkconfig in /home/czy/openvela_contest/external/android/hardware
+mkkconfig in /home/czy/openvela_contest/external/android/system/core
+mkkconfig in /home/czy/openvela_contest/external/android/system
+mkkconfig in /home/czy/openvela_contest/external/android
+mkkconfig in /home/czy/openvela_contest/external/optee
+mkkconfig in /home/czy/openvela_contest/external
+mkkconfig in /home/czy/openvela_contest/frameworks/connectivity
+mkkconfig in /home/czy/openvela_contest/frameworks/graphics
+mkkconfig in /home/czy/openvela_contest/frameworks/multimedia
+mkkconfig in /home/czy/openvela_contest/frameworks/runtimes/services/xmsdemo
+mkkconfig in /home/czy/openvela_contest/frameworks/runtimes/services
+mkkconfig in /home/czy/openvela_contest/frameworks/runtimes/typescript
+mkkconfig in /home/czy/openvela_contest/frameworks/runtimes/wasm
+mkkconfig in /home/czy/openvela_contest/frameworks/runtimes
+mkkconfig in /home/czy/openvela_contest/frameworks/security/ca
+mkkconfig in /home/czy/openvela_contest/frameworks/security/ta
+mkkconfig in /home/czy/openvela_contest/frameworks/security/tools
+mkkconfig in /home/czy/openvela_contest/frameworks/security
+mkkconfig in /home/czy/openvela_contest/frameworks/system/binder/cmds
+mkkconfig in /home/czy/openvela_contest/frameworks/system/binder/examples
+mkkconfig in /home/czy/openvela_contest/frameworks/system/binder/performance
+mkkconfig in /home/czy/openvela_contest/frameworks/system/binder
+mkkconfig in /home/czy/openvela_contest/frameworks/system
+mkkconfig in /home/czy/openvela_contest/frameworks
+mkkconfig in /home/czy/openvela_contest/apps/fsutils
+mkkconfig in /home/czy/openvela_contest/apps/games
+mkkconfig in /home/czy/openvela_contest/apps/graphics
+mkkconfig in /home/czy/openvela_contest/apps/industry
+mkkconfig in /home/czy/openvela_contest/apps/inertial
+mkkconfig in /home/czy/openvela_contest/apps/interpreters/luamodules
+mkkconfig in /home/czy/openvela_contest/apps/interpreters
+mkkconfig in /home/czy/openvela_contest/apps/logging
+mkkconfig in /home/czy/openvela_contest/apps/lte
+mkkconfig in /home/czy/openvela_contest/apps/math
+mkkconfig in /home/czy/openvela_contest/apps/mlearning
+mkkconfig in /home/czy/openvela_contest/apps/netutils
+mkkconfig in /home/czy/openvela_contest/packages/demos
+mkkconfig in /home/czy/openvela_contest/packages
+mkkconfig in /home/czy/openvela_contest/apps/sdr
+mkkconfig in /home/czy/openvela_contest/apps/system
+mkkconfig in /home/czy/openvela_contest/apps/testing/arch
+mkkconfig in /home/czy/openvela_contest/apps/testing/crypto
+mkkconfig in /home/czy/openvela_contest/apps/testing/cxx
+mkkconfig in /home/czy/openvela_contest/apps/testing/drivers
+mkkconfig in /home/czy/openvela_contest/apps/testing/fs
+mkkconfig in /home/czy/openvela_contest/apps/testing/libc
+mkkconfig in /home/czy/openvela_contest/apps/testing/mm
+mkkconfig in /home/czy/openvela_contest/apps/testing/sched
+mkkconfig in /home/czy/openvela_contest/apps/testing
+mkkconfig in /home/czy/openvela_contest/tests
+mkkconfig in /home/czy/openvela_contest/vendor/allwinnertech/apps
+mkkconfig in /home/czy/openvela_contest/vendor/allwinnertech
+mkkconfig in /home/czy/openvela_contest/vendor/artinchip/apps
+mkkconfig in /home/czy/openvela_contest/vendor/artinchip
+mkkconfig in /home/czy/openvela_contest/vendor/xiaomi/vela/pyxis
+mkkconfig in /home/czy/openvela_contest/vendor/xiaomi/vela
+mkkconfig in /home/czy/openvela_contest/vendor/xiaomi
+mkkconfig in /home/czy/openvela_contest/vendor
+mkkconfig in /home/czy/openvela_contest/apps/videoutils
+mkkconfig in /home/czy/openvela_contest/apps/wireless/bluetooth
+mkkconfig in /home/czy/openvela_contest/apps/wireless/ieee802154
+mkkconfig in /home/czy/openvela_contest/apps/wireless
+mkkconfig in /home/czy/openvela_contest/apps
+Loaded configuration '.config'
+Configuration saved to '.config'
+make: Entering directory '/home/czy/openvela_contest/nuttx'
+Create version.h
+LN: platform/board to /home/czy/openvela_contest/apps/platform/dummy
+Register: adc
+Register: buttons
+Register: fb
+Register: gpio
+Register: hello
+Register: lvgldemo
+Register: pwm
+Register: spi
+Register: timer
+Register: wdog
+Register: dumpstack
+Register: i2c
+Register: nsh
+Register: sh
+Register: mm
+Register: ostest
+Generating unified Rust library from registered crates...
+No valid Rust crates found to build
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+[1KCPP:  gnu-elf.ld.in-> gnu-elf.ld [1KMakefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+[1KCPP:  etc/init.d/rc.sysinit-> etctmp/etc/init.d/rc.sysinit [1K[1KCPP:  etc/init.d/rcS-> etctmp/etc/init.d/rcS [1K./sifli_ap.c:40:10: fatal error: bf0_hal.h: No such file or directory
+   40 | #include "bf0_hal.h"
+      |          ^~~~~~~~~~~
+compilation terminated.
+ERROR: arm-none-eabi-gcc failed: 1
+       command: arm-none-eabi-gcc -MT ./sifli_ap.o  -M '-Wstrict-prototypes' '-Wno-attributes' '-Wno-unknown-pragmas' '-Wno-psabi' '-fno-omit-frame-pointer' '-funwind-tables' '-fasynchronous-unwind-tables' '--param=min-pagesize=0' '-Wno-alloc-size-larger-than' '-fno-common' '-Wall' '-Wshadow' '-Wundef' '-ffunction-sections' '-fdata-sections' '-g3' '-mlittle-endian' '-march=armv7-m' '-mtune=cortex-m3' '-mfloat-abi=soft' '-mfloat-abi=soft' '-mthumb' '-Wa,-mthumb' '-Wa,-mimplicit-it=always' '-isystem' '/home/czy/openvela_contest/nuttx/include' '-D__NuttX__' '-D__KERNEL__' '-Wno-cpp' '-Wno-deprecated-declarations' '-pipe' '-Werror=return-type' '-Werror' '-I' '/home/czy/openvela_contest/nuttx/sched' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/chip' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/common' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/armv8-m' '-I' '/home/czy/openvela_contest/nuttx/arch/arm/src/arm_m' ./sifli_ap.c
+make[2]: *** [/home/czy/openvela_contest/nuttx/boards/Board.mk:103: .depend] Error 1
+make[1]: *** [Makefile:269: .depend] Error 2
+make: *** [tools/Unix.mk:660: pass2dep] Error 2
+make: Leaving directory '/home/czy/openvela_contest/nuttx'
+Error: ############# build /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh fail ##############
+stage4_exit=2

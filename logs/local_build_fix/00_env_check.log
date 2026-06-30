@@ -1,0 +1,25 @@
+# Stage 0/1 environment check
+2026-06-30T11:34:34+08:00
+## pwd
+/home/czy/openvela_contest
+## required dirs
+OK nuttx
+OK vendor/sifli
+OK apps
+OK packages
+OK contest2026_039_weilaxinghe
+OK vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+## sanitized env values before unset
+## sanitized env values after unset
+## branches
+nuttx: dev-ai-contest-2026
+vendor/sifli: dev-ai-contest-2026
+team repo: dev-ai-contest-2026
+## git status --short
+[nuttx]
+?? arch/arm/src/ipc_queue
+[vendor/sifli]
+[team repo]
+?? logs/local_build_fix/
+## toolchain
+bash: line 28: arm-none-eabi-gcc: command not found

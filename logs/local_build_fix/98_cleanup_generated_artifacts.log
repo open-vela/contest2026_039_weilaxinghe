@@ -1,0 +1,9 @@
+# Cleanup generated vendor build artifacts
+2026-06-30T11:42:03+08:00
+## vendor/sifli status after cleanup
+ M boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh/defconfig
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh/defconfig.velabridge-local-softfloat.bak.20260630113727
+## nuttx status after cleanup
+?? arch/arm/src/ipc_queue
+## team repo status after cleanup
+?? logs/local_build_fix/
