@@ -1,0 +1,2 @@
+57:CFLAGS += -Wno-error -Wno-error=strict-prototypes -Wno-error=return-type
+58:CPPFLAGS += -Wno-error

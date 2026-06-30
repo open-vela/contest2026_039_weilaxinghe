@@ -1,0 +1,31 @@
+Created sifli_hal symlink and rewrote HAL source paths
+lrwxrwxrwx 1 czy czy 19 Jun 30 13:13 nuttx/arch/arm/src/sifli_hal -> chip/../drivers/hal
+97:CHIP_CSRCS += sifli_hal/bf0_hal.c
+98:CHIP_CSRCS += sifli_hal/bf0_hal_adc.c
+99:CHIP_CSRCS += sifli_hal/bf0_hal_dma.c
+100:CHIP_CSRCS += sifli_hal/bf0_hal_gpio.c
+101:CHIP_CSRCS += sifli_hal/bf0_hal_hcd.c
+102:CHIP_CSRCS += sifli_hal/bf0_hal_hpaon.c
+103:CHIP_CSRCS += sifli_hal/bf0_hal_i2c.c
+104:CHIP_CSRCS += sifli_hal/bf0_hal_lcdc.c
+105:CHIP_CSRCS += sifli_hal/bf0_hal_lcpu_config.c
+106:CHIP_CSRCS += sifli_hal/bf0_hal_lptim.c
+107:CHIP_CSRCS += sifli_hal/bf0_hal_lrc_cal.c
+108:CHIP_CSRCS += sifli_hal/bf0_hal_mailbox.c
+109:CHIP_CSRCS += sifli_hal/bf0_hal_mpi.c
+110:CHIP_CSRCS += sifli_hal/bf0_hal_mpi_ex.c
+111:CHIP_CSRCS += sifli_hal/bf0_hal_mpi_psram.c
+112:CHIP_CSRCS += sifli_hal/bf0_hal_pcd.c
+113:CHIP_CSRCS += sifli_hal/bf0_hal_pinmux.c
+114:CHIP_CSRCS += sifli_hal/bf0_hal_pmu.c
+115:CHIP_CSRCS += sifli_hal/bf0_hal_qspi.c
+116:CHIP_CSRCS += sifli_hal/bf0_hal_qspi_ex.c
+117:CHIP_CSRCS += sifli_hal/bf0_hal_rcc.c
+118:CHIP_CSRCS += sifli_hal/bf0_hal_rtc.c
+119:CHIP_CSRCS += sifli_hal/bf0_hal_spi.c
+120:CHIP_CSRCS += sifli_hal/bf0_hal_tim.c
+121:CHIP_CSRCS += sifli_hal/bf0_hal_tim_ex.c
+122:CHIP_CSRCS += sifli_hal/bf0_hal_tsen.c
+123:CHIP_CSRCS += sifli_hal/bf0_hal_uart.c
+124:CHIP_CSRCS += sifli_hal/bf0_hal_wdt.c
+125:CHIP_CSRCS += sifli_hal/bf0_sys_cfg.c

@@ -1,0 +1,9 @@
+SDADC disabled in HAL config as local workaround
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:101:// VelaBridge local workaround: disabled for sf32lb52 build diagnosis; sf32lb52 has no sdadc.h.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:102:// #define HAL_SDADC_MODULE_ENABLED
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:243:#ifdef HAL_SDADC_MODULE_ENABLED
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:245:#endif /* HAL_SDADC_MODULE_ENABLED */
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h:71:// VelaBridge local workaround: disabled for sf32lb52 build diagnosis; sf32lb52 has no sdadc.h.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h:72:// #define HAL_SDADC_MODULE_ENABLED
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h:214:#ifdef HAL_SDADC_MODULE_ENABLED
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h:216:#endif /* HAL_SDADC_MODULE_ENABLED */

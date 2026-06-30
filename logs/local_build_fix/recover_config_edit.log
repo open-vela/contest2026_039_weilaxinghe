@@ -1,0 +1,39 @@
+## /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh/defconfig
+before:
+# CONFIG_ARCH_FPU is not set
+# CONFIG_ARCH_DPFPU is not set
+# CONFIG_ARCH_HAVE_FPU is not set
+# CONFIG_ARCH_HAVE_DPFPU is not set
+# CONFIG_ARM_MVE is not set
+# CONFIG_ARCH_FPU_ABI_HARD is not set
+CONFIG_ARCH_FPU_ABI_SOFT=y
+CONFIG_LVX_USE_DEMO_CONTEST2026_039_VELABRIDGE_APP=y
+after:
+# CONFIG_ARCH_FPU is not set
+# CONFIG_ARCH_DPFPU is not set
+# CONFIG_ARCH_HAVE_FPU is not set
+# CONFIG_ARCH_HAVE_DPFPU is not set
+# CONFIG_ARM_MVE is not set
+# CONFIG_ARCH_FPU_ABI_HARD is not set
+CONFIG_ARCH_FPU_ABI_SOFT=y
+CONFIG_LVX_USE_DEMO_CONTEST2026_039_VELABRIDGE_APP=y
+
+## /home/czy/openvela_contest/nuttx/.config
+before:
+# CONFIG_ARCH_FPU is not set
+# CONFIG_ARCH_DPFPU is not set
+# CONFIG_ARCH_HAVE_FPU is not set
+# CONFIG_ARCH_HAVE_DPFPU is not set
+# CONFIG_ARM_MVE is not set
+# CONFIG_ARCH_FPU_ABI_HARD is not set
+CONFIG_ARCH_FPU_ABI_SOFT=y
+CONFIG_LVX_USE_DEMO_CONTEST2026_039_VELABRIDGE_APP=y
+after:
+# CONFIG_ARCH_FPU is not set
+# CONFIG_ARCH_DPFPU is not set
+# CONFIG_ARCH_HAVE_FPU is not set
+# CONFIG_ARCH_HAVE_DPFPU is not set
+# CONFIG_ARM_MVE is not set
+# CONFIG_ARCH_FPU_ABI_HARD is not set
+CONFIG_ARCH_FPU_ABI_SOFT=y
+CONFIG_LVX_USE_DEMO_CONTEST2026_039_VELABRIDGE_APP=y

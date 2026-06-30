@@ -1,0 +1,11 @@
+    27	
+    28	#include "register.h"
+    29	#include "mem_map.h"
+    30	
+    31	/* VelaBridge local workaround: bf0_hal_mpi_ex.h uses DMA_HandleTypeDef. */
+    32	#include "bf0_hal_dma.h"
+    33	#include "bf0_hal_mpi_ex.h"
+    34	#include "dma_config.h"
+    35	
+    36	#include "sf32lb_flash.h"
+    37	

@@ -1,0 +1,39 @@
+Created openvela_local_compat.h and pruned HAL modules as local workaround
+
+#ifndef OPENVELA_LOCAL_COMPAT_H
+#define OPENVELA_LOCAL_COMPAT_H
+
+/* VelaBridge local build-only compatibility header.
+ * This records missing HAL callback defaults while diagnosing the
+ * sf32lb52_lchspi_ulp openvela build. Do not submit upstream.
+ */
+
+#ifndef USE_HAL_COMP_REGISTER_CALLBACKS
+#define USE_HAL_COMP_REGISTER_CALLBACKS 0U
+#endif
+#ifndef USE_HAL_I2C_REGISTER_CALLBACKS
+#define USE_HAL_I2C_REGISTER_CALLBACKS 0U
+#endif
+#ifndef USE_HAL_UART_REGISTER_CALLBACKS
+#define USE_HAL_UART_REGISTER_CALLBACKS 0U
+#endif
+#ifndef USE_HAL_RNG_REGISTER_CALLBACKS
+#define USE_HAL_RNG_REGISTER_CALLBACKS 0U
+#endif
+#ifndef USE_HAL_HCD_REGISTER_CALLBACKS
+#define USE_HAL_HCD_REGISTER_CALLBACKS 0U
+#endif
+
+#endif /* OPENVELA_LOCAL_COMPAT_H */
+
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:23:// VelaBridge local workaround: disabled HAL_AON_MODULE_ENABLED while diagnosing sf32lb52 HAL config mismatch.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:67:// VelaBridge local workaround: disabled HAL_COMP_MODULE_ENABLED while diagnosing sf32lb52 HAL config mismatch.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:69:// VelaBridge local workaround: disabled HAL_BUSMON_MODULE_ENABLED while diagnosing sf32lb52 HAL config mismatch.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:71:// VelaBridge local workaround: disabled HAL_NNACC_MODULE_ENABLED while diagnosing sf32lb52 HAL config mismatch.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:81:// VelaBridge local workaround: disabled HAL_MATH_MODULE_ENABLED while diagnosing sf32lb52 HAL config mismatch.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:106:// VelaBridge local workaround: disabled HAL_DSI_MODULE_ENABLED while diagnosing sf32lb52 HAL config mismatch.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h:21:// VelaBridge local workaround: disabled HAL_AON_MODULE_ENABLED while diagnosing sf32lb52 HAL config mismatch.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h:47:// VelaBridge local workaround: disabled HAL_BUSMON_MODULE_ENABLED while diagnosing sf32lb52 HAL config mismatch.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h:69:// VelaBridge local workaround: disabled HAL_NNACC_MODULE_ENABLED while diagnosing sf32lb52 HAL config mismatch.
+vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h:83:// VelaBridge local workaround: disabled HAL_MATH_MODULE_ENABLED while diagnosing sf32lb52 HAL config mismatch.
+vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/scripts/Make.defs:37:ARCHDEFINES += -include chipssf32lb52openvela_local_compat.h

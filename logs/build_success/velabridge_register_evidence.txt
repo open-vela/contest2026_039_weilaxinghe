@@ -1,0 +1,10 @@
+./build_clean_hal_include.log:36:Register: velabridge_app
+./build_clean_retry.log:37:Register: velabridge_app
+./build_velabridge_watch.log:120:Register: velabridge_app
+./contest2026_039_weilaxinghe/logs/local_build_fix/05_velabridge_build.log:120:Register: velabridge_app
+./build_env_compile.log:36:Register: velabridge_app
+./build_lchspi_soft_float.log:23:Register: velabridge_app
+./build_float_fix.log:120:Register: velabridge_app
+./build_batch_header_fix.log:36:Register: velabridge_app
+./build_final_try.log:36:Register: velabridge_app
+./build_after_clean_ipc_float.log:36:Register: velabridge_app

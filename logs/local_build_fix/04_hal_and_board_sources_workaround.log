@@ -1,0 +1,48 @@
+--- chip HAL source block ---
+95:# VelaBridge local workaround: link required SiFli HAL source files for sf32lb52 diagnosis.
+96:CHIP_CSRCS += sifli_lowput.c sifli_i2c.c
+98:CHIP_CSRCS += ../drivers/hal/bf0_hal_adc.c
+99:CHIP_CSRCS += ../drivers/hal/bf0_hal_dma.c
+100:CHIP_CSRCS += ../drivers/hal/bf0_hal_gpio.c
+101:CHIP_CSRCS += ../drivers/hal/bf0_hal_hcd.c
+102:CHIP_CSRCS += ../drivers/hal/bf0_hal_hpaon.c
+103:CHIP_CSRCS += ../drivers/hal/bf0_hal_i2c.c
+104:CHIP_CSRCS += ../drivers/hal/bf0_hal_lcdc.c
+105:CHIP_CSRCS += ../drivers/hal/bf0_hal_lcpu_config.c
+106:CHIP_CSRCS += ../drivers/hal/bf0_hal_lptim.c
+107:CHIP_CSRCS += ../drivers/hal/bf0_hal_lrc_cal.c
+108:CHIP_CSRCS += ../drivers/hal/bf0_hal_mailbox.c
+109:CHIP_CSRCS += ../drivers/hal/bf0_hal_mpi.c
+110:CHIP_CSRCS += ../drivers/hal/bf0_hal_mpi_ex.c
+111:CHIP_CSRCS += ../drivers/hal/bf0_hal_mpi_psram.c
+112:CHIP_CSRCS += ../drivers/hal/bf0_hal_pcd.c
+113:CHIP_CSRCS += ../drivers/hal/bf0_hal_pinmux.c
+114:CHIP_CSRCS += ../drivers/hal/bf0_hal_pmu.c
+115:CHIP_CSRCS += ../drivers/hal/bf0_hal_qspi.c
+116:CHIP_CSRCS += ../drivers/hal/bf0_hal_qspi_ex.c
+117:CHIP_CSRCS += ../drivers/hal/bf0_hal_rcc.c
+118:CHIP_CSRCS += ../drivers/hal/bf0_hal_rtc.c
+119:CHIP_CSRCS += ../drivers/hal/bf0_hal_spi.c
+120:CHIP_CSRCS += ../drivers/hal/bf0_hal_tim.c
+121:CHIP_CSRCS += ../drivers/hal/bf0_hal_tim_ex.c
+122:CHIP_CSRCS += ../drivers/hal/bf0_hal_tsen.c
+123:CHIP_CSRCS += ../drivers/hal/bf0_hal_uart.c
+124:CHIP_CSRCS += ../drivers/hal/bf0_hal_wdt.c
+--- board source block ---
+    20	
+    21	include $(TOPDIR)/Make.defs
+    22	
+    23	CSRCS = sifli_ap.c
+    24	
+    25	# VelaBridge local workaround: link board support sources required by sifli_ap.c.
+    26	CSRCS += bsp_lcd_tp.c sifli_gpio.c sf32lb52_buttons.c
+    27	CSRCS += ../../drivers/lcd/sf32lb_lcd.c ../../drivers/input/ft6146.c
+    28	
+    29	ifeq ($(CONFIG_ARCH_BUTTONS),y)
+    30	CSRCS += sf32lb52_buttons.c
+    31	endif
+    32	
+    33	RCSRCS = etc/init.d/rc.sysinit etc/init.d/rcS
+    34	RCRAWS = etc/group
+    35	
+    36	include $(TOPDIR)/boards/Board.mk

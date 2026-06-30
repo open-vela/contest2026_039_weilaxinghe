@@ -1,0 +1,70 @@
+ M boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh/defconfig
+ M boards/sf32lb52/sf32lb52_lchspi_ulp/scripts/Make.defs
+ M boards/sf32lb52/sf32lb52_lchspi_ulp/src/Makefile
+ M chips/drivers/Include/bf0_hal_conf_hcpu.h
+ M chips/drivers/Include/bf0_hal_conf_lcpu.h
+ M chips/drivers/Include/bf0_hal_def.h
+ M chips/drivers/Include/bf0_hal_lcdc.h
+ M chips/drivers/hal/bf0_hal_mpi_psram.c
+ M chips/sf32lb52/Make.defs
+ M chips/sf32lb52/sf32lb_adc.c
+ M chips/sf32lb52/sf32lb_flash.c
+?? boards/sf32lb52/drivers/input/ft6146.o
+?? boards/sf32lb52/drivers/lcd/co5300.o
+?? boards/sf32lb52/drivers/lcd/sf32lb_lcd.o
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/.depend
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/Make.dep
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/bsp_init.o
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/bsp_lcd_tp.o
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/bsp_pinmux.o
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/bsp_power.o
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/etctmp.c
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/etctmp.o
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/etctmp/
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/libboard.a
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/sf32lb52_buttons.o
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/sifli_ap.o
+?? boards/sf32lb52/sf32lb52_lchspi_ulp/src/sifli_gpio.o
+?? chips/drivers/cmsis/sf32lb52x/Templates/system_bf0_ap.o
+?? chips/drivers/cmsis/sf32lb52x/bf0_pin_const.o
+?? chips/drivers/cmsis/sf32lb52x/lcpu_config_type.o
+?? chips/drivers/hal/bf0_hal.o
+?? chips/drivers/hal/bf0_hal_adc.o
+?? chips/drivers/hal/bf0_hal_cortex.o
+?? chips/drivers/hal/bf0_hal_dma.o
+?? chips/drivers/hal/bf0_hal_efuse.o
+?? chips/drivers/hal/bf0_hal_gpio.o
+?? chips/drivers/hal/bf0_hal_hcd.o
+?? chips/drivers/hal/bf0_hal_hlp.o
+?? chips/drivers/hal/bf0_hal_hpaon.o
+?? chips/drivers/hal/bf0_hal_i2c.o
+?? chips/drivers/hal/bf0_hal_lcdc.o
+?? chips/drivers/hal/bf0_hal_lcpu_config.o
+?? chips/drivers/hal/bf0_hal_lpaon.o
+?? chips/drivers/hal/bf0_hal_lptim.o
+?? chips/drivers/hal/bf0_hal_lrc_cal.o
+?? chips/drivers/hal/bf0_hal_mailbox.o
+?? chips/drivers/hal/bf0_hal_mpi.o
+?? chips/drivers/hal/bf0_hal_mpi_ex.o
+?? chips/drivers/hal/bf0_hal_mpi_psram.o
+?? chips/drivers/hal/bf0_hal_pcd.o
+?? chips/drivers/hal/bf0_hal_pinmux.o
+?? chips/drivers/hal/bf0_hal_pmu.o
+?? chips/drivers/hal/bf0_hal_qspi.o
+?? chips/drivers/hal/bf0_hal_qspi_ex.o
+?? chips/drivers/hal/bf0_hal_rcc.o
+?? chips/drivers/hal/bf0_hal_rtc.o
+?? chips/drivers/hal/bf0_hal_spi.o
+?? chips/drivers/hal/bf0_hal_tim.o
+?? chips/drivers/hal/bf0_hal_tim_ex.o
+?? chips/drivers/hal/bf0_hal_tsen.o
+?? chips/drivers/hal/bf0_hal_uart.o
+?? chips/drivers/hal/bf0_hal_wdt.o
+?? chips/drivers/hal/bf0_sys_cfg.o
+?? chips/drivers/hal/flash_table.o
+?? chips/sf32lb52/Make.defs.bak_velabridge_ipc_20260630
+?? chips/sf32lb52/ipc_queue/common/circular_buf.o
+?? chips/sf32lb52/ipc_queue/common/ipc_hw.o
+?? chips/sf32lb52/ipc_queue/common/ipc_queue.o
+?? chips/sf32lb52/ipc_queue/porting/sf32lb52x/hcpu/ipc_hw_port.o
+?? chips/sf32lb52/openvela_local_compat.h

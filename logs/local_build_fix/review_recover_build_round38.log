@@ -1,0 +1,265 @@
+LIBCLANG_PATH set to: /home/czy/openvela_contest/prebuilts/rust/linux/extra_libs
+including vendor/infineon/boards/aurix/build/vendorsetup.sh
+including vendor/infineon/boards/aurix_tc3/build/vendorsetup.sh
+including vendor/openvela/boards/build/vendorsetup.sh
+Build command line:
+  /home/czy/openvela_contest/nuttx/tools/configure.sh -e /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+  make -C /home/czy/openvela_contest/nuttx EXTRAFLAGS=-Wno-cpp -Wno-deprecated-declarations -j1
+  make -C /home/czy/openvela_contest/nuttx savedefconfig
+No configuration change.
+make: Entering directory '/home/czy/openvela_contest/nuttx'
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+Makefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+[1KCC:  misc/lib_utsname.c [1K[1KIN: libs/libc/libc.a -> staging/libc.a [1KMakefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+[1KCC:  sifli_cmsis/sf32lb52x/lcpu_config_type.c In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_rcc.h:15,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:232,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal.h:22,
+                 from sifli_cmsis/sf32lb52x/lcpu_config_type.c:10:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_def.h:60: warning: "UNUSED" redefined
+   60 | #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
+      | 
+In file included from /home/czy/openvela_contest/nuttx/include/stdlib.h:31,
+                 from sifli_cmsis/sf32lb52x/lcpu_config_type.c:7:
+/home/czy/openvela_contest/nuttx/include/nuttx/compiler.h:624: note: this is the location of the previous definition
+  624 | #    define UNUSED(a) ((void)(1 || &(a)))
+      | 
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:289:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_mpi_ex.h:524:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  524 | int HAL_QSPI_ENABLE_WDT();
+      | ^~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:389:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:167:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  167 | char *BSP_Get_UserOTP_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:168:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  168 | char *BSP_Get_CustOTP_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:170:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  170 | char *BSP_Get_SysCfg_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:175:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  175 | uint32_t BSP_Get_Sip1_Mode();
+      | ^~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:176:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  176 | uint32_t BSP_Get_Sip2_Mode();
+      | ^~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:393:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_pmu.h:510:35: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  510 | __STATIC_INLINE HAL_StatusTypeDef HAL_PMU_EnableChgWakeup()
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_pmu.h:518:35: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  518 | __STATIC_INLINE HAL_StatusTypeDef HAL_PMU_DisableChgWakeup()
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:441:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_lrc_cal.h:64:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+   64 | float HAL_LPTIM_GetFreq();
+      | ^~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:466:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:367:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  367 | void HAL_TURN_OFF_PLL();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:538:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  538 | uint8_t get_pll_state();
+      | ^~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:540:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  540 | uint8_t get_pll_freq_type();
+      | ^~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:543:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  543 | void bf0_disable_pll();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:544:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  544 | void HAL_TURN_ON_PLL();
+      | ^~~~
+[1K[1KCC:  sifli_hal/bf0_hal_lpaon.c In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_rcc.h:15,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:232,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal.h:22,
+                 from sifli_hal/bf0_hal_lpaon.c:7:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_def.h:60: warning: "UNUSED" redefined
+   60 | #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
+      | 
+In file included from /home/czy/openvela_contest/nuttx/include/sys/types.h:31,
+                 from /home/czy/openvela_contest/nuttx/include/stddef.h:30,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_def.h:25:
+/home/czy/openvela_contest/nuttx/include/nuttx/compiler.h:624: note: this is the location of the previous definition
+  624 | #    define UNUSED(a) ((void)(1 || &(a)))
+      | 
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:289:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_mpi_ex.h:524:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  524 | int HAL_QSPI_ENABLE_WDT();
+      | ^~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:389:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:167:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  167 | char *BSP_Get_UserOTP_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:168:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  168 | char *BSP_Get_CustOTP_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:170:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  170 | char *BSP_Get_SysCfg_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:175:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  175 | uint32_t BSP_Get_Sip1_Mode();
+      | ^~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:176:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  176 | uint32_t BSP_Get_Sip2_Mode();
+      | ^~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:393:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_pmu.h:510:35: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  510 | __STATIC_INLINE HAL_StatusTypeDef HAL_PMU_EnableChgWakeup()
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_pmu.h:518:35: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  518 | __STATIC_INLINE HAL_StatusTypeDef HAL_PMU_DisableChgWakeup()
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:441:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_lrc_cal.h:64:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+   64 | float HAL_LPTIM_GetFreq();
+      | ^~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:466:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:367:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  367 | void HAL_TURN_OFF_PLL();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:538:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  538 | uint8_t get_pll_state();
+      | ^~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:540:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  540 | uint8_t get_pll_freq_type();
+      | ^~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:543:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  543 | void bf0_disable_pll();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:544:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  544 | void HAL_TURN_ON_PLL();
+      | ^~~~
+[1K[1KCC:  sifli_hal/bf0_hal_efuse.c In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_rcc.h:15,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:232,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal.h:22,
+                 from sifli_hal/bf0_hal_efuse.c:7:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_def.h:60: warning: "UNUSED" redefined
+   60 | #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
+      | 
+In file included from /home/czy/openvela_contest/nuttx/include/sys/types.h:31,
+                 from /home/czy/openvela_contest/nuttx/include/stddef.h:30,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_def.h:25:
+/home/czy/openvela_contest/nuttx/include/nuttx/compiler.h:624: note: this is the location of the previous definition
+  624 | #    define UNUSED(a) ((void)(1 || &(a)))
+      | 
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:289:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_mpi_ex.h:524:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  524 | int HAL_QSPI_ENABLE_WDT();
+      | ^~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:389:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:167:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  167 | char *BSP_Get_UserOTP_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:168:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  168 | char *BSP_Get_CustOTP_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:170:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  170 | char *BSP_Get_SysCfg_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:175:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  175 | uint32_t BSP_Get_Sip1_Mode();
+      | ^~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:176:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  176 | uint32_t BSP_Get_Sip2_Mode();
+      | ^~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:393:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_pmu.h:510:35: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  510 | __STATIC_INLINE HAL_StatusTypeDef HAL_PMU_EnableChgWakeup()
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_pmu.h:518:35: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  518 | __STATIC_INLINE HAL_StatusTypeDef HAL_PMU_DisableChgWakeup()
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:441:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_lrc_cal.h:64:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+   64 | float HAL_LPTIM_GetFreq();
+      | ^~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:466:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:367:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  367 | void HAL_TURN_OFF_PLL();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:538:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  538 | uint8_t get_pll_state();
+      | ^~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:540:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  540 | uint8_t get_pll_freq_type();
+      | ^~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:543:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  543 | void bf0_disable_pll();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:544:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  544 | void HAL_TURN_ON_PLL();
+      | ^~~~
+[1K[1KCC:  sifli_hal/bf0_hal_cortex.c In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_rcc.h:15,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:232,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal.h:22,
+                 from sifli_hal/bf0_hal_cortex.c:8:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_def.h:60: warning: "UNUSED" redefined
+   60 | #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
+      | 
+In file included from /home/czy/openvela_contest/nuttx/include/sys/types.h:31,
+                 from /home/czy/openvela_contest/nuttx/include/stddef.h:30,
+                 from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_def.h:25:
+/home/czy/openvela_contest/nuttx/include/nuttx/compiler.h:624: note: this is the location of the previous definition
+  624 | #    define UNUSED(a) ((void)(1 || &(a)))
+      | 
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:289:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_mpi_ex.h:524:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  524 | int HAL_QSPI_ENABLE_WDT();
+      | ^~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:389:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:167:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  167 | char *BSP_Get_UserOTP_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:168:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  168 | char *BSP_Get_CustOTP_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:170:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  170 | char *BSP_Get_SysCfg_Cache();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:175:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  175 | uint32_t BSP_Get_Sip1_Mode();
+      | ^~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_sys_cfg.h:176:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  176 | uint32_t BSP_Get_Sip2_Mode();
+      | ^~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:393:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_pmu.h:510:35: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  510 | __STATIC_INLINE HAL_StatusTypeDef HAL_PMU_EnableChgWakeup()
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_pmu.h:518:35: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  518 | __STATIC_INLINE HAL_StatusTypeDef HAL_PMU_DisableChgWakeup()
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:441:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_lrc_cal.h:64:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+   64 | float HAL_LPTIM_GetFreq();
+      | ^~~~~
+In file included from /home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h:466:
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:367:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  367 | void HAL_TURN_OFF_PLL();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:538:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  538 | uint8_t get_pll_state();
+      | ^~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:540:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  540 | uint8_t get_pll_freq_type();
+      | ^~~~~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:543:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  543 | void bf0_disable_pll();
+      | ^~~~
+/home/czy/openvela_contest/nuttx/../vendor/sifli/chips/drivers/Include/bf0_hal_audcodec.h:544:1: warning: function declaration isn't a prototype [-Wstrict-prototypes]
+  544 | void HAL_TURN_ON_PLL();
+      | ^~~~
+[1K[1KIN: arch/arm/src/libarch.a -> staging/libarch.a [1KMakefile:169: target 'sf32lb_usbdev.o' given more than once in the same rule
+LD: nuttx
+[1KCC:  allsyms.tmp [1Karm-none-eabi-ld: warning: /home/czy/openvela_contest/nuttx/nuttx has a LOAD segment with RWX permissions
+arm-none-eabi-ld: /home/czy/openvela_contest/nuttx/staging/libarch.a(sifli_oneshot.o): in function `up_timer_initialize':
+/home/czy/openvela_contest/nuttx/arch/arm/src/chip/sifli_oneshot.c:808:(.text.up_timer_initialize+0x1c): undefined reference to `systick_initialize'
+Memory region         Used Size  Region Size  %age Used
+           flash:     1373420 B        16 MB      8.19%
+            sram:       69892 B       512 KB     13.33%
+           psram:           0 B         8 MB      0.00%
+make[1]: *** [Makefile:223: nuttx] Error 1
+make: *** [tools/Unix.mk:551: nuttx] Error 2
+make: Leaving directory '/home/czy/openvela_contest/nuttx'
+Error: ############# build /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh fail ##############

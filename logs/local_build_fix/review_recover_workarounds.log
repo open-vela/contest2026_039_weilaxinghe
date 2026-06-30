@@ -1,0 +1,180 @@
+ipc_queue: /home/czy/openvela_contest/nuttx/arch/arm/src/ipc_queue -> chip/ipc_queue
+config restored: /home/czy/openvela_contest/vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh/defconfig
+config restored: /home/czy/openvela_contest/nuttx/.config
+bf0_hal wrapper backup: /home/czy/openvela_contest/contest2026_039_weilaxinghe/logs/local_build_fix/bf0_hal_chip_wrapper.before_review_recover_20260630_211204.h
+bf0_hal wrapper written: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/bf0_hal.h
+systematized header candidates: aes_acc.h, atim.h, audcodec_hp.h, audcodec_lp.h, audprc.h, bf0_hal.h, bf0_hal_conf_hcpu.h, bf0_hal_conf_lcpu.h, bf0_hal_hlp.h, bt_mac.h, bt_phy.h, bt_rfc.h, btim.h, busmon.h, cache.h, can.h, cmsis_compiler.h, cmsis_gcc.h, cmsis_version.h, core_cm33.h, core_mstar.h, crc.h, dmac.h, dsi_host.h, dsi_phy.h, efusec.h, epic.h, extdma.h, ezip.h, facc.h, fft.h, gpadc.h, gpio1.h, gpio2.h, gpt.h, hpsys_aon.h, hpsys_cfg.h, hpsys_pinmux.h, hpsys_rcc.h, i2c.h, i2s.h, jpegdec.h, jpegenc.h, lcd_if.h, lpcomp.h, lpsys_aon.h, lpsys_cfg.h, lpsys_pinmux.h, lpsys_rcc.h, lptim.h, mailbox1.h, mailbox2.h, mem_map.h, mpi.h, mpu_armv8.h, nn_acc.h, patch.h, pdm.h, pmuc.h, ptc.h, register.h, rtc.h, sci.h, sdadc.h, sdhci.h, sdmmc.h, spi.h, system_bf0_ap.h, trng.h, tsen.h, usart.h, usbc_x.h, v2d_gpu.h, wdt.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/aes_acc.h -> ../cmsis/sf32lb52x/aes_acc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/aes_acc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/aes_acc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/atim.h -> ../cmsis/sf32lb52x/atim.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/atim.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/atim.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/audcodec_hp.h -> ../cmsis/sf32lb56x/audcodec_hp.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/audcodec_hp.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb56x/audcodec_hp.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/audcodec_lp.h -> ../cmsis/sf32lb56x/audcodec_lp.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/audcodec_lp.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb56x/audcodec_lp.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/audprc.h -> ../cmsis/sf32lb52x/audprc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/audprc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/audprc.h
+header skip configured: bf0_hal.h
+header real file kept: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/bf0_hal_conf_hcpu.h -> ../../../../../vendor/sifli/chips/drivers/Include/bf0_hal_conf_hcpu.h
+header real file kept: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/bf0_hal_conf_lcpu.h -> ../../../../../vendor/sifli/chips/drivers/Include/bf0_hal_conf_lcpu.h
+header real file kept: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bf0_hal_hlp.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/bf0_hal_hlp.h -> ../../../../../vendor/sifli/chips/drivers/Include/bf0_hal_hlp.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bt_mac.h -> ../cmsis/sf32lb52x/bt_mac.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/bt_mac.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/bt_mac.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bt_phy.h -> ../cmsis/sf32lb52x/bt_phy.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/bt_phy.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/bt_phy.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/bt_rfc.h -> ../cmsis/sf32lb52x/bt_rfc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/bt_rfc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/bt_rfc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/btim.h -> ../cmsis/Include/btim.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/btim.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/Include/btim.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/busmon.h -> ../cmsis/sf32lb52x/busmon.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/busmon.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/busmon.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/cache.h -> ../cmsis/sf32lb52x/cache.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/cache.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/cache.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/can.h -> ../cmsis/sf32lb52x/can.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/can.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/can.h
+header link exists: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/cmsis_compiler.h -> /home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/cmsis_compiler.h
+header link exists: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/cmsis_compiler.h -> /home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/cmsis_compiler.h
+header link exists: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/cmsis_gcc.h -> /home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/cmsis_gcc.h
+header link exists: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/cmsis_gcc.h -> /home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/cmsis_gcc.h
+header link exists: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/cmsis_version.h -> /home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/cmsis_version.h
+header link exists: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/cmsis_version.h -> /home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/cmsis_version.h
+header link exists: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/core_cm33.h -> /home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/core_cm33.h
+header link exists: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/core_cm33.h -> /home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/core_cm33.h
+header link exists: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/core_mstar.h -> /home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/core_mstar.h
+header link exists: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/core_mstar.h -> /home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/core_mstar.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/crc.h -> ../cmsis/Include/crc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/crc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/Include/crc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/dmac.h -> ../cmsis/sf32lb52x/dmac.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/dmac.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/dmac.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/dsi_host.h -> ../cmsis/sf32lb55x/dsi_host.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/dsi_host.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb55x/dsi_host.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/dsi_phy.h -> ../cmsis/sf32lb55x/dsi_phy.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/dsi_phy.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb55x/dsi_phy.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/efusec.h -> ../cmsis/sf32lb52x/efusec.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/efusec.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/efusec.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/epic.h -> ../cmsis/sf32lb52x/epic.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/epic.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/epic.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/extdma.h -> ../cmsis/sf32lb52x/extdma.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/extdma.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/extdma.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/ezip.h -> ../cmsis/sf32lb52x/ezip.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/ezip.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/ezip.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/facc.h -> ../cmsis/sf32lb52x/facc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/facc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/facc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/fft.h -> ../cmsis/sf32lb52x/fft.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/fft.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/fft.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/gpadc.h -> ../cmsis/sf32lb52x/gpadc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/gpadc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/gpadc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/gpio1.h -> ../cmsis/sf32lb52x/gpio1.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/gpio1.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/gpio1.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/gpio2.h -> ../cmsis/sf32lb52x/gpio2.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/gpio2.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/gpio2.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/gpt.h -> ../cmsis/Include/gpt.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/gpt.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/Include/gpt.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/hpsys_aon.h -> ../cmsis/sf32lb52x/hpsys_aon.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/hpsys_aon.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/hpsys_aon.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/hpsys_cfg.h -> ../cmsis/sf32lb52x/hpsys_cfg.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/hpsys_cfg.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/hpsys_cfg.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/hpsys_pinmux.h -> ../cmsis/sf32lb52x/hpsys_pinmux.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/hpsys_pinmux.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/hpsys_pinmux.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/hpsys_rcc.h -> ../cmsis/sf32lb52x/hpsys_rcc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/hpsys_rcc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/hpsys_rcc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/i2c.h -> ../cmsis/sf32lb52x/i2c.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/i2c.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/i2c.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/i2s.h -> ../cmsis/sf32lb52x/i2s.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/i2s.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/i2s.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/jpegdec.h -> ../cmsis/sf32lb58x/jpegdec.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/jpegdec.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb58x/jpegdec.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/jpegenc.h -> ../cmsis/sf32lb58x/jpegenc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/jpegenc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb58x/jpegenc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/lcd_if.h -> ../cmsis/sf32lb52x/lcd_if.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/lcd_if.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/lcd_if.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/lpcomp.h -> ../cmsis/sf32lb52x/lpcomp.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/lpcomp.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/lpcomp.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/lpsys_aon.h -> ../cmsis/sf32lb52x/lpsys_aon.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/lpsys_aon.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/lpsys_aon.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/lpsys_cfg.h -> ../cmsis/sf32lb52x/lpsys_cfg.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/lpsys_cfg.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/lpsys_cfg.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/lpsys_pinmux.h -> ../cmsis/sf32lb52x/lpsys_pinmux.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/lpsys_pinmux.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/lpsys_pinmux.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/lpsys_rcc.h -> ../cmsis/sf32lb52x/lpsys_rcc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/lpsys_rcc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/lpsys_rcc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/lptim.h -> ../cmsis/Include/lptim.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/lptim.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/Include/lptim.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/mailbox1.h -> ../cmsis/sf32lb52x/mailbox1.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/mailbox1.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/mailbox1.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/mailbox2.h -> ../cmsis/sf32lb52x/mailbox2.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/mailbox2.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/mailbox2.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/mem_map.h -> ../cmsis/sf32lb52x/mem_map.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/mem_map.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/mem_map.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/mpi.h -> ../cmsis/sf32lb52x/mpi.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/mpi.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/mpi.h
+header link exists: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/mpu_armv8.h -> /home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/mpu_armv8.h
+header link exists: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/mpu_armv8.h -> /home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/mpu_armv8.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/nn_acc.h -> ../cmsis/Include/nn_acc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/nn_acc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/Include/nn_acc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/patch.h -> ../cmsis/sf32lb52x/patch.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/patch.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/patch.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/pdm.h -> ../cmsis/sf32lb52x/pdm.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/pdm.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/pdm.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/pmuc.h -> ../cmsis/sf32lb52x/pmuc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/pmuc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/pmuc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/ptc.h -> ../cmsis/sf32lb52x/ptc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/ptc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/ptc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/register.h -> ../cmsis/sf32lb52x/register.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/register.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/register.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/rtc.h -> ../cmsis/sf32lb52x/rtc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/rtc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/rtc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/sci.h -> ../cmsis/sf32lb52x/sci.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/sci.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/sci.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/sdadc.h -> ../cmsis/sf32lb55x/sdadc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/sdadc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb55x/sdadc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/sdhci.h -> ../cmsis/sf32lb56x/sdhci.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/sdhci.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb56x/sdhci.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/sdmmc.h -> ../cmsis/sf32lb55x/sdmmc.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/sdmmc.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb55x/sdmmc.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/spi.h -> ../cmsis/sf32lb52x/spi.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/spi.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/spi.h
+header link exists: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/system_bf0_ap.h -> /home/czy/openvela_contest/vendor/sifli/chips/drivers/cmsis/Include/system_bf0_ap.h
+header link exists: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/system_bf0_ap.h -> /home/czy/openvela_contest/vendor/sifli/chips/drivers/cmsis/Include/system_bf0_ap.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/trng.h -> ../cmsis/sf32lb52x/trng.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/trng.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/trng.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/tsen.h -> ../cmsis/Include/tsen.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/tsen.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/Include/tsen.h
+header link exists: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/usart.h -> /home/czy/openvela_contest/vendor/sifli/chips/drivers/cmsis/Include/usart.h
+header link exists: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/usart.h -> /home/czy/openvela_contest/vendor/sifli/chips/drivers/cmsis/Include/usart.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/usbc_x.h -> ../cmsis/sf32lb52x/usbc_x.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/usbc_x.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/usbc_x.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/v2d_gpu.h -> ../cmsis/sf32lb58x/v2d_gpu.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/v2d_gpu.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb58x/v2d_gpu.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/wdt.h -> ../cmsis/sf32lb52x/wdt.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/wdt.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/wdt.h
+app output already present
+build round 1 start
+build round 1 exit=2
+round 1: first missing header sd.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/sd.h -> ../cmsis/sf32lb52x/sd.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/sd.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/sd.h
+build round 1 fixed_next=True
+build round 2 start
+build round 2 exit=2
+round 2: first missing header audcodec.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/audcodec.h -> ../cmsis/sf32lb52x/audcodec.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/audcodec.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/audcodec.h
+build round 2 fixed_next=True
+build round 3 start
+build round 3 exit=2
+round 3: first missing header secu1.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/secu1.h -> ../cmsis/sf32lb52x/secu1.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/secu1.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/secu1.h
+build round 3 fixed_next=True
+build round 4 start
+build round 4 exit=2
+round 4: first missing header secu2.h
+header link: /home/czy/openvela_contest/vendor/sifli/chips/drivers/Include/secu2.h -> ../cmsis/sf32lb52x/secu2.h
+header link: /home/czy/openvela_contest/nuttx/arch/arm/src/chip/secu2.h -> ../../../../../vendor/sifli/chips/drivers/cmsis/sf32lb52x/secu2.h
+build round 4 fixed_next=True
+build round 5 start
+build round 5 exit=2

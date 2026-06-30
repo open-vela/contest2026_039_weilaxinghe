@@ -1,0 +1,3 @@
+ipc_queue_workaround
+/home/czy/openvela_contest/nuttx/arch/arm/src/ipc_queue -> chip/ipc_queue
+/home/czy/openvela_contest/vendor/sifli/chips/sf32lb52/ipc_queue/Make.defs

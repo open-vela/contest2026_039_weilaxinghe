@@ -1,0 +1,4 @@
+-rwxr-xr-x 1 czy czy  13M Jun 30 14:56 nuttx/nuttx
+-rwxr-xr-x 1 czy czy 1.5M Jun 30 14:56 nuttx/nuttx.bin
+nuttx/nuttx:     ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, with debug_info, not stripped
+nuttx/nuttx.bin: data

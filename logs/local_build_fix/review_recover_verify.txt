@@ -1,0 +1,18 @@
+## artifacts
+-rwxr-xr-x 1 czy czy  13M Jun 30 22:10 nuttx/nuttx
+-rwxr-xr-x 1 czy czy 1.5M Jun 30 22:10 nuttx/nuttx.bin
+
+## config
+267:CONFIG_ARM_SYSTICK=y
+268:# CONFIG_ARM_SYSTICK_IRQ_WQUEUE is not set
+283:CONFIG_ARMV8M_SYSTICK=y
+3647:CONFIG_LVX_USE_DEMO_CONTEST2026_039_VELABRIDGE_APP=y
+
+## register log
+
+## copy
+-rwxrwxrwx 1 czy czy 1.5M Jun 30  2026 /mnt/d/shaolu/nuttx.bin
+
+## sha256
+ca9723046407a06098903e93ac2e2be3a153f8b4c8ad8dd81e294ae930f22b92  nuttx/nuttx.bin
+ca9723046407a06098903e93ac2e2be3a153f8b4c8ad8dd81e294ae930f22b92  /mnt/d/shaolu/nuttx.bin

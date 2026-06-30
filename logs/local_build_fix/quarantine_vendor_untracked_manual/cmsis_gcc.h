@@ -1,0 +1,1 @@
+/home/czy/openvela_contest/vendor/sifli/chips/external/CMSIS/Include/cmsis_gcc.h

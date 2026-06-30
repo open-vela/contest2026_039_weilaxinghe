@@ -1,0 +1,3 @@
+?? arch/arm/src/ipc_queue
+?? arch/arm/src/sifli_cmsis
+?? arch/arm/src/sifli_hal

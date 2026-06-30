@@ -1,0 +1,30 @@
+endif
+
+ifeq ($(CONFIG_UART_BTH4),y)
+CHIP_CSRCS += sf32lb52_bt_adapter.c
+CHIP_CSRCS += sf32lb52_bth4.c
+CHIP_CSRCS += sf32lb52_lcpu_boot.c
+CHIP_CSRCS += ../drivers/cmsis/sf32lb52x/lcpu_patch.c
+CHIP_CSRCS += ../drivers/cmsis/sf32lb52x/lcpu_patch_rev_b.c
+CHIP_CSRCS += ../drivers/cmsis/sf32lb52x/bt_rf_fulcal.c
+endif
+
+include chip/ipc_queue/Make.defs
+
+ifeq ($(CONFIG_SF32LB52_USBDEV),y)
+CHIP_CSRCS += sf32lb_usbdev.c
+endif
+
+# VelaBridge local workaround: add SiFli HAL/CMSIS include paths for
+# sf32lb52_lchspi_ulp openvela build diagnosis. Do not submit upstream.
+SIFLI_VENDOR_DIR = $(TOPDIR)$(DELIM)..$(DELIM)vendor$(DELIM)sifli
+ARCHDEFINES += -DSOC_BF0_HCPU=1
+INCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)drivers$(DELIM)Include
+INCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)drivers$(DELIM)cmsis$(DELIM)Include
+INCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)drivers$(DELIM)cmsis$(DELIM)sf32lb52x
+INCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)external$(DELIM)CMSIS$(DELIM)Include
+INCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)sf32lb52
+INCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)sf32lb52$(DELIM)include
+INCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)boards$(DELIM)include
+INCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)chips$(DELIM)boards$(DELIM)include$(DELIM)config$(DELIM)sf32lb52x
+INCLUDES += ${INCDIR_PREFIX}$(SIFLI_VENDOR_DIR)$(DELIM)boards$(DELIM)sf32lb52$(DELIM)sf32lb52_lchspi_ulp$(DELIM)include
