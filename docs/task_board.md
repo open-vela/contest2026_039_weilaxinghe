@@ -26,6 +26,7 @@
 | 喇叭 / 麦克风 / 震动验证 | 硬件 / 固件工程师 | `docs/hardware_validation.md` | 分别完成测试并补充人工确认结果；当前喇叭 / 麦克风保持未触发测试 / 待复测，震动保持待测试。 | 是 | P1 |
 | 记录 SF32LB52 构建问题 | 固件 / 文档负责人 | `docs/build_notes.md` | 写清 repo sync、board config、VelaBridge app Register、底层缺失头文件和 workaround 风险。 | 否 | P0 |
 | 询问官方推荐 build config | 项目负责人 / 固件工程师 | `docs/official_question_sf32lb52_build.md` | 形成可发给官方群、GitHub issue 或指导老师的问题说明。 | 否 | P0 |
+| 整理 SF32LB52 本地自动化诊断结果 | 固件 / 文档负责人 | `logs/local_build_fix/` / `docs/build_notes.md` | 只提交 `build_fix_report.md` 和 `key_log_summary.md` 等小摘要，记录 clean board 最后 blocker；不提交 `nuttx/`、`vendor/sifli/` workaround、大日志或 build 产物。 | 否 | P0 |
 | 保持 VelaBridge Watch 应用层开发推进 | AI / 固件工程师 | `ai_bridge/` / `app/velabridge_app/` / `docs/` | 在底层 build blocker 未解决前，继续推进 mock、协议、状态机和演示脚本。 | 否 | P0 |
 | 等官方确认后修复底层 build | 固件工程师 | 外层 openvela workspace | 官方确认推荐 config 和 HAL / CMSIS 依赖后，再修复本地构建链路。 | 是 | P1 |
 | 编译 VelaBridge app | 固件工程师 | `app/velabridge_app/` | `Register: velabridge_app` 后继续完成完整编译，不把未通过写成已完成。 | 是 | P1 |
