@@ -105,3 +105,34 @@ chip.h: Too many levels of symbolic links
 4. 确认是否有官方推荐的编译命令。
 5. 在官方确认前，先继续推进 VelaBridge Watch 应用层、AI Bridge mock、协议、演示脚本和测试样例。
 6. 本地 workaround 只用于临时定位，不作为长期维护方案。
+
+## 2026-06-30 本地自动化诊断结果
+
+本次在 WSL2 本地 openvela workspace `/home/czy/openvela_contest` 中实际执行了分阶段构建诊断，使用官方推荐 board config：
+
+```text
+vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh
+```
+
+诊断日志与报告保存在：
+
+```text
+logs/local_build_fix/build_fix_report.md
+logs/local_build_fix/key_log_summary.md
+```
+
+阶段结果：
+
+- clean board build 不启用 VelaBridge app 时已经失败，先出现 `ipc_queue/Make.defs: No such file or directory`。
+- 创建本地最小 workaround `nuttx/arch/arm/src/ipc_queue -> chip/ipc_queue` 后，错误推进到 `-mfloat-abi=hard: selected architecture lacks an FPU`。
+- 临时把 `sf32lb52_lchspi_ulp/configs/nsh/defconfig` 改为 soft-float 后，错误继续推进到 `./sifli_ap.c:40:10: fatal error: bf0_hal.h: No such file or directory`。
+- 因 clean board build 尚未通过，未启用 VelaBridge app，也未进入烧录阶段。
+
+本次只整理诊断报告和摘要，不提交以下本地 workaround：
+
+- `nuttx/arch/arm/src/ipc_queue` 临时软链接。
+- `vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh/defconfig` soft-float 临时修改。
+- defconfig 备份文件。
+- build 产物或大体积原始日志。
+
+结论：当前仍然证明 blocker 在 SF32LB52 / SiFli board、HAL、CMSIS 或 build config 链路，不在 VelaBridge app 应用层代码。当前不能写“固件已编译通过”，也不能进入烧录阶段。

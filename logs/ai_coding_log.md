@@ -195,3 +195,28 @@ python3 -m unittest tests/test_mock_bridge.py
   - 不修改 `openvela.xml`。
   - 官方确认前不声称固件已编译通过。
   - 不把本地 workaround 写成官方修复。
+
+## 2026-06-30 SF32LB52 本地自动化构建诊断记录
+
+- 日期：2026-06-30
+- 事件：整理 SF32LB52 本地自动化诊断报告。
+- 人工输入事实：
+  - 官方推荐 board config：`vendor/sifli/boards/sf32lb52/sf32lb52_lchspi_ulp/configs/nsh`。
+  - 使用 openvela `./build.sh`，不使用 `scons`。
+  - `nuttx` 与 `vendor/sifli` 均在 `dev-ai-contest-2026`。
+  - 不提交 `nuttx/`、`vendor/sifli/`、`apps/`、`packages/`、`openvela.xml`、build 产物、临时软链接或 defconfig 备份文件。
+- Codex 工作：
+  - 在 `/home/czy/openvela_contest` 实际执行 clean board build 诊断。
+  - 记录 `ipc_queue/Make.defs`、FPU hard-float、soft-float 后 `bf0_hal.h` 的阶段性 blocker。
+  - 生成 `logs/local_build_fix/build_fix_report.md`。
+  - 生成小型摘要 `logs/local_build_fix/key_log_summary.md`。
+  - 更新 `docs/build_notes.md` 和 `docs/task_board.md`。
+- 测试 / 构建结果：
+  - clean board build 未通过。
+  - 未启用 VelaBridge app。
+  - 未生成可确认对应本次构建的固件产物。
+  - 未进入烧录阶段。
+- 人工审核：
+  - 当前最后 blocker 为 `./sifli_ap.c:40:10: fatal error: bf0_hal.h: No such file or directory`。
+  - 当前结论仍是 SF32LB52 / SiFli board、HAL、CMSIS 或 build config 链路问题，不是 VelaBridge app 应用层代码问题。
+  - 不能写“固件已编译通过”，不能声明可以烧录。
