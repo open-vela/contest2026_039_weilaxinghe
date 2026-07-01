@@ -86,17 +86,36 @@ extern const lv_font_t lv_font_velabridge_cn_28;
 #  define VB_LVGL_VERSION_MAJOR 8
 #endif
 
-enum vb_watch_screen
+enum vb_root_screen
 {
-  VB_SCREEN_BOOT = 0,
-  VB_SCREEN_HOME,
+  VB_ROOT_BOOT = 0,
+  VB_ROOT_HOME,
+  VB_ROOT_FACE,
+  VB_ROOT_APP_WHEEL,
+  VB_ROOT_HEART,
+  VB_ROOT_WORKOUT,
+  VB_ROOT_SLEEP,
+  VB_ROOT_SETTINGS,
+  VB_ROOT_COUNT,
+};
+
+enum vb_screen_id
+{
+  VB_SCREEN_HOME = 0,
+  VB_SCREEN_WHEEL,
+  VB_SCREEN_CAPTION,
+  VB_SCREEN_OCR,
+  VB_SCREEN_DANGER,
+  VB_SCREEN_REPLY,
+  VB_SCREEN_BLIND,
+  VB_SCREEN_SCENE,
+  VB_SCREEN_BRIDGE,
+  VB_SCREEN_PROOF,
+  VB_SCREEN_SETTINGS,
   VB_SCREEN_FACE,
-  VB_SCREEN_APP_WHEEL,
   VB_SCREEN_HEART,
   VB_SCREEN_WORKOUT,
   VB_SCREEN_SLEEP,
-  VB_SCREEN_SETTINGS,
-  VB_SCREEN_COUNT,
 };
 
 enum vb_home_page
@@ -109,6 +128,7 @@ enum vb_home_page
   VB_HOME_BLIND,
   VB_HOME_SCENE,
   VB_HOME_BRIDGE,
+  VB_HOME_PROOF,
   VB_HOME_COUNT,
 };
 
@@ -140,7 +160,7 @@ struct vb_app_item
   const char *id;
   const char *screen_name;
   enum vb_app_icon_type icon;
-  enum vb_watch_screen target;
+  enum vb_root_screen target;
   uint32_t color;
 };
 
@@ -157,13 +177,18 @@ struct vb_home_item
 {
   const char *title;
   const char *status;
+  const char *detail_title;
+  const char *detail_status;
   const char *id;
   enum vb_home_page page;
+  enum vb_screen_id screen_id;
   uint32_t color;
 };
 
-static lv_obj_t *g_vb_screens[VB_SCREEN_COUNT];
-static enum vb_watch_screen g_vb_current_screen = VB_SCREEN_HOME;
+static lv_obj_t *g_vb_screens[VB_ROOT_COUNT];
+static enum vb_root_screen g_vb_current_screen = VB_ROOT_HOME;
+static enum vb_screen_id g_vb_current_screen_id = VB_SCREEN_HOME;
+static enum vb_screen_id g_vb_previous_screen_id = VB_SCREEN_HOME;
 static lv_obj_t *g_vb_home_pages[VB_HOME_COUNT];
 static enum vb_home_page g_vb_home_page = VB_HOME_GRID;
 static lv_obj_t *g_vb_scene_label;
@@ -171,6 +196,9 @@ static lv_obj_t *g_vb_risk_label;
 static lv_obj_t *g_vb_advice_label;
 static lv_obj_t *g_vb_reply_label;
 static lv_obj_t *g_vb_blind_status_label;
+static lv_obj_t *g_vb_caption_label;
+static lv_obj_t *g_vb_ocr_label;
+static lv_obj_t *g_vb_alert_label;
 static uint8_t g_vb_wheel_focus;
 static uint32_t g_vb_last_touch_tick;
 static lv_obj_t *g_vb_wheel_icons[VB_APP_COUNT];
@@ -189,8 +217,18 @@ static void vb_set_wheel_focus(uint8_t focus);
 static void vb_home_show_page(enum vb_home_page page);
 static void vb_open_focused_app(void);
 static lv_color_t vb_color(uint32_t hex);
+static bool vb_text_has_non_ascii(const char *text);
+static void vb_set_label_text_safe_id(lv_obj_t *label,
+                                      const char *text_id,
+                                      const char *cn_text,
+                                      const char *ascii_fallback);
 static void vb_wheel_icon_event(lv_event_t *event);
-void vb_switch_screen(enum vb_watch_screen next);
+static void vb_load_root_screen(enum vb_root_screen next);
+static void vb_show_screen(enum vb_screen_id screen, const char *reason);
+static void vb_go_home(void);
+static void vb_go_back(void);
+static bool vb_handle_nav_touch(int16_t x, int16_t y);
+void vb_switch_screen(enum vb_root_screen next);
 extern void velabridge_handle_json_line(const char *line);
 
 #if LV_USE_NUTTX
@@ -199,44 +237,20 @@ static bool g_vb_nuttx_initialized;
 static bool g_vb_lvgl_initialized_by_app;
 #endif
 
-static const char *g_vb_screen_names[VB_SCREEN_COUNT] =
-{
-  "Boot",
-  "VelaBridge Home",
-  "Watch Face",
-  "App Wheel",
-  "Heart Rate",
-  "Workout",
-  "Sleep",
-  "Settings",
-};
-
-static const char *g_vb_home_page_names[VB_HOME_COUNT] =
-{
-  "VelaBridge Home",
-  "Live Caption",
-  "OCR Vision",
-  "Danger Alert",
-  "Quick Reply",
-  "Blind Mode",
-  "AI Scene",
-  "AI Bridge",
-};
-
 static const struct vb_home_item g_vb_home_items[] =
 {
-  { "实时字幕", "正在聆听...", "caption", VB_HOME_CAPTION,
-    VB_COLOR_BLUE },
-  { "OCR识别", "等待识别结果", "ocr", VB_HOME_OCR,
-    VB_COLOR_GREEN },
-  { "危险提醒", "前方台阶，请小心", "danger", VB_HOME_DANGER,
-    VB_COLOR_RED },
-  { "快捷回复", "请说慢一点", "reply", VB_HOME_REPLY,
-    VB_COLOR_ORANGE },
-  { "盲人模式", "震动/语音提示已开启", "blind", VB_HOME_BLIND,
-    VB_COLOR_PURPLE },
-  { "AI Bridge", "串口智能体已连接", "bridge", VB_HOME_BRIDGE,
-    VB_COLOR_BLUE },
+  { "字幕", "Ready", "实时字幕", "正在聆听...",
+    "caption", VB_HOME_CAPTION, VB_SCREEN_CAPTION, VB_COLOR_BLUE },
+  { "OCR", "Scan", "OCR识别", "等待识别结果",
+    "ocr", VB_HOME_OCR, VB_SCREEN_OCR, VB_COLOR_GREEN },
+  { "危险", "Alert", "危险提醒", "前方台阶，请小心",
+    "danger", VB_HOME_DANGER, VB_SCREEN_DANGER, VB_COLOR_RED },
+  { "回复", "Reply", "快捷回复", "请说慢一点",
+    "reply", VB_HOME_REPLY, VB_SCREEN_REPLY, VB_COLOR_ORANGE },
+  { "盲人", "Safe", "盲人模式", "震动/语音提示已开启",
+    "blind", VB_HOME_BLIND, VB_SCREEN_BLIND, VB_COLOR_PURPLE },
+  { "Bridge", "Agent", "AI Bridge", "串口智能体已连接",
+    "bridge", VB_HOME_BRIDGE, VB_SCREEN_BRIDGE, VB_COLOR_BLUE },
 };
 
 #define VB_HOME_ITEM_COUNT \
@@ -245,29 +259,29 @@ static const struct vb_home_item g_vb_home_items[] =
 static const struct vb_app_item g_vb_apps[VB_APP_COUNT] =
 {
   { "心率", "heart", "Heart Rate", VB_ICON_HEART,
-    VB_SCREEN_HEART, VB_COLOR_RED },
+    VB_ROOT_HEART, VB_COLOR_RED },
   { "睡眠", "sleep", "Sleep", VB_ICON_SLEEP,
-    VB_SCREEN_SLEEP, VB_COLOR_PURPLE },
+    VB_ROOT_SLEEP, VB_COLOR_PURPLE },
   { "运动", "workout", "Workout", VB_ICON_WORKOUT,
-    VB_SCREEN_WORKOUT, VB_COLOR_GREEN },
+    VB_ROOT_WORKOUT, VB_COLOR_GREEN },
   { "天气", "weather", "Weather", VB_ICON_WEATHER,
-    VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+    VB_ROOT_APP_WHEEL, VB_COLOR_BLUE },
   { "通知", "notification", "Notification", VB_ICON_NOTIFICATION,
-    VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+    VB_ROOT_APP_WHEEL, VB_COLOR_BLUE },
   { "音乐", "music", "Music", VB_ICON_MUSIC,
-    VB_SCREEN_APP_WHEEL, VB_COLOR_PURPLE },
+    VB_ROOT_APP_WHEEL, VB_COLOR_PURPLE },
   { "闹钟", "alarm", "Alarm", VB_ICON_ALARM,
-    VB_SCREEN_APP_WHEEL, VB_COLOR_ORANGE },
+    VB_ROOT_APP_WHEEL, VB_COLOR_ORANGE },
   { "设置", "settings", "Settings", VB_ICON_SETTINGS,
-    VB_SCREEN_SETTINGS, VB_COLOR_BLUE },
+    VB_ROOT_SETTINGS, VB_COLOR_BLUE },
   { "支付", "pay", "Pay", VB_ICON_PAY,
-    VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+    VB_ROOT_APP_WHEEL, VB_COLOR_BLUE },
   { "地图", "map", "Map", VB_ICON_MAP,
-    VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
+    VB_ROOT_APP_WHEEL, VB_COLOR_GREEN },
   { "呼吸", "breath", "Breath", VB_ICON_BREATH,
-    VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+    VB_ROOT_APP_WHEEL, VB_COLOR_BLUE },
   { "电话", "phone", "Phone", VB_ICON_PHONE,
-    VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
+    VB_ROOT_APP_WHEEL, VB_COLOR_GREEN },
 };
 
 static const struct vb_wheel_slot g_vb_wheel_slots[VB_WHEEL_VISIBLE_COUNT] =
@@ -281,11 +295,14 @@ static const struct vb_wheel_slot g_vb_wheel_slots[VB_WHEEL_VISIBLE_COUNT] =
   { 142, 78, 44, false, LV_OPA_COVER },
 };
 
-static char g_vb_scene_text[96] = "场景：前方台阶";
-static char g_vb_risk_text[48] = "风险：中等";
-static char g_vb_advice_text[128] = "建议：请减速，小心脚下";
+static char g_vb_scene_text[96] = "场景: 前方台阶";
+static char g_vb_risk_text[48] = "风险: 中等";
+static char g_vb_advice_text[128] = "建议: 请减速, 小心脚下";
 static char g_vb_reply_text[128] = "请说慢一点";
 static char g_vb_blind_status_text[48] = "当前安全";
+static char g_vb_caption_text[128] = "老师说: 请先到教务处服务窗口";
+static char g_vb_ocr_text[128] = "食堂一号窗口, 今日套餐15元";
+static char g_vb_alert_text[128] = "前方台阶, 请小心";
 static char g_vb_serial_line[VB_SERIAL_LINE_SIZE];
 static size_t g_vb_serial_line_len;
 
@@ -490,14 +507,15 @@ bool velabridge_watch_ui_available(void)
 int velabridge_watch_ui_set_scene(const char *text)
 {
   if (!vb_copy_prefixed_text(g_vb_scene_text, sizeof(g_vb_scene_text),
-                             "场景：", text))
+                             "场景: ", text))
     {
       return -EINVAL;
     }
 
   if (g_vb_scene_label != NULL)
     {
-      lv_label_set_text(g_vb_scene_label, g_vb_scene_text);
+      vb_set_label_text_safe_id(g_vb_scene_label, "scene_text",
+                                g_vb_scene_text, "Scene: step ahead");
     }
 
   return 0;
@@ -506,14 +524,15 @@ int velabridge_watch_ui_set_scene(const char *text)
 int velabridge_watch_ui_set_advice(const char *text)
 {
   if (!vb_copy_prefixed_text(g_vb_advice_text, sizeof(g_vb_advice_text),
-                             "建议：", text))
+                             "建议: ", text))
     {
       return -EINVAL;
     }
 
   if (g_vb_advice_label != NULL)
     {
-      lv_label_set_text(g_vb_advice_label, g_vb_advice_text);
+      vb_set_label_text_safe_id(g_vb_advice_label, "advice_text",
+                                g_vb_advice_text, "Advice: slow down");
     }
 
   return 0;
@@ -529,7 +548,8 @@ int velabridge_watch_ui_set_reply(const char *text)
 
   if (g_vb_reply_label != NULL)
     {
-      lv_label_set_text(g_vb_reply_label, g_vb_reply_text);
+      vb_set_label_text_safe_id(g_vb_reply_label, "reply_text",
+                                g_vb_reply_text, "Please speak slower");
     }
 
   return 0;
@@ -547,19 +567,19 @@ int velabridge_watch_ui_set_risk(const char *level)
 
   if (strncmp(value, "low", 3) == 0)
     {
-      snprintf(g_vb_risk_text, sizeof(g_vb_risk_text), "风险：低");
+      snprintf(g_vb_risk_text, sizeof(g_vb_risk_text), "风险: 低");
       safe = true;
     }
   else if (strncmp(value, "medium", 6) == 0)
     {
-      snprintf(g_vb_risk_text, sizeof(g_vb_risk_text), "风险：中等");
+      snprintf(g_vb_risk_text, sizeof(g_vb_risk_text), "风险: 中等");
     }
   else if (strncmp(value, "high", 4) == 0)
     {
-      snprintf(g_vb_risk_text, sizeof(g_vb_risk_text), "风险：高");
+      snprintf(g_vb_risk_text, sizeof(g_vb_risk_text), "风险: 高");
     }
   else if (!vb_copy_prefixed_text(g_vb_risk_text, sizeof(g_vb_risk_text),
-                                  "风险：", value))
+                                  "风险: ", value))
     {
       return -EINVAL;
     }
@@ -569,17 +589,84 @@ int velabridge_watch_ui_set_risk(const char *level)
 
   if (g_vb_risk_label != NULL)
     {
-      lv_label_set_text(g_vb_risk_label, g_vb_risk_text);
+      vb_set_label_text_safe_id(g_vb_risk_label, "risk_text",
+                                g_vb_risk_text, "Risk: medium");
     }
 
   if (g_vb_blind_status_label != NULL)
     {
-      lv_label_set_text(g_vb_blind_status_label,
-                        g_vb_blind_status_text);
+      vb_set_label_text_safe_id(g_vb_blind_status_label,
+                                "blind_status",
+                                g_vb_blind_status_text,
+                                safe ? "Safe" : "Risk detected");
       lv_obj_set_style_text_color(g_vb_blind_status_label,
                                   vb_color(safe ? VB_COLOR_GREEN :
                                            VB_COLOR_RED),
                                   0);
+    }
+
+  return 0;
+}
+
+int velabridge_watch_ui_set_caption(const char *text)
+{
+  if (!vb_copy_prefixed_text(g_vb_caption_text, sizeof(g_vb_caption_text),
+                             "", text))
+    {
+      return -EINVAL;
+    }
+
+  if (g_vb_caption_label != NULL)
+    {
+      vb_set_label_text_safe_id(g_vb_caption_label, "caption_text",
+                                g_vb_caption_text, "Caption ready");
+    }
+
+  return 0;
+}
+
+int velabridge_watch_ui_set_ocr(const char *text)
+{
+  if (!vb_copy_prefixed_text(g_vb_ocr_text, sizeof(g_vb_ocr_text),
+                             "", text))
+    {
+      return -EINVAL;
+    }
+
+  if (g_vb_ocr_label != NULL)
+    {
+      vb_set_label_text_safe_id(g_vb_ocr_label, "ocr_text",
+                                g_vb_ocr_text, "OCR ready");
+    }
+
+  return 0;
+}
+
+int velabridge_watch_ui_set_alert(const char *text)
+{
+  if (!vb_copy_prefixed_text(g_vb_alert_text, sizeof(g_vb_alert_text),
+                             "", text))
+    {
+      return -EINVAL;
+    }
+
+  snprintf(g_vb_blind_status_text, sizeof(g_vb_blind_status_text),
+           "%s", "检测到风险");
+
+  if (g_vb_alert_label != NULL)
+    {
+      vb_set_label_text_safe_id(g_vb_alert_label, "alert_text",
+                                g_vb_alert_text, "Alert ready");
+    }
+
+  if (g_vb_blind_status_label != NULL)
+    {
+      vb_set_label_text_safe_id(g_vb_blind_status_label,
+                                "blind_status",
+                                g_vb_blind_status_text,
+                                "Risk detected");
+      lv_obj_set_style_text_color(g_vb_blind_status_label,
+                                  vb_color(VB_COLOR_RED), 0);
     }
 
   return 0;
@@ -746,12 +833,12 @@ static const lv_font_t *vb_font_big(void)
 
 static const lv_font_t *vb_font_cn(void)
 {
-  return &lv_font_velabridge_cn_18;
+  return &lv_font_simsun_16_cjk;
 }
 
 static const lv_font_t *vb_font_cn_title(void)
 {
-  return &lv_font_velabridge_cn_28;
+  return &lv_font_simsun_16_cjk;
 }
 
 static const lv_font_t *vb_font_title(void)
@@ -778,17 +865,165 @@ static const lv_font_t *vb_font_small(void)
 #  endif
 }
 
-static lv_obj_t *vb_label(lv_obj_t *parent, const char *text,
-                          uint32_t color, const lv_font_t *font)
+static const lv_font_t *vb_ui_get_cn_font(void)
+{
+  return &lv_font_simsun_16_cjk;
+}
+
+static uint32_t vb_utf8_next(const char **cursor)
+{
+  const unsigned char *s = (const unsigned char *)*cursor;
+  uint32_t codepoint;
+
+  if (s == NULL || s[0] == '\0')
+    {
+      return 0;
+    }
+
+  if (s[0] < 0x80)
+    {
+      *cursor = (const char *)(s + 1);
+      return s[0];
+    }
+
+  if ((s[0] & 0xe0) == 0xc0 && s[1] != '\0')
+    {
+      codepoint = ((uint32_t)(s[0] & 0x1f) << 6) |
+                  (uint32_t)(s[1] & 0x3f);
+      *cursor = (const char *)(s + 2);
+      return codepoint;
+    }
+
+  if ((s[0] & 0xf0) == 0xe0 && s[1] != '\0' && s[2] != '\0')
+    {
+      codepoint = ((uint32_t)(s[0] & 0x0f) << 12) |
+                  ((uint32_t)(s[1] & 0x3f) << 6) |
+                  (uint32_t)(s[2] & 0x3f);
+      *cursor = (const char *)(s + 3);
+      return codepoint;
+    }
+
+  if ((s[0] & 0xf8) == 0xf0 && s[1] != '\0' && s[2] != '\0' &&
+      s[3] != '\0')
+    {
+      codepoint = ((uint32_t)(s[0] & 0x07) << 18) |
+                  ((uint32_t)(s[1] & 0x3f) << 12) |
+                  ((uint32_t)(s[2] & 0x3f) << 6) |
+                  (uint32_t)(s[3] & 0x3f);
+      *cursor = (const char *)(s + 4);
+      return codepoint;
+    }
+
+  *cursor = (const char *)(s + 1);
+  return '?';
+}
+
+static bool vb_font_has_text(const lv_font_t *font, const char *utf8_text)
+{
+  const char *cursor = utf8_text;
+  lv_font_glyph_dsc_t glyph;
+
+  if (font == NULL || utf8_text == NULL)
+    {
+      return false;
+    }
+
+  while (cursor != NULL && *cursor != '\0')
+    {
+      uint32_t letter = vb_utf8_next(&cursor);
+
+      if (letter == 0 || letter == '\r' || letter == '\n' ||
+          letter == '\t')
+        {
+          continue;
+        }
+
+      memset(&glyph, 0, sizeof(glyph));
+      if (!lv_font_get_glyph_dsc(font, &glyph, letter, 0))
+        {
+          return false;
+        }
+    }
+
+  return true;
+}
+
+static void vb_log_missing_glyph_once(const char *text_id)
+{
+  static const char *logged_ids[16];
+  static uint8_t logged_count;
+  uint8_t i;
+
+  text_id = text_id == NULL ? "unknown" : text_id;
+  for (i = 0; i < logged_count; i++)
+    {
+      if (strcmp(logged_ids[i], text_id) == 0)
+        {
+          return;
+        }
+    }
+
+  if (logged_count < sizeof(logged_ids) / sizeof(logged_ids[0]))
+    {
+      logged_ids[logged_count++] = text_id;
+    }
+
+  VB_LOG("[velabridge][font] missing glyph in text id=%s\n", text_id);
+}
+
+static void vb_set_label_text_safe_id(lv_obj_t *label,
+                                      const char *text_id,
+                                      const char *cn_text,
+                                      const char *ascii_fallback)
+{
+  const lv_font_t *font = vb_ui_get_cn_font();
+  const char *display = cn_text == NULL ? "" : cn_text;
+
+  if (label == NULL)
+    {
+      return;
+    }
+
+  if (cn_text != NULL && !vb_font_has_text(font, cn_text))
+    {
+      vb_log_missing_glyph_once(text_id);
+      display = ascii_fallback == NULL ? "" : ascii_fallback;
+      font = vb_font_small();
+    }
+
+  lv_obj_set_style_text_font(label, font, 0);
+  lv_label_set_text(label, display);
+}
+
+static lv_obj_t *vb_create_label(lv_obj_t *parent, const char *text,
+                                 const char *text_id,
+                                 const char *ascii_fallback,
+                                 uint32_t color,
+                                 const lv_font_t *font)
 {
   lv_obj_t *label = lv_label_create(parent);
 
-  lv_label_set_text(label, text);
   lv_obj_set_style_text_color(label, vb_color(color), 0);
   lv_obj_set_style_text_font(label, font, 0);
   lv_obj_set_style_text_letter_space(label, 0, 0);
+  lv_label_set_long_mode(label, LV_LABEL_LONG_CLIP);
+
+  if (text != NULL && vb_text_has_non_ascii(text))
+    {
+      vb_set_label_text_safe_id(label, text_id, text, ascii_fallback);
+    }
+  else
+    {
+      lv_label_set_text(label, text == NULL ? "" : text);
+    }
 
   return label;
+}
+
+static lv_obj_t *vb_label(lv_obj_t *parent, const char *text,
+                          uint32_t color, const lv_font_t *font)
+{
+  return vb_create_label(parent, text, "ascii_label", text, color, font);
 }
 
 static bool vb_text_has_non_ascii(const char *text)
@@ -811,13 +1046,15 @@ static bool vb_text_has_non_ascii(const char *text)
 static lv_obj_t *vb_label_cn(lv_obj_t *parent, const char *text,
                              uint32_t color)
 {
-  return vb_label(parent, text, color, vb_font_cn());
+  return vb_create_label(parent, text, "cn_label", "Text", color,
+                         vb_font_cn());
 }
 
 static lv_obj_t *vb_label_cn_title(lv_obj_t *parent, const char *text,
                                    uint32_t color)
 {
-  return vb_label(parent, text, color, vb_font_cn_title());
+  return vb_create_label(parent, text, "cn_title", "Title", color,
+                         vb_font_cn_title());
 }
 
 static lv_obj_t *vb_label_auto(lv_obj_t *parent, const char *text,
@@ -1253,7 +1490,8 @@ static void vb_update_wheel_icon(uint8_t item_index, bool animate)
   if (focused)
     {
       lv_obj_clear_flag(label, LV_OBJ_FLAG_HIDDEN);
-      lv_label_set_text(label, item->name_cn);
+      vb_set_label_text_safe_id(label, item->id, item->name_cn,
+                                item->id);
       lv_obj_set_style_text_color(label, vb_color(VB_COLOR_TEXT), 0);
       lv_obj_set_style_text_font(label, vb_font_cn(), 0);
       lv_obj_set_width(label, 96);
@@ -1340,7 +1578,9 @@ static void vb_set_wheel_focus(uint8_t focus)
     {
       snprintf(focus_text, sizeof(focus_text), "聚焦 · %s",
                g_vb_apps[g_vb_wheel_focus].name_cn);
-      lv_label_set_text(g_vb_wheel_focus_label, focus_text);
+      vb_set_label_text_safe_id(g_vb_wheel_focus_label,
+                                "wheel_focus", focus_text,
+                                g_vb_apps[g_vb_wheel_focus].id);
     }
 
   if (g_vb_wheel_ready && focus_changed)
@@ -1378,7 +1618,7 @@ static void vb_open_focused_app(void)
 
   VB_DEBUG_LOG("[velabridge][watch_ui] open app=%s\n", item->id);
 
-  if (item->target != VB_SCREEN_APP_WHEEL)
+  if (item->target != VB_ROOT_APP_WHEEL)
     {
       vb_switch_screen(item->target);
     }
@@ -1434,26 +1674,112 @@ static void vb_wheel_icon_event(lv_event_t *event)
   }
 }
 
-void vb_switch_screen(enum vb_watch_screen next)
+static enum vb_screen_id vb_home_page_to_screen(enum vb_home_page page)
 {
-  if (next >= VB_SCREEN_COUNT || g_vb_screens[next] == NULL)
+  switch (page)
+    {
+      case VB_HOME_CAPTION:
+        return VB_SCREEN_CAPTION;
+      case VB_HOME_OCR:
+        return VB_SCREEN_OCR;
+      case VB_HOME_DANGER:
+        return VB_SCREEN_DANGER;
+      case VB_HOME_REPLY:
+        return VB_SCREEN_REPLY;
+      case VB_HOME_BLIND:
+        return VB_SCREEN_BLIND;
+      case VB_HOME_SCENE:
+        return VB_SCREEN_SCENE;
+      case VB_HOME_BRIDGE:
+        return VB_SCREEN_BRIDGE;
+      case VB_HOME_PROOF:
+        return VB_SCREEN_PROOF;
+      case VB_HOME_GRID:
+      default:
+        return VB_SCREEN_HOME;
+    }
+}
+
+static enum vb_home_page vb_screen_to_home_page(enum vb_screen_id screen)
+{
+  switch (screen)
+    {
+      case VB_SCREEN_CAPTION:
+        return VB_HOME_CAPTION;
+      case VB_SCREEN_OCR:
+        return VB_HOME_OCR;
+      case VB_SCREEN_DANGER:
+        return VB_HOME_DANGER;
+      case VB_SCREEN_REPLY:
+        return VB_HOME_REPLY;
+      case VB_SCREEN_BLIND:
+        return VB_HOME_BLIND;
+      case VB_SCREEN_SCENE:
+        return VB_HOME_SCENE;
+      case VB_SCREEN_BRIDGE:
+        return VB_HOME_BRIDGE;
+      case VB_SCREEN_PROOF:
+        return VB_HOME_PROOF;
+      case VB_SCREEN_HOME:
+      default:
+        return VB_HOME_GRID;
+    }
+}
+
+static const char *vb_screen_id_name(enum vb_screen_id screen)
+{
+  switch (screen)
+    {
+      case VB_SCREEN_HOME:
+        return "Home";
+      case VB_SCREEN_WHEEL:
+        return "App Wheel";
+      case VB_SCREEN_CAPTION:
+        return "Live Caption";
+      case VB_SCREEN_OCR:
+        return "OCR Vision";
+      case VB_SCREEN_DANGER:
+        return "Danger Alert";
+      case VB_SCREEN_REPLY:
+        return "Quick Reply";
+      case VB_SCREEN_BLIND:
+        return "Blind Mode";
+      case VB_SCREEN_SCENE:
+        return "AI Scene";
+      case VB_SCREEN_BRIDGE:
+        return "AI Bridge";
+      case VB_SCREEN_PROOF:
+        return "Technical Proof";
+      case VB_SCREEN_SETTINGS:
+        return "Settings";
+      case VB_SCREEN_FACE:
+        return "Watch Face";
+      case VB_SCREEN_HEART:
+        return "Heart Rate";
+      case VB_SCREEN_WORKOUT:
+        return "Workout";
+      case VB_SCREEN_SLEEP:
+        return "Sleep";
+      default:
+        return "Unknown";
+    }
+}
+
+static void vb_load_root_screen(enum vb_root_screen next)
+{
+  if (next >= VB_ROOT_COUNT || g_vb_screens[next] == NULL)
     {
       return;
     }
 
+  if (g_vb_current_screen != next || lv_scr_act() != g_vb_screens[next])
+    {
+      lv_scr_load(g_vb_screens[next]);
+    }
+
   g_vb_current_screen = next;
-  if (next != VB_SCREEN_HOME)
-    {
-      VB_LOG("[velabridge][watch_ui] screen=%s\n", g_vb_screen_names[next]);
-    }
 
-  lv_scr_load(g_vb_screens[next]);
-
-  if (next == VB_SCREEN_HOME)
-    {
-      vb_home_show_page(VB_HOME_GRID);
-    }
-  else if (next == VB_SCREEN_APP_WHEEL)
+  if (next == VB_ROOT_APP_WHEEL)
     {
       vb_set_wheel_focus(g_vb_wheel_focus);
       vb_perf_ui_done();
@@ -1464,22 +1790,155 @@ void vb_switch_screen(enum vb_watch_screen next)
     }
 }
 
+static void vb_show_screen(enum vb_screen_id screen, const char *reason)
+{
+  enum vb_home_page page;
+
+  (void)reason;
+  if (screen != g_vb_current_screen_id)
+    {
+      g_vb_previous_screen_id = g_vb_current_screen_id;
+    }
+
+  switch (screen)
+    {
+      case VB_SCREEN_HOME:
+        vb_load_root_screen(VB_ROOT_HOME);
+        vb_home_show_page(VB_HOME_GRID);
+        break;
+
+      case VB_SCREEN_WHEEL:
+        vb_load_root_screen(VB_ROOT_APP_WHEEL);
+        break;
+
+      case VB_SCREEN_SETTINGS:
+        vb_load_root_screen(VB_ROOT_SETTINGS);
+        break;
+
+      case VB_SCREEN_FACE:
+        vb_load_root_screen(VB_ROOT_FACE);
+        break;
+
+      case VB_SCREEN_HEART:
+        vb_load_root_screen(VB_ROOT_HEART);
+        break;
+
+      case VB_SCREEN_WORKOUT:
+        vb_load_root_screen(VB_ROOT_WORKOUT);
+        break;
+
+      case VB_SCREEN_SLEEP:
+        vb_load_root_screen(VB_ROOT_SLEEP);
+        break;
+
+      case VB_SCREEN_CAPTION:
+      case VB_SCREEN_OCR:
+      case VB_SCREEN_DANGER:
+      case VB_SCREEN_REPLY:
+      case VB_SCREEN_BLIND:
+      case VB_SCREEN_SCENE:
+      case VB_SCREEN_BRIDGE:
+      case VB_SCREEN_PROOF:
+        page = vb_screen_to_home_page(screen);
+        vb_load_root_screen(VB_ROOT_HOME);
+        vb_home_show_page(page);
+        break;
+
+      default:
+        return;
+    }
+
+  g_vb_current_screen_id = screen;
+  VB_LOG("[velabridge][watch_ui] screen=%s\n", vb_screen_id_name(screen));
+}
+
+static void vb_go_home(void)
+{
+  vb_show_screen(VB_SCREEN_HOME, "home");
+}
+
+static void vb_go_back(void)
+{
+  if (g_vb_current_screen_id == VB_SCREEN_HOME)
+    {
+      return;
+    }
+
+  vb_show_screen(g_vb_previous_screen_id == g_vb_current_screen_id ?
+                 VB_SCREEN_HOME : g_vb_previous_screen_id,
+                 "back");
+}
+
+static bool vb_handle_nav_touch(int16_t x, int16_t y)
+{
+  if (y > 52)
+    {
+      return false;
+    }
+
+  if (x < 86)
+    {
+      vb_go_back();
+      return true;
+    }
+
+  if (x > 254)
+    {
+      vb_go_home();
+      return true;
+    }
+
+  return false;
+}
+
+void vb_switch_screen(enum vb_root_screen next)
+{
+  switch (next)
+    {
+      case VB_ROOT_HOME:
+        vb_show_screen(VB_SCREEN_HOME, "legacy_home");
+        break;
+      case VB_ROOT_APP_WHEEL:
+        vb_show_screen(VB_SCREEN_WHEEL, "legacy_wheel");
+        break;
+      case VB_ROOT_FACE:
+        vb_show_screen(VB_SCREEN_FACE, "legacy_face");
+        break;
+      case VB_ROOT_HEART:
+        vb_show_screen(VB_SCREEN_HEART, "legacy_heart");
+        break;
+      case VB_ROOT_WORKOUT:
+        vb_show_screen(VB_SCREEN_WORKOUT, "legacy_workout");
+        break;
+      case VB_ROOT_SLEEP:
+        vb_show_screen(VB_SCREEN_SLEEP, "legacy_sleep");
+        break;
+      case VB_ROOT_SETTINGS:
+        vb_show_screen(VB_SCREEN_SETTINGS, "legacy_settings");
+        break;
+      case VB_ROOT_BOOT:
+      default:
+        vb_load_root_screen(next);
+        break;
+    }
+}
+
 static void vb_card_clicked(lv_event_t *event)
 {
   uintptr_t next = (uintptr_t)lv_event_get_user_data(event);
-  enum vb_watch_screen target = (enum vb_watch_screen)next;
+  enum vb_root_screen target = (enum vb_root_screen)next;
 
   if (!vb_accept_touch_click())
     {
       return;
     }
 
-  if (g_vb_current_screen != VB_SCREEN_BOOT &&
-      g_vb_current_screen != VB_SCREEN_HOME &&
-      g_vb_current_screen != VB_SCREEN_FACE &&
-      g_vb_current_screen != VB_SCREEN_APP_WHEEL)
+  if (g_vb_current_screen != VB_ROOT_BOOT &&
+      g_vb_current_screen != VB_ROOT_HOME &&
+      g_vb_current_screen != VB_ROOT_FACE &&
+      g_vb_current_screen != VB_ROOT_APP_WHEEL)
     {
-      target = VB_SCREEN_HOME;
+      target = VB_ROOT_HOME;
     }
 
   vb_switch_screen(target);
@@ -1487,7 +1946,7 @@ static void vb_card_clicked(lv_event_t *event)
 
 static void vb_screen_clicked(lv_event_t *event)
 {
-  enum vb_watch_screen next;
+  enum vb_root_screen next;
 
   (void)event;
   if (!vb_accept_touch_click())
@@ -1495,22 +1954,22 @@ static void vb_screen_clicked(lv_event_t *event)
       return;
     }
 
-  if (g_vb_current_screen == VB_SCREEN_APP_WHEEL)
+  if (g_vb_current_screen == VB_ROOT_APP_WHEEL)
     {
       return;
     }
 
-  if (g_vb_current_screen == VB_SCREEN_BOOT)
+  if (g_vb_current_screen == VB_ROOT_BOOT)
     {
-      next = VB_SCREEN_HOME;
+      next = VB_ROOT_HOME;
     }
-  else if (g_vb_current_screen == VB_SCREEN_HOME)
+  else if (g_vb_current_screen == VB_ROOT_HOME)
     {
-      next = VB_SCREEN_APP_WHEEL;
+      return;
     }
   else
     {
-      next = VB_SCREEN_HOME;
+      next = VB_ROOT_HOME;
     }
 
   vb_switch_screen(next);
@@ -1522,11 +1981,101 @@ static void vb_bind_screen_next(lv_obj_t *obj)
   lv_obj_add_event_cb(obj, vb_screen_clicked, LV_EVENT_CLICKED, NULL);
 }
 
-static void vb_bind_next(lv_obj_t *obj, enum vb_watch_screen next)
+static void vb_bind_next(lv_obj_t *obj, enum vb_root_screen next)
 {
   lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
   lv_obj_add_event_cb(obj, vb_card_clicked, LV_EVENT_CLICKED,
                       (void *)(uintptr_t)next);
+}
+
+static void vb_nav_back_clicked(lv_event_t *event)
+{
+  if (lv_event_get_code(event) != LV_EVENT_CLICKED)
+    {
+      return;
+    }
+
+  if (!vb_accept_touch_click())
+    {
+      return;
+    }
+
+  (void)vb_handle_nav_touch(24, 24);
+}
+
+static void vb_nav_home_clicked(lv_event_t *event)
+{
+  if (lv_event_get_code(event) != LV_EVENT_CLICKED)
+    {
+      return;
+    }
+
+  if (!vb_accept_touch_click())
+    {
+      return;
+    }
+
+  (void)vb_handle_nav_touch(300, 24);
+}
+
+static lv_obj_t *vb_create_nav_button(lv_obj_t *parent, const char *text,
+                                      const char *fallback, int16_t x,
+                                      lv_event_cb_t cb)
+{
+  lv_obj_t *button = lv_obj_create(parent);
+  lv_obj_t *label;
+
+  lv_obj_set_size(button, 58, 32);
+  lv_obj_align(button, LV_ALIGN_TOP_LEFT, x, 14);
+  lv_obj_set_style_radius(button, 16, 0);
+  lv_obj_set_style_bg_color(button, vb_color(0x101216), 0);
+  lv_obj_set_style_bg_opa(button, LV_OPA_COVER, 0);
+  lv_obj_set_style_border_color(button, vb_color(0x2a2c33), 0);
+  lv_obj_set_style_border_width(button, 1, 0);
+  lv_obj_set_style_pad_all(button, 0, 0);
+  lv_obj_clear_flag(button, LV_OBJ_FLAG_SCROLLABLE);
+  lv_obj_add_flag(button, LV_OBJ_FLAG_CLICKABLE);
+  lv_obj_add_event_cb(button, cb, LV_EVENT_CLICKED, NULL);
+
+  label = vb_create_label(button, text, text, fallback, VB_COLOR_TEXT,
+                          vb_ui_get_cn_font());
+  lv_obj_set_width(label, 50);
+  lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
+  lv_obj_center(label);
+
+  return button;
+}
+
+static lv_obj_t *vb_create_navbar(lv_obj_t *parent, const char *title,
+                                  const char *fallback)
+{
+  lv_obj_t *bar = lv_obj_create(parent);
+  lv_obj_t *center;
+  lv_obj_t *battery;
+
+  lv_obj_set_size(bar, VB_WATCH_WIDTH, 58);
+  lv_obj_align(bar, LV_ALIGN_TOP_MID, 0, 0);
+  lv_obj_set_style_bg_color(bar, vb_color(VB_COLOR_BG), 0);
+  lv_obj_set_style_bg_opa(bar, LV_OPA_COVER, 0);
+  lv_obj_set_style_border_width(bar, 0, 0);
+  lv_obj_set_style_pad_all(bar, 0, 0);
+  lv_obj_clear_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
+
+  (void)vb_create_nav_button(bar, "返回", "Back", 18,
+                             vb_nav_back_clicked);
+  (void)vb_create_nav_button(bar, "首页", "Home", 250,
+                             vb_nav_home_clicked);
+
+  center = vb_create_label(bar, title, title, fallback, VB_COLOR_MUTED,
+                           vb_ui_get_cn_font());
+  lv_obj_set_width(center, 140);
+  lv_obj_set_style_text_align(center, LV_TEXT_ALIGN_CENTER, 0);
+  lv_obj_align(center, LV_ALIGN_TOP_MID, 0, 22);
+
+  battery = vb_label(bar, "86%", VB_COLOR_TEXT, vb_font_small());
+  lv_obj_align(battery, LV_ALIGN_TOP_RIGHT, -18, 22);
+
+  return bar;
 }
 
 static void vb_home_show_page(enum vb_home_page page)
@@ -1561,25 +2110,7 @@ static void vb_home_show_page(enum vb_home_page page)
     }
 
   g_vb_home_page = page;
-  VB_LOG("[velabridge][watch_ui] screen=%s\n",
-         g_vb_home_page_names[page]);
   vb_perf_ui_done();
-}
-
-static void vb_load_home_page(enum vb_home_page page)
-{
-  if (g_vb_screens[VB_SCREEN_HOME] == NULL || page >= VB_HOME_COUNT)
-    {
-      return;
-    }
-
-  if (g_vb_current_screen != VB_SCREEN_HOME)
-    {
-      g_vb_current_screen = VB_SCREEN_HOME;
-      lv_scr_load(g_vb_screens[VB_SCREEN_HOME]);
-    }
-
-  vb_home_show_page(page);
 }
 
 static void vb_home_card_clicked(lv_event_t *event)
@@ -1597,7 +2128,7 @@ static void vb_home_card_clicked(lv_event_t *event)
       return;
     }
 
-  vb_home_show_page(page);
+  vb_show_screen(vb_home_page_to_screen(page), "home_card");
 }
 
 static void vb_home_back_clicked(lv_event_t *event)
@@ -1612,7 +2143,7 @@ static void vb_home_back_clicked(lv_event_t *event)
       return;
     }
 
-  vb_home_show_page(VB_HOME_GRID);
+  vb_go_home();
 }
 
 static void vb_home_open_wheel(lv_event_t *event)
@@ -1629,33 +2160,45 @@ static void vb_home_open_wheel(lv_event_t *event)
       return;
     }
 
-  vb_switch_screen(VB_SCREEN_APP_WHEEL);
+  vb_show_screen(VB_SCREEN_WHEEL, "home_wheel");
 }
 
 int velabridge_watch_ui_open(const char *target)
 {
   size_t i;
 
-  if (target == NULL || g_vb_screens[VB_SCREEN_HOME] == NULL)
+  if (target == NULL || g_vb_screens[VB_ROOT_HOME] == NULL)
     {
       return -ENODEV;
     }
 
   if (strcmp(target, "home") == 0)
     {
-      vb_load_home_page(VB_HOME_GRID);
+      vb_show_screen(VB_SCREEN_HOME, "cmd");
       return 0;
     }
 
   if (strcmp(target, "wheel") == 0)
     {
-      vb_switch_screen(VB_SCREEN_APP_WHEEL);
+      vb_show_screen(VB_SCREEN_WHEEL, "cmd");
       return 0;
     }
 
   if (strcmp(target, "scene") == 0)
     {
-      vb_load_home_page(VB_HOME_SCENE);
+      vb_show_screen(VB_SCREEN_SCENE, "cmd");
+      return 0;
+    }
+
+  if (strcmp(target, "proof") == 0)
+    {
+      vb_show_screen(VB_SCREEN_PROOF, "cmd");
+      return 0;
+    }
+
+  if (strcmp(target, "settings") == 0)
+    {
+      vb_show_screen(VB_SCREEN_SETTINGS, "cmd");
       return 0;
     }
 
@@ -1663,7 +2206,7 @@ int velabridge_watch_ui_open(const char *target)
     {
       if (strcmp(target, g_vb_home_items[i].id) == 0)
         {
-          vb_load_home_page(g_vb_home_items[i].page);
+          vb_show_screen(g_vb_home_items[i].screen_id, "cmd");
           return 0;
         }
     }
@@ -1705,9 +2248,8 @@ static lv_obj_t *vb_create_home_page(lv_obj_t *screen)
 
 static void vb_create_home_icon(lv_obj_t *parent, uint32_t color)
 {
-  vb_shape(parent, 0, 1, 20, 20, color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
-  vb_shape(parent, 25, 7, 24, 6, color, LV_OPA_COVER, 3);
-  vb_shape(parent, 25, 19, 14, 4, color, LV_OPA_70, 2);
+  vb_shape(parent, 2, 17, 28, 28, color, LV_OPA_COVER,
+           LV_RADIUS_CIRCLE);
 }
 
 static lv_obj_t *vb_create_home_card(lv_obj_t *parent, int16_t x,
@@ -1731,12 +2273,14 @@ static lv_obj_t *vb_create_home_card(lv_obj_t *parent, int16_t x,
   vb_create_home_icon(card, item->color);
 
   title = vb_label_cn(card, item->title, VB_COLOR_TEXT);
-  lv_obj_set_width(title, 112);
-  lv_obj_align(title, LV_ALIGN_TOP_LEFT, 0, 28);
+  lv_obj_set_width(title, 90);
+  lv_label_set_long_mode(title, LV_LABEL_LONG_CLIP);
+  lv_obj_align(title, LV_ALIGN_TOP_LEFT, 44, 12);
 
-  status = vb_label_cn(card, item->status, VB_COLOR_MUTED);
-  lv_obj_set_width(status, 132);
-  lv_obj_align(status, LV_ALIGN_BOTTOM_LEFT, 0, 0);
+  status = vb_label(card, item->status, VB_COLOR_MUTED, vb_font_small());
+  lv_obj_set_width(status, 90);
+  lv_label_set_long_mode(status, LV_LABEL_LONG_CLIP);
+  lv_obj_align(status, LV_ALIGN_TOP_LEFT, 44, 38);
 
   return card;
 }
@@ -1788,7 +2332,7 @@ static void vb_build_home_detail_page(lv_obj_t *screen,
   lv_obj_t *status;
   lv_obj_t *hint;
 
-  vb_create_status_bar(page, item->title);
+  vb_create_navbar(page, item->detail_title, item->id);
 
   card = vb_create_card(page, 28, 72, 334, 248);
   lv_obj_set_style_bg_color(card, vb_color(0x101216), 0);
@@ -1797,14 +2341,42 @@ static void vb_build_home_detail_page(lv_obj_t *screen,
 
   vb_create_home_icon(card, item->color);
 
-  title = vb_label_cn_title(card, item->title, VB_COLOR_TEXT);
+  title = vb_create_label(card, item->detail_title, item->id,
+                          item->id, VB_COLOR_TEXT,
+                          vb_ui_get_cn_font());
+  lv_obj_set_width(title, 280);
+  lv_label_set_long_mode(title, LV_LABEL_LONG_CLIP);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 0, 50);
 
-  status = vb_label_cn(card, item->status, item->color);
+  status = vb_create_label(card, item->detail_status, item->id,
+                           item->status, item->color,
+                           vb_ui_get_cn_font());
   lv_obj_set_width(status, 280);
+  lv_label_set_long_mode(status, LV_LABEL_LONG_WRAP);
   lv_obj_align(status, LV_ALIGN_TOP_LEFT, 0, 104);
 
-  hint = vb_label_cn(card, "点击返回首页", VB_COLOR_MUTED);
+  if (item->page == VB_HOME_CAPTION)
+    {
+      g_vb_caption_label = status;
+      vb_set_label_text_safe_id(g_vb_caption_label, "caption_text",
+                                g_vb_caption_text, "Caption ready");
+    }
+  else if (item->page == VB_HOME_OCR)
+    {
+      g_vb_ocr_label = status;
+      vb_set_label_text_safe_id(g_vb_ocr_label, "ocr_text",
+                                g_vb_ocr_text, "OCR ready");
+    }
+  else if (item->page == VB_HOME_DANGER)
+    {
+      g_vb_alert_label = status;
+      vb_set_label_text_safe_id(g_vb_alert_label, "alert_text",
+                                g_vb_alert_text, "Alert ready");
+    }
+
+  hint = vb_create_label(card, "点击返回首页", "tap_home",
+                         "Tap Home", VB_COLOR_MUTED,
+                         vb_ui_get_cn_font());
   lv_obj_align(hint, LV_ALIGN_BOTTOM_LEFT, 0, 0);
 
   lv_obj_add_flag(page, LV_OBJ_FLAG_CLICKABLE);
@@ -1850,13 +2422,15 @@ static void vb_build_home_blind_page(lv_obj_t *screen)
   lv_obj_t *hint;
 
   lv_obj_set_style_bg_color(page, vb_color(0x000000), 0);
-  vb_create_status_bar(page, "盲人模式");
+  vb_create_navbar(page, "盲人模式", "Blind");
 
   title = vb_label_cn_title(page, "盲人模式", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 30, 62);
 
   g_vb_blind_status_label =
     vb_label_cn_title(page, g_vb_blind_status_text, VB_COLOR_GREEN);
+  vb_set_label_text_safe_id(g_vb_blind_status_label, "blind_status",
+                            g_vb_blind_status_text, "Safe");
   lv_obj_align(g_vb_blind_status_label, LV_ALIGN_TOP_LEFT, 30, 106);
 
   (void)vb_create_accessibility_row(page, 158, "危险提醒", "高对比",
@@ -1866,7 +2440,9 @@ static void vb_build_home_blind_page(lv_obj_t *screen)
   (void)vb_create_accessibility_row(page, 286, "快捷回复", "一键回应",
                                     VB_COLOR_GREEN);
 
-  hint = vb_label_cn(page, "点击返回首页", VB_COLOR_MUTED);
+  hint = vb_create_label(page, "点击返回首页", "tap_home",
+                         "Tap Home", VB_COLOR_MUTED,
+                         vb_ui_get_cn_font());
   lv_obj_align(hint, LV_ALIGN_BOTTOM_MID, 0, -18);
 
   lv_obj_add_flag(page, LV_OBJ_FLAG_CLICKABLE);
@@ -1882,7 +2458,7 @@ static void vb_build_home_scene_page(lv_obj_t *screen)
   lv_obj_t *title;
   lv_obj_t *hint;
 
-  vb_create_status_bar(page, "AI场景理解");
+  vb_create_navbar(page, "AI场景理解", "AI Scene");
 
   title = vb_label_cn_title(page, "AI场景理解", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 30, 58);
@@ -1894,21 +2470,29 @@ static void vb_build_home_scene_page(lv_obj_t *screen)
 
   g_vb_scene_label = vb_label_cn_title(card, g_vb_scene_text,
                                        VB_COLOR_TEXT);
+  vb_set_label_text_safe_id(g_vb_scene_label, "scene_text",
+                            g_vb_scene_text, "Scene: step ahead");
   lv_obj_set_width(g_vb_scene_label, 292);
   lv_label_set_long_mode(g_vb_scene_label, LV_LABEL_LONG_WRAP);
   lv_obj_align(g_vb_scene_label, LV_ALIGN_TOP_LEFT, 0, 0);
 
   g_vb_risk_label = vb_label_cn(card, g_vb_risk_text, VB_COLOR_ORANGE);
+  vb_set_label_text_safe_id(g_vb_risk_label, "risk_text",
+                            g_vb_risk_text, "Risk: medium");
   lv_obj_set_width(g_vb_risk_label, 292);
   lv_label_set_long_mode(g_vb_risk_label, LV_LABEL_LONG_WRAP);
   lv_obj_align(g_vb_risk_label, LV_ALIGN_TOP_LEFT, 0, 58);
 
   g_vb_advice_label = vb_label_cn(card, g_vb_advice_text, VB_COLOR_BLUE);
+  vb_set_label_text_safe_id(g_vb_advice_label, "advice_text",
+                            g_vb_advice_text, "Advice: slow down");
   lv_obj_set_width(g_vb_advice_label, 292);
   lv_label_set_long_mode(g_vb_advice_label, LV_LABEL_LONG_WRAP);
   lv_obj_align(g_vb_advice_label, LV_ALIGN_TOP_LEFT, 0, 104);
 
-  hint = vb_label_cn(page, "点击返回首页", VB_COLOR_MUTED);
+  hint = vb_create_label(page, "点击返回首页", "tap_home",
+                         "Tap Home", VB_COLOR_MUTED,
+                         vb_ui_get_cn_font());
   lv_obj_align(hint, LV_ALIGN_BOTTOM_MID, 0, -28);
 
   lv_obj_add_flag(page, LV_OBJ_FLAG_CLICKABLE);
@@ -1933,7 +2517,7 @@ static void vb_build_home_reply_page(lv_obj_t *screen)
   lv_obj_t *hint;
   int i;
 
-  vb_create_status_bar(page, "快捷回复");
+  vb_create_navbar(page, "快捷回复", "Reply");
 
   title = vb_label_cn_title(page, "快捷回复", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 30, 58);
@@ -1950,6 +2534,9 @@ static void vb_build_home_reply_page(lv_obj_t *screen)
         {
           g_vb_reply_label =
             vb_label_cn_title(card, g_vb_reply_text, VB_COLOR_TEXT);
+          vb_set_label_text_safe_id(g_vb_reply_label, "reply_text",
+                                    g_vb_reply_text,
+                                    "Please speak slower");
           lv_obj_set_width(g_vb_reply_label, 286);
           lv_label_set_long_mode(g_vb_reply_label, LV_LABEL_LONG_WRAP);
           lv_obj_align(g_vb_reply_label, LV_ALIGN_LEFT_MID, 0, 0);
@@ -1968,13 +2555,63 @@ static void vb_build_home_reply_page(lv_obj_t *screen)
                           NULL);
     }
 
-  hint = vb_label_cn(page, "点击返回首页", VB_COLOR_MUTED);
+  hint = vb_create_label(page, "点击返回首页", "tap_home",
+                         "Tap Home", VB_COLOR_MUTED,
+                         vb_ui_get_cn_font());
   lv_obj_align(hint, LV_ALIGN_BOTTOM_MID, 0, -22);
 
   lv_obj_add_flag(page, LV_OBJ_FLAG_CLICKABLE);
   lv_obj_add_event_cb(page, vb_home_back_clicked, LV_EVENT_CLICKED, NULL);
   lv_obj_add_flag(page, LV_OBJ_FLAG_HIDDEN);
   g_vb_home_pages[VB_HOME_REPLY] = page;
+}
+
+static void vb_build_home_proof_page(lv_obj_t *screen)
+{
+  static const char *rows[] =
+  {
+    "LCD Ready",
+    "Touch Ready",
+    "LVGL Ready",
+    "NSH: velabridge_app",
+  };
+
+  lv_obj_t *page = vb_create_home_page(screen);
+  lv_obj_t *title;
+  lv_obj_t *row;
+  lv_obj_t *label;
+  int i;
+
+  vb_create_navbar(page, "技术证明", "Proof");
+
+  title = vb_create_label(page, "真机运行证明", "proof_title",
+                          "Real board proof", VB_COLOR_TEXT,
+                          vb_ui_get_cn_font());
+  lv_obj_set_width(title, 300);
+  lv_label_set_long_mode(title, LV_LABEL_LONG_CLIP);
+  lv_obj_align(title, LV_ALIGN_TOP_LEFT, 30, 70);
+
+  for (i = 0; i < 4; i++)
+    {
+      row = vb_create_card(page, 32, 116 + i * 48, 326, 38);
+      lv_obj_set_style_radius(row, 14, 0);
+      lv_obj_set_style_pad_all(row, 10, 0);
+      lv_obj_set_style_bg_color(row, vb_color(0x101216), 0);
+      lv_obj_set_style_border_color(row, vb_color(VB_COLOR_BLUE), 0);
+      lv_obj_set_style_border_width(row, 1, 0);
+
+      label = vb_label(row, rows[i], VB_COLOR_TEXT, vb_font_small());
+      lv_obj_align(label, LV_ALIGN_LEFT_MID, 0, 0);
+
+      lv_obj_add_flag(row, LV_OBJ_FLAG_CLICKABLE);
+      lv_obj_add_event_cb(row, vb_home_back_clicked, LV_EVENT_CLICKED,
+                          NULL);
+    }
+
+  lv_obj_add_flag(page, LV_OBJ_FLAG_CLICKABLE);
+  lv_obj_add_event_cb(page, vb_home_back_clicked, LV_EVENT_CLICKED, NULL);
+  lv_obj_add_flag(page, LV_OBJ_FLAG_HIDDEN);
+  g_vb_home_pages[VB_HOME_PROOF] = page;
 }
 
 static void vb_build_home(void)
@@ -2000,8 +2637,9 @@ static void vb_build_home(void)
   vb_build_home_reply_page(screen);
   vb_build_home_blind_page(screen);
   vb_build_home_scene_page(screen);
+  vb_build_home_proof_page(screen);
 
-  g_vb_screens[VB_SCREEN_HOME] = screen;
+  g_vb_screens[VB_ROOT_HOME] = screen;
 }
 
 static void vb_build_boot(void)
@@ -2023,9 +2661,9 @@ static void vb_build_boot(void)
   lv_obj_align(product, LV_ALIGN_TOP_MID, 0, 255);
   lv_obj_align(pill, LV_ALIGN_TOP_MID, 0, 286);
   vb_bind_screen_next(screen);
-  vb_bind_next(mark, VB_SCREEN_FACE);
+  vb_bind_next(mark, VB_ROOT_FACE);
 
-  g_vb_screens[VB_SCREEN_BOOT] = screen;
+  g_vb_screens[VB_ROOT_BOOT] = screen;
 }
 
 static void vb_build_face(void)
@@ -2039,7 +2677,7 @@ static void vb_build_face(void)
   lv_obj_t *move;
   lv_obj_t *sleep;
 
-  vb_create_status_bar(screen, "表盘");
+  vb_create_navbar(screen, "表盘", "Face");
   time = vb_label(screen, "09:39", VB_COLOR_TEXT, vb_font_big());
   lv_obj_align(time, LV_ALIGN_TOP_LEFT, 34, 62);
 
@@ -2055,15 +2693,15 @@ static void vb_build_face(void)
                                VB_COLOR_GREEN);
   sleep = vb_create_metric_card(screen, 258, 222, 104, 88, "睡眠", "7小时",
                                 VB_COLOR_PURPLE);
-  vb_bind_next(heart, VB_SCREEN_HEART);
-  vb_bind_next(move, VB_SCREEN_WORKOUT);
-  vb_bind_next(sleep, VB_SCREEN_SLEEP);
+  vb_bind_next(heart, VB_ROOT_HEART);
+  vb_bind_next(move, VB_ROOT_WORKOUT);
+  vb_bind_next(sleep, VB_ROOT_SLEEP);
 
   battery = vb_label_cn(screen, "电量 86%", VB_COLOR_MUTED);
   lv_obj_align(battery, LV_ALIGN_BOTTOM_MID, 0, -28);
 
   vb_bind_screen_next(screen);
-  g_vb_screens[VB_SCREEN_FACE] = screen;
+  g_vb_screens[VB_ROOT_FACE] = screen;
 }
 
 static void vb_build_app_wheel(void)
@@ -2073,7 +2711,7 @@ static void vb_build_app_wheel(void)
   lv_obj_t *line;
   uint8_t i;
 
-  vb_create_status_bar(screen, "应用");
+  vb_create_navbar(screen, "应用", "Apps");
   g_vb_wheel_ready = false;
 
   title = vb_label_cn_title(screen, "应用", VB_COLOR_TEXT);
@@ -2099,7 +2737,7 @@ static void vb_build_app_wheel(void)
   vb_set_wheel_focus(g_vb_wheel_focus);
   g_vb_wheel_ready = true;
 
-  g_vb_screens[VB_SCREEN_APP_WHEEL] = screen;
+  g_vb_screens[VB_ROOT_APP_WHEEL] = screen;
 }
 
 static void vb_build_heart(void)
@@ -2112,7 +2750,7 @@ static void vb_build_heart(void)
   lv_obj_t *peak;
   lv_obj_t *ring;
 
-  vb_create_status_bar(screen, "健康");
+  vb_create_navbar(screen, "健康", "Health");
   card = vb_create_card(screen, 28, 58, 334, 286);
   title = vb_label_cn_title(card, "心率", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 0, 0);
@@ -2131,8 +2769,8 @@ static void vb_build_heart(void)
 
   vb_card_float(card, 0);
   vb_bind_screen_next(screen);
-  vb_bind_next(card, VB_SCREEN_WORKOUT);
-  g_vb_screens[VB_SCREEN_HEART] = screen;
+  vb_bind_next(card, VB_ROOT_WORKOUT);
+  g_vb_screens[VB_ROOT_HEART] = screen;
 }
 
 static void vb_build_workout(void)
@@ -2145,7 +2783,7 @@ static void vb_build_workout(void)
   lv_obj_t *calories;
   lv_obj_t *ring;
 
-  vb_create_status_bar(screen, "运动");
+  vb_create_navbar(screen, "运动", "Workout");
   card = vb_create_card(screen, 28, 58, 334, 286);
   title = vb_label_cn_title(card, "户外跑步", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 0, 0);
@@ -2164,8 +2802,8 @@ static void vb_build_workout(void)
 
   vb_card_float(card, 0);
   vb_bind_screen_next(screen);
-  vb_bind_next(card, VB_SCREEN_SLEEP);
-  g_vb_screens[VB_SCREEN_WORKOUT] = screen;
+  vb_bind_next(card, VB_ROOT_SLEEP);
+  g_vb_screens[VB_ROOT_WORKOUT] = screen;
 }
 
 static void vb_segment(lv_obj_t *parent, int16_t x, int16_t w,
@@ -2193,7 +2831,7 @@ static void vb_build_sleep(void)
   lv_obj_t *title;
   lv_obj_t *time;
 
-  vb_create_status_bar(screen, "睡眠");
+  vb_create_navbar(screen, "睡眠", "Sleep");
   card = vb_create_card(screen, 28, 58, 334, 286);
   title = vb_label_cn_title(card, "睡眠", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 0, 0);
@@ -2207,8 +2845,8 @@ static void vb_build_sleep(void)
 
   vb_card_float(card, 0);
   vb_bind_screen_next(screen);
-  vb_bind_next(card, VB_SCREEN_SETTINGS);
-  g_vb_screens[VB_SCREEN_SLEEP] = screen;
+  vb_bind_next(card, VB_ROOT_SETTINGS);
+  g_vb_screens[VB_ROOT_SLEEP] = screen;
 }
 
 static void vb_build_settings(void)
@@ -2225,7 +2863,7 @@ static void vb_build_settings(void)
   lv_obj_t *title;
   int i;
 
-  vb_create_status_bar(screen, "设置");
+  vb_create_navbar(screen, "设置", "Settings");
   title = vb_label_cn_title(screen, "设置", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 32, 64);
 
@@ -2239,11 +2877,11 @@ static void vb_build_settings(void)
       lv_obj_align(text, LV_ALIGN_LEFT_MID, 0, 0);
       lv_obj_align(arrow, LV_ALIGN_RIGHT_MID, 0, 0);
       vb_card_float(row, i * 40);
-      vb_bind_next(row, VB_SCREEN_FACE);
+      vb_bind_next(row, VB_ROOT_FACE);
     }
 
   vb_bind_screen_next(screen);
-  g_vb_screens[VB_SCREEN_SETTINGS] = screen;
+  g_vb_screens[VB_ROOT_SETTINGS] = screen;
 }
 
 static void vb_build_all_screens(void)
@@ -2274,15 +2912,25 @@ int velabridge_watch_ui_start(void)
     }
 
   VB_LOG("[velabridge][watch_ui] display ready\n");
+  if (vb_font_has_text(vb_ui_get_cn_font(), "应用首页返回"))
+    {
+      VB_LOG("[velabridge][font] cjk font ready\n");
+    }
+  else
+    {
+      vb_log_missing_glyph_once("font_probe");
+    }
+
   VB_LOG("[velabridge][watch_ui] performance mode enabled\n");
   VB_LOG("[velabridge][watch_ui] wheel objects persistent\n");
   VB_DEBUG_LOG("[velabridge][watch_ui] design=%dx%d\n",
                VB_WATCH_WIDTH, VB_WATCH_HEIGHT);
 
   vb_build_all_screens();
-  g_vb_current_screen = VB_SCREEN_HOME;
-  lv_scr_load(g_vb_screens[VB_SCREEN_HOME]);
-  vb_home_show_page(VB_HOME_GRID);
+  g_vb_current_screen = VB_ROOT_HOME;
+  g_vb_current_screen_id = VB_SCREEN_HOME;
+  g_vb_previous_screen_id = VB_SCREEN_HOME;
+  vb_show_screen(VB_SCREEN_HOME, "start");
 
   VB_DEBUG_LOG("[velabridge][watch_ui] ui loop start\n");
 
@@ -2338,6 +2986,24 @@ bool velabridge_watch_ui_available(void)
 int velabridge_watch_ui_open(const char *target)
 {
   (void)target;
+  return -ENOSYS;
+}
+
+int velabridge_watch_ui_set_caption(const char *text)
+{
+  (void)text;
+  return -ENOSYS;
+}
+
+int velabridge_watch_ui_set_ocr(const char *text)
+{
+  (void)text;
+  return -ENOSYS;
+}
+
+int velabridge_watch_ui_set_alert(const char *text)
+{
+  (void)text;
   return -ENOSYS;
 }
 

@@ -69,6 +69,11 @@ static const char *velabridge_log_text(const char *text)
   return velabridge_is_ascii_log_text(text) ? text : "non_ascii_text";
 }
 
+static void velabridge_log_ai_command(const char *command)
+{
+  printf("[velabridge][cmd] %s\n", command ? command : "unknown");
+}
+
 static const char *velabridge_state_name(enum velabridge_state state)
 {
   switch (state)
@@ -275,6 +280,7 @@ static bool velabridge_handle_open_command(const char *line)
     }
 
   target_id[i] = '\0';
+  printf("[velabridge][cmd] VB_OPEN %s\n", target_id);
   (void)velabridge_watch_ui_open(target_id);
   return true;
 }
@@ -327,9 +333,34 @@ static bool velabridge_handle_ai_command(const char *line)
 {
   char value[128];
 
+  if (velabridge_parse_command_value(line, "VB_CAPTION", value,
+                                     sizeof(value)))
+    {
+      velabridge_log_ai_command("VB_CAPTION");
+      (void)velabridge_watch_ui_set_caption(value);
+      return true;
+    }
+
+  if (velabridge_parse_command_value(line, "VB_OCR", value,
+                                     sizeof(value)))
+    {
+      velabridge_log_ai_command("VB_OCR");
+      (void)velabridge_watch_ui_set_ocr(value);
+      return true;
+    }
+
+  if (velabridge_parse_command_value(line, "VB_ALERT", value,
+                                     sizeof(value)))
+    {
+      velabridge_log_ai_command("VB_ALERT");
+      (void)velabridge_watch_ui_set_alert(value);
+      return true;
+    }
+
   if (velabridge_parse_command_value(line, "VB_SCENE", value,
                                      sizeof(value)))
     {
+      velabridge_log_ai_command("VB_SCENE");
       (void)velabridge_watch_ui_set_scene(value);
       return true;
     }
@@ -337,6 +368,7 @@ static bool velabridge_handle_ai_command(const char *line)
   if (velabridge_parse_command_value(line, "VB_RISK", value,
                                      sizeof(value)))
     {
+      velabridge_log_ai_command("VB_RISK");
       (void)velabridge_watch_ui_set_risk(value);
       return true;
     }
@@ -344,6 +376,7 @@ static bool velabridge_handle_ai_command(const char *line)
   if (velabridge_parse_command_value(line, "VB_ADVICE", value,
                                      sizeof(value)))
     {
+      velabridge_log_ai_command("VB_ADVICE");
       (void)velabridge_watch_ui_set_advice(value);
       return true;
     }
@@ -351,6 +384,7 @@ static bool velabridge_handle_ai_command(const char *line)
   if (velabridge_parse_command_value(line, "VB_REPLY", value,
                                      sizeof(value)))
     {
+      velabridge_log_ai_command("VB_REPLY");
       (void)velabridge_watch_ui_set_reply(value);
       return true;
     }
