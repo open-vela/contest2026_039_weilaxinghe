@@ -6,6 +6,9 @@
 config LVX_USE_DEMO_CONTEST2026_039_VELABRIDGE_APP
 	bool "Contest 2026 team 039 VelaBridge app"
 	default n
+	select LV_FONT_SIMSUN_16_CJK if GRAPHICS_LVGL
+	select LV_FONT_MONTSERRAT_28 if GRAPHICS_LVGL
+	select LV_FONT_MONTSERRAT_48 if GRAPHICS_LVGL
 	---help---
 		Enable the VelaBridge device-side state machine skeleton.
 

@@ -19,6 +19,8 @@ VelaBridge 面向听障、视障、语言表达困难者，在校园问路、窗
 
 当前设备形态按 VelaBridge Watch 推进：基于黄山派 SF32LB52 的多模态无障碍 AI 智能手表。历史文档中的 VelaBridge 表示同一项目的通用名称。
 
+LVGL 手表 UI 原型已支持真机显示、触摸导航和简化版中文应用轮盘，记录见 `docs/watch_ui_lvgl_notes.md`。
+
 本项目参加 2026 首届 openvela AI 硬件开发者大赛，当前选择 **AI 硬件产品创新** 方向。第一批最小任务先完成电脑端 AI Bridge mock、串口 JSON 协议、MVP 文档、演示脚本、测试样例、AI Coding 日志模板和 GitHub 协作规范。
 
 VelaBridge 不声称替代医疗设备、导盲杖或导盲犬；默认不保存原始音频和图片，只保存脱敏文字摘要、按键事件、状态变化和错误码。
