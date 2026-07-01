@@ -62,6 +62,22 @@ enum vb_watch_screen
   VB_SCREEN_COUNT,
 };
 
+enum vb_app_icon_type
+{
+  VB_ICON_HEART = 0,
+  VB_ICON_SLEEP,
+  VB_ICON_WORKOUT,
+  VB_ICON_WEATHER,
+  VB_ICON_NOTIFICATION,
+  VB_ICON_MUSIC,
+  VB_ICON_ALARM,
+  VB_ICON_SETTINGS,
+  VB_ICON_PAY,
+  VB_ICON_MAP,
+  VB_ICON_BREATH,
+  VB_ICON_PHONE,
+};
+
 #define VB_APP_COUNT 12
 #define VB_TOUCH_DEBOUNCE_MS 250
 
@@ -70,7 +86,7 @@ struct vb_app_item
   const char *name_cn;
   const char *id;
   const char *screen_name;
-  const char *glyph;
+  enum vb_app_icon_type icon;
   enum vb_watch_screen target;
   uint32_t color;
 };
@@ -89,12 +105,17 @@ static enum vb_watch_screen g_vb_current_screen = VB_SCREEN_BOOT;
 static uint8_t g_vb_wheel_focus;
 static uint32_t g_vb_last_touch_tick;
 static lv_obj_t *g_vb_wheel_icons[VB_APP_COUNT];
-static lv_obj_t *g_vb_wheel_glyphs[VB_APP_COUNT];
+static lv_obj_t *g_vb_wheel_arts[VB_APP_COUNT];
 static lv_obj_t *g_vb_wheel_labels[VB_APP_COUNT];
 static lv_obj_t *g_vb_wheel_focus_label;
 
+static void vb_set_wheel_focus(uint8_t focus);
 static void vb_next_wheel_focus(void);
-static void vb_wheel_clicked(lv_event_t *event);
+static void vb_prev_wheel_focus(void);
+static void vb_open_focused_app(void);
+static void vb_wheel_icon_event(lv_event_t *event);
+static void vb_wheel_gesture(lv_event_t *event);
+void vb_switch_screen(enum vb_watch_screen next);
 
 #if LV_USE_NUTTX
 static lv_nuttx_result_t g_vb_nuttx_result;
@@ -115,34 +136,46 @@ static const char *g_vb_screen_names[VB_SCREEN_COUNT] =
 
 static const struct vb_app_item g_vb_apps[VB_APP_COUNT] =
 {
-  { "心率", "heart", "Heart Rate", "HR", VB_SCREEN_HEART, VB_COLOR_RED },
-  { "睡眠", "sleep", "Sleep", "Zz", VB_SCREEN_SLEEP, VB_COLOR_PURPLE },
-  { "运动", "workout", "Workout", "GO", VB_SCREEN_WORKOUT, VB_COLOR_GREEN },
-  { "天气", "weather", "Weather", "WX", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
-  { "通知", "notify", "Notify", "N", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
-  { "音乐", "music", "Music", "M", VB_SCREEN_APP_WHEEL, VB_COLOR_PURPLE },
-  { "闹钟", "alarm", "Alarm", "AL", VB_SCREEN_APP_WHEEL, VB_COLOR_ORANGE },
-  { "设置", "settings", "Settings", "SET", VB_SCREEN_SETTINGS, VB_COLOR_BLUE },
-  { "支付", "pay", "Pay", "PAY", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
-  { "地图", "map", "Map", "MAP", VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
-  { "呼吸", "breathe", "Breathe", "BR", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
-  { "电话", "phone", "Phone", "TEL", VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
+  { "心率", "heart", "Heart Rate", VB_ICON_HEART,
+    VB_SCREEN_HEART, VB_COLOR_RED },
+  { "睡眠", "sleep", "Sleep", VB_ICON_SLEEP,
+    VB_SCREEN_SLEEP, VB_COLOR_PURPLE },
+  { "运动", "workout", "Workout", VB_ICON_WORKOUT,
+    VB_SCREEN_WORKOUT, VB_COLOR_GREEN },
+  { "天气", "weather", "Weather", VB_ICON_WEATHER,
+    VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+  { "通知", "notification", "Notification", VB_ICON_NOTIFICATION,
+    VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+  { "音乐", "music", "Music", VB_ICON_MUSIC,
+    VB_SCREEN_APP_WHEEL, VB_COLOR_PURPLE },
+  { "闹钟", "alarm", "Alarm", VB_ICON_ALARM,
+    VB_SCREEN_APP_WHEEL, VB_COLOR_ORANGE },
+  { "设置", "settings", "Settings", VB_ICON_SETTINGS,
+    VB_SCREEN_SETTINGS, VB_COLOR_BLUE },
+  { "支付", "pay", "Pay", VB_ICON_PAY,
+    VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+  { "地图", "map", "Map", VB_ICON_MAP,
+    VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
+  { "呼吸", "breath", "Breath", VB_ICON_BREATH,
+    VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+  { "电话", "phone", "Phone", VB_ICON_PHONE,
+    VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
 };
 
 static const struct vb_wheel_slot g_vb_wheel_slots[VB_APP_COUNT] =
 {
-  { 156, 116, 78, true, LV_OPA_COVER },
-  { 268, 108, 48, true, LV_OPA_COVER },
-  { 276, 202, 44, true, LV_OPA_COVER },
-  { 214, 272, 40, true, LV_OPA_90 },
-  { 126, 276, 38, false, LV_OPA_80 },
-  { 58, 214, 36, false, LV_OPA_70 },
-  { 58, 124, 36, false, LV_OPA_70 },
-  { 124, 66, 38, false, LV_OPA_70 },
-  { 218, 66, 40, false, LV_OPA_80 },
-  { 308, 82, 32, false, LV_OPA_50 },
-  { 312, 286, 32, false, LV_OPA_50 },
-  { 50, 300, 30, false, LV_OPA_50 },
+  { 156, 126, 78, true, LV_OPA_COVER },
+  { 246, 116, 48, true, LV_OPA_COVER },
+  { 244, 205, 46, true, LV_OPA_COVER },
+  { 160, 244, 46, true, LV_OPA_COVER },
+  { 70, 205, 46, true, LV_OPA_COVER },
+  { 70, 116, 48, true, LV_OPA_COVER },
+  { 159, 78, 36, false, LV_OPA_80 },
+  { 254, 74, 34, false, LV_OPA_70 },
+  { 304, 165, 34, false, LV_OPA_60 },
+  { 254, 274, 34, false, LV_OPA_60 },
+  { 96, 274, 34, false, LV_OPA_60 },
+  { 40, 165, 34, false, LV_OPA_60 },
 };
 
 static enum vb_watch_screen vb_next_screen(enum vb_watch_screen screen)
@@ -594,6 +627,275 @@ lv_obj_t *vb_create_progress_ring(lv_obj_t *parent, int value,
   return arc;
 }
 
+static int16_t vb_pct(int16_t value, int16_t percent)
+{
+  return (int16_t)((value * percent) / 100);
+}
+
+static int16_t vb_at_least(int16_t value, int16_t minimum)
+{
+  return value < minimum ? minimum : value;
+}
+
+static lv_obj_t *vb_shape(lv_obj_t *parent, int16_t x, int16_t y,
+                          int16_t w, int16_t h, uint32_t color,
+                          lv_opa_t opa, int16_t radius)
+{
+  lv_obj_t *obj = lv_obj_create(parent);
+
+  lv_obj_set_pos(obj, x, y);
+  lv_obj_set_size(obj, w, h);
+  lv_obj_set_style_radius(obj, radius, 0);
+  lv_obj_set_style_bg_color(obj, vb_color(color), 0);
+  lv_obj_set_style_bg_opa(obj, opa, 0);
+  lv_obj_set_style_border_width(obj, 0, 0);
+  lv_obj_set_style_pad_all(obj, 0, 0);
+  lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+  lv_obj_clear_flag(obj, LV_OBJ_FLAG_CLICKABLE);
+
+  return obj;
+}
+
+static lv_obj_t *vb_shape_outline(lv_obj_t *parent, int16_t x, int16_t y,
+                                  int16_t w, int16_t h, uint32_t color,
+                                  lv_opa_t opa, int16_t radius,
+                                  int16_t width)
+{
+  lv_obj_t *obj = vb_shape(parent, x, y, w, h, color, LV_OPA_TRANSP,
+                           radius);
+
+  lv_obj_set_style_border_width(obj, width, 0);
+  lv_obj_set_style_border_color(obj, vb_color(color), 0);
+  lv_obj_set_style_border_opa(obj, opa, 0);
+
+  return obj;
+}
+
+static void vb_draw_heart_icon(lv_obj_t *art, int16_t s, uint32_t color)
+{
+  int16_t thick = vb_at_least(vb_pct(s, 10), 2);
+
+  vb_shape(art, vb_pct(s, 14), vb_pct(s, 50), vb_pct(s, 20), thick,
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 32), vb_pct(s, 38), thick, vb_pct(s, 28),
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 42), vb_pct(s, 38), vb_pct(s, 18), thick,
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 56), vb_pct(s, 30), thick, vb_pct(s, 34),
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 65), vb_pct(s, 48), vb_pct(s, 20), thick,
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 8), vb_pct(s, 44), vb_pct(s, 10), vb_pct(s, 10),
+           color, LV_OPA_70, LV_RADIUS_CIRCLE);
+}
+
+static void vb_draw_sleep_icon(lv_obj_t *art, int16_t s, uint32_t color)
+{
+  lv_obj_t *moon = vb_shape(art, vb_pct(s, 18), vb_pct(s, 18),
+                            vb_pct(s, 48), vb_pct(s, 48), color,
+                            LV_OPA_COVER, LV_RADIUS_CIRCLE);
+  lv_obj_t *cut = vb_shape(art, vb_pct(s, 34), vb_pct(s, 12),
+                           vb_pct(s, 46), vb_pct(s, 46), VB_COLOR_PANEL,
+                           LV_OPA_COVER, LV_RADIUS_CIRCLE);
+  lv_obj_t *z = vb_label(art, "Zz", color, vb_font_small());
+
+  (void)moon;
+  (void)cut;
+  lv_obj_align(z, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
+}
+
+static void vb_draw_workout_icon(lv_obj_t *art, int16_t s, uint32_t color)
+{
+  int16_t thick = vb_at_least(vb_pct(s, 12), 3);
+
+  vb_shape(art, vb_pct(s, 47), vb_pct(s, 8), vb_pct(s, 16),
+           vb_pct(s, 16), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 42), vb_pct(s, 30), thick, vb_pct(s, 28),
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 24), vb_pct(s, 38), vb_pct(s, 26), thick,
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 50), vb_pct(s, 42), vb_pct(s, 28), thick,
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 34), vb_pct(s, 58), thick, vb_pct(s, 26),
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 50), vb_pct(s, 60), vb_pct(s, 30), thick,
+           color, LV_OPA_COVER, thick / 2);
+}
+
+static void vb_draw_weather_icon(lv_obj_t *art, int16_t s, uint32_t color)
+{
+  vb_shape(art, vb_pct(s, 56), vb_pct(s, 12), vb_pct(s, 22),
+           vb_pct(s, 22), VB_COLOR_ORANGE, LV_OPA_90, LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 16), vb_pct(s, 48), vb_pct(s, 56),
+           vb_pct(s, 20), color, LV_OPA_COVER, vb_pct(s, 10));
+  vb_shape(art, vb_pct(s, 22), vb_pct(s, 36), vb_pct(s, 26),
+           vb_pct(s, 26), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 42), vb_pct(s, 30), vb_pct(s, 32),
+           vb_pct(s, 32), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
+}
+
+static void vb_draw_notification_icon(lv_obj_t *art, int16_t s,
+                                      uint32_t color)
+{
+  vb_shape_outline(art, vb_pct(s, 16), vb_pct(s, 22), vb_pct(s, 66),
+                   vb_pct(s, 46), color, LV_OPA_COVER, vb_pct(s, 12),
+                   vb_at_least(vb_pct(s, 8), 2));
+  vb_shape(art, vb_pct(s, 66), vb_pct(s, 18), vb_pct(s, 16),
+           vb_pct(s, 16), VB_COLOR_RED, LV_OPA_COVER, LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 28), vb_pct(s, 38), vb_pct(s, 34),
+           vb_at_least(vb_pct(s, 7), 2), color, LV_OPA_70,
+           vb_pct(s, 4));
+}
+
+static void vb_draw_music_icon(lv_obj_t *art, int16_t s, uint32_t color)
+{
+  vb_shape(art, vb_pct(s, 26), vb_pct(s, 62), vb_pct(s, 22),
+           vb_pct(s, 18), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 48), vb_pct(s, 18), vb_at_least(vb_pct(s, 9), 3),
+           vb_pct(s, 50), color, LV_OPA_COVER, vb_pct(s, 4));
+  vb_shape(art, vb_pct(s, 48), vb_pct(s, 18), vb_pct(s, 34),
+           vb_at_least(vb_pct(s, 8), 3), color, LV_OPA_COVER,
+           vb_pct(s, 4));
+}
+
+static void vb_draw_alarm_icon(lv_obj_t *art, int16_t s, uint32_t color)
+{
+  int16_t thick = vb_at_least(vb_pct(s, 8), 2);
+
+  vb_shape_outline(art, vb_pct(s, 22), vb_pct(s, 24), vb_pct(s, 56),
+                   vb_pct(s, 56), color, LV_OPA_COVER, LV_RADIUS_CIRCLE,
+                   thick);
+  vb_shape(art, vb_pct(s, 20), vb_pct(s, 14), vb_pct(s, 18),
+           vb_pct(s, 14), color, LV_OPA_90, LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 62), vb_pct(s, 14), vb_pct(s, 18),
+           vb_pct(s, 14), color, LV_OPA_90, LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 49), vb_pct(s, 38), thick, vb_pct(s, 22),
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 49), vb_pct(s, 54), vb_pct(s, 18), thick,
+           color, LV_OPA_COVER, thick / 2);
+}
+
+static void vb_draw_settings_icon(lv_obj_t *art, int16_t s, uint32_t color)
+{
+  int16_t tooth = vb_at_least(vb_pct(s, 10), 3);
+
+  vb_shape_outline(art, vb_pct(s, 24), vb_pct(s, 24), vb_pct(s, 52),
+                   vb_pct(s, 52), color, LV_OPA_COVER, LV_RADIUS_CIRCLE,
+                   vb_at_least(vb_pct(s, 9), 2));
+  vb_shape_outline(art, vb_pct(s, 40), vb_pct(s, 40), vb_pct(s, 20),
+                   vb_pct(s, 20), color, LV_OPA_COVER, LV_RADIUS_CIRCLE,
+                   vb_at_least(vb_pct(s, 7), 2));
+  vb_shape(art, vb_pct(s, 45), vb_pct(s, 8), tooth, vb_pct(s, 16), color,
+           LV_OPA_COVER, tooth / 2);
+  vb_shape(art, vb_pct(s, 45), vb_pct(s, 76), tooth, vb_pct(s, 16), color,
+           LV_OPA_COVER, tooth / 2);
+  vb_shape(art, vb_pct(s, 8), vb_pct(s, 45), vb_pct(s, 16), tooth, color,
+           LV_OPA_COVER, tooth / 2);
+  vb_shape(art, vb_pct(s, 76), vb_pct(s, 45), vb_pct(s, 16), tooth, color,
+           LV_OPA_COVER, tooth / 2);
+}
+
+static void vb_draw_pay_icon(lv_obj_t *art, int16_t s, uint32_t color)
+{
+  vb_shape_outline(art, vb_pct(s, 14), vb_pct(s, 28), vb_pct(s, 72),
+                   vb_pct(s, 48), color, LV_OPA_COVER, vb_pct(s, 10),
+                   vb_at_least(vb_pct(s, 7), 2));
+  vb_shape(art, vb_pct(s, 20), vb_pct(s, 42), vb_pct(s, 60),
+           vb_at_least(vb_pct(s, 9), 3), color, LV_OPA_70,
+           vb_pct(s, 3));
+  vb_shape(art, vb_pct(s, 24), vb_pct(s, 56), vb_pct(s, 18),
+           vb_at_least(vb_pct(s, 7), 2), color, LV_OPA_COVER,
+           vb_pct(s, 3));
+}
+
+static void vb_draw_map_icon(lv_obj_t *art, int16_t s, uint32_t color)
+{
+  vb_shape(art, vb_pct(s, 35), vb_pct(s, 14), vb_pct(s, 30),
+           vb_pct(s, 30), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 43), vb_pct(s, 22), vb_pct(s, 14),
+           vb_pct(s, 14), VB_COLOR_PANEL, LV_OPA_COVER,
+           LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 47), vb_pct(s, 42), vb_at_least(vb_pct(s, 9), 3),
+           vb_pct(s, 34), color, LV_OPA_COVER, vb_pct(s, 5));
+  vb_shape(art, vb_pct(s, 24), vb_pct(s, 76), vb_pct(s, 52),
+           vb_at_least(vb_pct(s, 7), 2), color, LV_OPA_70,
+           vb_pct(s, 4));
+}
+
+static void vb_draw_breath_icon(lv_obj_t *art, int16_t s, uint32_t color)
+{
+  vb_shape_outline(art, vb_pct(s, 10), vb_pct(s, 10), vb_pct(s, 80),
+                   vb_pct(s, 80), color, LV_OPA_40, LV_RADIUS_CIRCLE, 2);
+  vb_shape_outline(art, vb_pct(s, 24), vb_pct(s, 24), vb_pct(s, 52),
+                   vb_pct(s, 52), color, LV_OPA_70, LV_RADIUS_CIRCLE, 2);
+  vb_shape(art, vb_pct(s, 43), vb_pct(s, 43), vb_pct(s, 14),
+           vb_pct(s, 14), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
+}
+
+static void vb_draw_phone_icon(lv_obj_t *art, int16_t s, uint32_t color)
+{
+  int16_t thick = vb_at_least(vb_pct(s, 13), 4);
+
+  vb_shape(art, vb_pct(s, 25), vb_pct(s, 28), thick, vb_pct(s, 44),
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 32), vb_pct(s, 64), vb_pct(s, 36), thick,
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 60), vb_pct(s, 54), thick, vb_pct(s, 22),
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 20), vb_pct(s, 22), vb_pct(s, 18),
+           vb_pct(s, 18), color, LV_OPA_70, LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 56), vb_pct(s, 68), vb_pct(s, 18),
+           vb_pct(s, 18), color, LV_OPA_70, LV_RADIUS_CIRCLE);
+}
+
+static void vb_draw_app_art(lv_obj_t *art, enum vb_app_icon_type type,
+                            int16_t size, uint32_t color)
+{
+  lv_obj_clean(art);
+
+  switch (type)
+    {
+      case VB_ICON_HEART:
+        vb_draw_heart_icon(art, size, color);
+        break;
+      case VB_ICON_SLEEP:
+        vb_draw_sleep_icon(art, size, color);
+        break;
+      case VB_ICON_WORKOUT:
+        vb_draw_workout_icon(art, size, color);
+        break;
+      case VB_ICON_WEATHER:
+        vb_draw_weather_icon(art, size, color);
+        break;
+      case VB_ICON_NOTIFICATION:
+        vb_draw_notification_icon(art, size, color);
+        break;
+      case VB_ICON_MUSIC:
+        vb_draw_music_icon(art, size, color);
+        break;
+      case VB_ICON_ALARM:
+        vb_draw_alarm_icon(art, size, color);
+        break;
+      case VB_ICON_SETTINGS:
+        vb_draw_settings_icon(art, size, color);
+        break;
+      case VB_ICON_PAY:
+        vb_draw_pay_icon(art, size, color);
+        break;
+      case VB_ICON_MAP:
+        vb_draw_map_icon(art, size, color);
+        break;
+      case VB_ICON_BREATH:
+        vb_draw_breath_icon(art, size, color);
+        break;
+      case VB_ICON_PHONE:
+        vb_draw_phone_icon(art, size, color);
+        break;
+      default:
+        break;
+    }
+}
+
 static uint8_t vb_wheel_item_index(uint8_t slot)
 {
   return (uint8_t)((g_vb_wheel_focus + slot) % VB_APP_COUNT);
@@ -605,30 +907,46 @@ static void vb_update_wheel_icon(uint8_t slot)
   uint8_t item_index = vb_wheel_item_index(slot);
   const struct vb_app_item *item = &g_vb_apps[item_index];
   lv_obj_t *icon = g_vb_wheel_icons[slot];
-  lv_obj_t *glyph = g_vb_wheel_glyphs[slot];
+  lv_obj_t *art = g_vb_wheel_arts[slot];
   lv_obj_t *label = g_vb_wheel_labels[slot];
+  bool focused = slot == 0;
+  int16_t art_size = focused ? 42 : (pos->show_label ? 24 : pos->size - 10);
   uint32_t bg_color = slot == 0 ? item->color : VB_COLOR_PANEL;
   uint32_t border_color = slot == 0 ? item->color : 0x2a2c33;
 
-  if (icon == NULL || glyph == NULL || label == NULL)
+  if (icon == NULL || art == NULL || label == NULL)
     {
       return;
     }
 
+  if (art_size < 18)
+    {
+      art_size = 18;
+    }
+
   lv_obj_set_size(icon, pos->size, pos->size);
   lv_obj_set_pos(icon, pos->x, pos->y);
-  lv_obj_set_style_radius(icon, pos->size / 3, 0);
+  lv_obj_set_style_radius(icon, focused ? 26 : pos->size / 3, 0);
   lv_obj_set_style_bg_color(icon, vb_color(bg_color), 0);
-  lv_obj_set_style_bg_opa(icon, slot == 0 ? LV_OPA_30 : pos->opa, 0);
-  lv_obj_set_style_border_width(icon, slot == 0 ? 2 : 1, 0);
+  lv_obj_set_style_bg_opa(icon, focused ? LV_OPA_30 : pos->opa, 0);
+  lv_obj_set_style_border_width(icon, focused ? 3 : 1, 0);
   lv_obj_set_style_border_color(icon, vb_color(border_color), 0);
+  lv_obj_set_style_shadow_color(icon, vb_color(item->color), 0);
+  lv_obj_set_style_shadow_width(icon, focused ? 12 : 0, 0);
+  lv_obj_set_style_shadow_opa(icon, focused ? LV_OPA_40 : LV_OPA_TRANSP,
+                              0);
   lv_obj_set_style_pad_all(icon, 0, 0);
 
-  lv_label_set_text(glyph, item->glyph);
-  lv_obj_set_style_text_color(glyph, vb_color(slot == 0 ? VB_COLOR_TEXT :
-                              item->color), 0);
-  lv_obj_set_style_text_font(glyph, slot == 0 ? vb_font_title() :
-                             vb_font_small(), 0);
+  lv_obj_set_size(art, art_size, art_size);
+  lv_obj_set_style_bg_opa(art, LV_OPA_TRANSP, 0);
+  lv_obj_set_style_border_width(art, 0, 0);
+  lv_obj_set_style_pad_all(art, 0, 0);
+  lv_obj_clear_flag(art, LV_OBJ_FLAG_SCROLLABLE);
+  lv_obj_clear_flag(art, LV_OBJ_FLAG_CLICKABLE);
+  lv_obj_align(art, pos->show_label ? LV_ALIGN_TOP_MID : LV_ALIGN_CENTER,
+               0, focused ? 8 : (pos->show_label ? 5 : 0));
+  vb_draw_app_art(art, item->icon, art_size,
+                  focused ? VB_COLOR_TEXT : item->color);
 
   lv_label_set_text(label, pos->show_label ? item->name_cn : "");
   lv_obj_set_style_text_color(label, vb_color(slot == 0 ? VB_COLOR_TEXT :
@@ -637,32 +955,36 @@ static void vb_update_wheel_icon(uint8_t slot)
 
   if (pos->show_label)
     {
-      lv_obj_align(glyph, LV_ALIGN_TOP_MID, 0, slot == 0 ? 12 : 6);
-      lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, slot == 0 ? -10 : -3);
+      lv_obj_align_to(label, icon, LV_ALIGN_OUT_BOTTOM_MID, 0,
+                      focused ? 3 : 1);
     }
   else
     {
-      lv_obj_center(glyph);
-      lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, 0);
+      lv_obj_align_to(label, icon, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
     }
 }
 
 static lv_obj_t *vb_create_app_icon(lv_obj_t *parent, uint8_t slot)
 {
   lv_obj_t *icon = lv_obj_create(parent);
-  lv_obj_t *glyph;
+  lv_obj_t *art;
   lv_obj_t *label;
 
   lv_obj_clear_flag(icon, LV_OBJ_FLAG_SCROLLABLE);
   lv_obj_add_flag(icon, LV_OBJ_FLAG_CLICKABLE);
-  lv_obj_add_event_cb(icon, vb_wheel_clicked, LV_EVENT_CLICKED, NULL);
+  lv_obj_add_event_cb(icon, vb_wheel_icon_event, LV_EVENT_ALL,
+                      (void *)(uintptr_t)(slot + 1));
   lv_obj_set_style_bg_opa(icon, LV_OPA_COVER, 0);
+  lv_obj_set_style_transform_zoom(icon, 256, 0);
 
-  glyph = vb_label(icon, "", VB_COLOR_TEXT, vb_font_small());
-  label = vb_label_cn(icon, "", VB_COLOR_MUTED);
+  art = lv_obj_create(icon);
+  label = vb_label_cn(parent, "", VB_COLOR_MUTED);
+  lv_obj_add_flag(label, LV_OBJ_FLAG_CLICKABLE);
+  lv_obj_add_event_cb(label, vb_wheel_icon_event, LV_EVENT_ALL,
+                      (void *)(uintptr_t)(slot + 1));
 
   g_vb_wheel_icons[slot] = icon;
-  g_vb_wheel_glyphs[slot] = glyph;
+  g_vb_wheel_arts[slot] = art;
   g_vb_wheel_labels[slot] = label;
 
   vb_update_wheel_icon(slot);
@@ -703,7 +1025,13 @@ static void vb_next_wheel_focus(void)
   vb_set_wheel_focus((uint8_t)((g_vb_wheel_focus + 1) % VB_APP_COUNT));
 }
 
-static bool vb_accept_touch_click(void)
+static void vb_prev_wheel_focus(void)
+{
+  vb_set_wheel_focus((uint8_t)((g_vb_wheel_focus + VB_APP_COUNT - 1) %
+                               VB_APP_COUNT));
+}
+
+static bool vb_accept_touch_action(const char *action)
 {
   uint32_t now = lv_tick_get();
 
@@ -716,20 +1044,121 @@ static bool vb_accept_touch_click(void)
     }
 
   g_vb_last_touch_tick = now == 0 ? 1 : now;
-  printf("[velabridge][watch_ui] touch click\n");
+  printf("[velabridge][watch_ui] %s\n", action);
   fflush(stdout);
   return true;
 }
 
-static void vb_wheel_clicked(lv_event_t *event)
+static bool vb_accept_touch_click(void)
 {
-  (void)event;
+  return vb_accept_touch_action("touch click");
+}
+
+static void vb_open_focused_app(void)
+{
+  const struct vb_app_item *item = &g_vb_apps[g_vb_wheel_focus];
+
+  printf("[velabridge][watch_ui] open app=%s\n", item->id);
+  fflush(stdout);
+
+  if (item->target != VB_SCREEN_APP_WHEEL)
+    {
+      vb_switch_screen(item->target);
+    }
+}
+
+static void vb_wheel_icon_event(lv_event_t *event)
+{
+  lv_event_code_t code = lv_event_get_code(event);
+  uintptr_t encoded = (uintptr_t)lv_event_get_user_data(event);
+  uint8_t slot;
+  uint8_t item_index;
+
+  if (encoded == 0)
+    {
+      return;
+    }
+
+  slot = (uint8_t)(encoded - 1);
+  if (slot >= VB_APP_COUNT)
+    {
+      return;
+    }
+
+  if (code == LV_EVENT_PRESSED)
+    {
+      lv_obj_set_style_transform_zoom(g_vb_wheel_icons[slot], 238, 0);
+      return;
+    }
+
+  if (code == LV_EVENT_RELEASED || code == LV_EVENT_PRESS_LOST)
+    {
+      lv_obj_set_style_transform_zoom(g_vb_wheel_icons[slot], 256, 0);
+      return;
+    }
+
+  if (code == LV_EVENT_GESTURE)
+    {
+      lv_obj_set_style_transform_zoom(g_vb_wheel_icons[slot], 256, 0);
+      vb_wheel_gesture(event);
+      return;
+    }
+
+  if (code != LV_EVENT_CLICKED)
+    {
+      return;
+    }
+
+  lv_obj_set_style_transform_zoom(g_vb_wheel_icons[slot], 256, 0);
+
   if (!vb_accept_touch_click())
     {
       return;
     }
 
-  vb_next_wheel_focus();
+  item_index = vb_wheel_item_index(slot);
+  if (slot == 0)
+    {
+      vb_open_focused_app();
+      return;
+    }
+
+  vb_set_wheel_focus(item_index);
+}
+
+static void vb_wheel_gesture(lv_event_t *event)
+{
+  lv_indev_t *indev;
+  lv_dir_t dir;
+
+  (void)event;
+
+  if (g_vb_current_screen != VB_SCREEN_APP_WHEEL)
+    {
+      return;
+    }
+
+  indev = lv_indev_get_act();
+  if (indev == NULL)
+    {
+      return;
+    }
+
+  dir = lv_indev_get_gesture_dir(indev);
+  if (dir == LV_DIR_LEFT)
+    {
+      if (vb_accept_touch_action("touch swipe=left"))
+        {
+          vb_next_wheel_focus();
+        }
+    }
+  else if (dir == LV_DIR_RIGHT)
+    {
+      if (vb_accept_touch_action("touch swipe=right"))
+        {
+          vb_prev_wheel_focus();
+        }
+    }
 }
 
 void vb_switch_screen(enum vb_watch_screen next)
@@ -781,7 +1210,6 @@ static void vb_screen_clicked(lv_event_t *event)
 
   if (g_vb_current_screen == VB_SCREEN_APP_WHEEL)
     {
-      vb_next_wheel_focus();
       return;
     }
 
@@ -889,6 +1317,8 @@ static void vb_build_app_wheel(void)
   lv_obj_t *title;
   lv_obj_t *hint;
   lv_obj_t *line;
+  lv_obj_t *orbit_outer;
+  lv_obj_t *orbit_inner;
   uint8_t i;
 
   vb_create_status_bar(screen, "应用");
@@ -898,6 +1328,13 @@ static void vb_build_app_wheel(void)
 
   hint = vb_label_cn(screen, "点击切换焦点", VB_COLOR_MUTED);
   lv_obj_align(hint, LV_ALIGN_TOP_RIGHT, -32, 62);
+
+  orbit_outer = vb_shape_outline(screen, 43, 78, 304, 250,
+                                 0x22406f, LV_OPA_20, 126, 1);
+  orbit_inner = vb_shape_outline(screen, 82, 104, 226, 172,
+                                 0x2a7bff, LV_OPA_20, 88, 1);
+  lv_obj_move_background(orbit_outer);
+  lv_obj_move_background(orbit_inner);
 
   for (i = 0; i < VB_APP_COUNT; i++)
     {
@@ -916,7 +1353,8 @@ static void vb_build_app_wheel(void)
     vb_label_cn(screen, "聚焦 · 心率", VB_COLOR_TEXT);
   lv_obj_align(g_vb_wheel_focus_label, LV_ALIGN_BOTTOM_MID, 0, -30);
 
-  vb_bind_screen_next(screen);
+  lv_obj_add_flag(screen, LV_OBJ_FLAG_CLICKABLE);
+  lv_obj_add_event_cb(screen, vb_wheel_gesture, LV_EVENT_GESTURE, NULL);
   vb_set_wheel_focus(g_vb_wheel_focus);
 
   g_vb_screens[VB_SCREEN_APP_WHEEL] = screen;
