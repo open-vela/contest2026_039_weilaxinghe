@@ -16,6 +16,7 @@
 #endif
 
 #include "velabridge_watch_ui.h"
+#include "velabridge_watch_anim.h"
 
 #define VB_WATCH_WIDTH   390
 #define VB_WATCH_HEIGHT  390
@@ -79,7 +80,10 @@ enum vb_app_icon_type
 };
 
 #define VB_APP_COUNT 12
-#define VB_TOUCH_DEBOUNCE_MS 250
+#define VB_TOUCH_DEBOUNCE_MS 150
+#define VB_WHEEL_ANIM_MS 180
+#define VB_PAGE_ANIM_MS 200
+#define VB_APP_ART_SIZE 42
 
 struct vb_app_item
 {
@@ -108,6 +112,7 @@ static lv_obj_t *g_vb_wheel_icons[VB_APP_COUNT];
 static lv_obj_t *g_vb_wheel_arts[VB_APP_COUNT];
 static lv_obj_t *g_vb_wheel_labels[VB_APP_COUNT];
 static lv_obj_t *g_vb_wheel_focus_label;
+static bool g_vb_wheel_ready;
 
 static void vb_set_wheel_focus(uint8_t focus);
 static void vb_next_wheel_focus(void);
@@ -177,29 +182,6 @@ static const struct vb_wheel_slot g_vb_wheel_slots[VB_APP_COUNT] =
   { 96, 274, 34, false, LV_OPA_60 },
   { 40, 165, 34, false, LV_OPA_60 },
 };
-
-static enum vb_watch_screen vb_next_screen(enum vb_watch_screen screen)
-{
-  switch (screen)
-    {
-      case VB_SCREEN_BOOT:
-        return VB_SCREEN_FACE;
-      case VB_SCREEN_FACE:
-        return VB_SCREEN_APP_WHEEL;
-      case VB_SCREEN_APP_WHEEL:
-        return VB_SCREEN_HEART;
-      case VB_SCREEN_HEART:
-        return VB_SCREEN_WORKOUT;
-      case VB_SCREEN_WORKOUT:
-        return VB_SCREEN_SLEEP;
-      case VB_SCREEN_SLEEP:
-        return VB_SCREEN_SETTINGS;
-      case VB_SCREEN_SETTINGS:
-        return VB_SCREEN_FACE;
-      default:
-        return VB_SCREEN_FACE;
-    }
-}
 
 static void *vb_lvgl_default_display(void)
 {
@@ -851,8 +833,6 @@ static void vb_draw_phone_icon(lv_obj_t *art, int16_t s, uint32_t color)
 static void vb_draw_app_art(lv_obj_t *art, enum vb_app_icon_type type,
                             int16_t size, uint32_t color)
 {
-  lv_obj_clean(art);
-
   switch (type)
     {
       case VB_ICON_HEART:
@@ -896,23 +876,29 @@ static void vb_draw_app_art(lv_obj_t *art, enum vb_app_icon_type type,
     }
 }
 
-static uint8_t vb_wheel_item_index(uint8_t slot)
+static uint8_t vb_wheel_slot_for_item(uint8_t item_index)
 {
-  return (uint8_t)((g_vb_wheel_focus + slot) % VB_APP_COUNT);
+  return (uint8_t)((item_index + VB_APP_COUNT - g_vb_wheel_focus) %
+                   VB_APP_COUNT);
 }
 
-static void vb_update_wheel_icon(uint8_t slot)
+static void vb_update_wheel_icon(uint8_t item_index, bool animate)
 {
+  uint8_t slot = vb_wheel_slot_for_item(item_index);
   const struct vb_wheel_slot *pos = &g_vb_wheel_slots[slot];
-  uint8_t item_index = vb_wheel_item_index(slot);
   const struct vb_app_item *item = &g_vb_apps[item_index];
-  lv_obj_t *icon = g_vb_wheel_icons[slot];
-  lv_obj_t *art = g_vb_wheel_arts[slot];
-  lv_obj_t *label = g_vb_wheel_labels[slot];
+  lv_obj_t *icon = g_vb_wheel_icons[item_index];
+  lv_obj_t *art = g_vb_wheel_arts[item_index];
+  lv_obj_t *label = g_vb_wheel_labels[item_index];
   bool focused = slot == 0;
   int16_t art_size = focused ? 42 : (pos->show_label ? 24 : pos->size - 10);
+  int16_t art_zoom;
+  int16_t label_x;
+  int16_t label_y;
+  int16_t label_w;
   uint32_t bg_color = slot == 0 ? item->color : VB_COLOR_PANEL;
   uint32_t border_color = slot == 0 ? item->color : 0x2a2c33;
+  lv_opa_t label_opa = pos->show_label ? LV_OPA_COVER : LV_OPA_TRANSP;
 
   if (icon == NULL || art == NULL || label == NULL)
     {
@@ -924,8 +910,18 @@ static void vb_update_wheel_icon(uint8_t slot)
       art_size = 18;
     }
 
-  lv_obj_set_size(icon, pos->size, pos->size);
-  lv_obj_set_pos(icon, pos->x, pos->y);
+  if (animate)
+    {
+      vb_anim_focus_icon(icon, pos->x, pos->y, pos->size, pos->opa,
+                         VB_WHEEL_ANIM_MS);
+    }
+  else
+    {
+      lv_obj_set_size(icon, pos->size, pos->size);
+      lv_obj_set_pos(icon, pos->x, pos->y);
+      lv_obj_set_style_opa(icon, pos->opa, 0);
+    }
+
   lv_obj_set_style_radius(icon, focused ? 26 : pos->size / 3, 0);
   lv_obj_set_style_bg_color(icon, vb_color(bg_color), 0);
   lv_obj_set_style_bg_opa(icon, focused ? LV_OPA_30 : pos->opa, 0);
@@ -937,35 +933,48 @@ static void vb_update_wheel_icon(uint8_t slot)
                               0);
   lv_obj_set_style_pad_all(icon, 0, 0);
 
-  lv_obj_set_size(art, art_size, art_size);
+  art_zoom = (int16_t)((art_size * 256) / VB_APP_ART_SIZE);
+  lv_obj_set_size(art, VB_APP_ART_SIZE, VB_APP_ART_SIZE);
   lv_obj_set_style_bg_opa(art, LV_OPA_TRANSP, 0);
   lv_obj_set_style_border_width(art, 0, 0);
   lv_obj_set_style_pad_all(art, 0, 0);
   lv_obj_clear_flag(art, LV_OBJ_FLAG_SCROLLABLE);
   lv_obj_clear_flag(art, LV_OBJ_FLAG_CLICKABLE);
-  lv_obj_align(art, pos->show_label ? LV_ALIGN_TOP_MID : LV_ALIGN_CENTER,
-               0, focused ? 8 : (pos->show_label ? 5 : 0));
-  vb_draw_app_art(art, item->icon, art_size,
-                  focused ? VB_COLOR_TEXT : item->color);
+  lv_obj_set_style_transform_zoom(art, art_zoom, 0);
+  lv_obj_align(art, LV_ALIGN_CENTER, 0,
+               pos->show_label ? (focused ? -8 : -6) : 0);
 
   lv_label_set_text(label, pos->show_label ? item->name_cn : "");
   lv_obj_set_style_text_color(label, vb_color(slot == 0 ? VB_COLOR_TEXT :
                               VB_COLOR_MUTED), 0);
   lv_obj_set_style_text_font(label, vb_font_cn(), 0);
+  lv_obj_update_layout(label);
+  label_w = (int16_t)lv_obj_get_width(label);
+  label_x = (int16_t)(pos->x + pos->size / 2 - label_w / 2);
+  label_y = (int16_t)(pos->y + pos->size + (focused ? 3 : 1));
 
-  if (pos->show_label)
+  if (animate)
     {
-      lv_obj_align_to(label, icon, LV_ALIGN_OUT_BOTTOM_MID, 0,
-                      focused ? 3 : 1);
+      vb_anim_set_x(label, label_x, VB_WHEEL_ANIM_MS);
+      vb_anim_set_y(label, label_y, VB_WHEEL_ANIM_MS);
+      vb_anim_set_opa(label, label_opa, VB_WHEEL_ANIM_MS);
     }
   else
     {
-      lv_obj_align_to(label, icon, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
+      lv_obj_set_pos(label, label_x, label_y);
+      lv_obj_set_style_opa(label, label_opa, 0);
+    }
+
+  if (focused)
+    {
+      lv_obj_move_foreground(icon);
+      lv_obj_move_foreground(label);
     }
 }
 
-static lv_obj_t *vb_create_app_icon(lv_obj_t *parent, uint8_t slot)
+static lv_obj_t *vb_create_app_icon(lv_obj_t *parent, uint8_t app_index)
 {
+  const struct vb_app_item *item = &g_vb_apps[app_index];
   lv_obj_t *icon = lv_obj_create(parent);
   lv_obj_t *art;
   lv_obj_t *label;
@@ -973,39 +982,48 @@ static lv_obj_t *vb_create_app_icon(lv_obj_t *parent, uint8_t slot)
   lv_obj_clear_flag(icon, LV_OBJ_FLAG_SCROLLABLE);
   lv_obj_add_flag(icon, LV_OBJ_FLAG_CLICKABLE);
   lv_obj_add_event_cb(icon, vb_wheel_icon_event, LV_EVENT_ALL,
-                      (void *)(uintptr_t)(slot + 1));
+                      (void *)(uintptr_t)(app_index + 1));
   lv_obj_set_style_bg_opa(icon, LV_OPA_COVER, 0);
   lv_obj_set_style_transform_zoom(icon, 256, 0);
 
   art = lv_obj_create(icon);
+  lv_obj_set_size(art, VB_APP_ART_SIZE, VB_APP_ART_SIZE);
+  lv_obj_set_style_bg_opa(art, LV_OPA_TRANSP, 0);
+  lv_obj_set_style_border_width(art, 0, 0);
+  lv_obj_set_style_pad_all(art, 0, 0);
+  lv_obj_clear_flag(art, LV_OBJ_FLAG_SCROLLABLE);
+  lv_obj_clear_flag(art, LV_OBJ_FLAG_CLICKABLE);
+  vb_draw_app_art(art, item->icon, VB_APP_ART_SIZE, item->color);
+
   label = vb_label_cn(parent, "", VB_COLOR_MUTED);
   lv_obj_add_flag(label, LV_OBJ_FLAG_CLICKABLE);
   lv_obj_add_event_cb(label, vb_wheel_icon_event, LV_EVENT_ALL,
-                      (void *)(uintptr_t)(slot + 1));
+                      (void *)(uintptr_t)(app_index + 1));
 
-  g_vb_wheel_icons[slot] = icon;
-  g_vb_wheel_arts[slot] = art;
-  g_vb_wheel_labels[slot] = label;
+  g_vb_wheel_icons[app_index] = icon;
+  g_vb_wheel_arts[app_index] = art;
+  g_vb_wheel_labels[app_index] = label;
 
-  vb_update_wheel_icon(slot);
+  vb_update_wheel_icon(app_index, false);
   return icon;
 }
 
-static lv_obj_t *vb_create_wheel_icon(lv_obj_t *parent, uint8_t slot)
+static lv_obj_t *vb_create_wheel_icon(lv_obj_t *parent, uint8_t app_index)
 {
-  return vb_create_app_icon(parent, slot);
+  return vb_create_app_icon(parent, app_index);
 }
 
 static void vb_set_wheel_focus(uint8_t focus)
 {
-  uint8_t slot;
+  uint8_t item_index;
   char focus_text[48];
+  bool animate = g_vb_wheel_ready;
 
   g_vb_wheel_focus = (uint8_t)(focus % VB_APP_COUNT);
 
-  for (slot = 0; slot < VB_APP_COUNT; slot++)
+  for (item_index = 0; item_index < VB_APP_COUNT; item_index++)
     {
-      vb_update_wheel_icon(slot);
+      vb_update_wheel_icon(item_index, animate);
     }
 
   if (g_vb_wheel_focus_label != NULL)
@@ -1071,7 +1089,6 @@ static void vb_wheel_icon_event(lv_event_t *event)
 {
   lv_event_code_t code = lv_event_get_code(event);
   uintptr_t encoded = (uintptr_t)lv_event_get_user_data(event);
-  uint8_t slot;
   uint8_t item_index;
 
   if (encoded == 0)
@@ -1079,27 +1096,27 @@ static void vb_wheel_icon_event(lv_event_t *event)
       return;
     }
 
-  slot = (uint8_t)(encoded - 1);
-  if (slot >= VB_APP_COUNT)
+  item_index = (uint8_t)(encoded - 1);
+  if (item_index >= VB_APP_COUNT)
     {
       return;
     }
 
   if (code == LV_EVENT_PRESSED)
     {
-      lv_obj_set_style_transform_zoom(g_vb_wheel_icons[slot], 238, 0);
+      vb_anim_press_feedback(g_vb_wheel_icons[item_index]);
       return;
     }
 
   if (code == LV_EVENT_RELEASED || code == LV_EVENT_PRESS_LOST)
     {
-      lv_obj_set_style_transform_zoom(g_vb_wheel_icons[slot], 256, 0);
+      lv_obj_set_style_transform_zoom(g_vb_wheel_icons[item_index], 256, 0);
       return;
     }
 
   if (code == LV_EVENT_GESTURE)
     {
-      lv_obj_set_style_transform_zoom(g_vb_wheel_icons[slot], 256, 0);
+      lv_obj_set_style_transform_zoom(g_vb_wheel_icons[item_index], 256, 0);
       vb_wheel_gesture(event);
       return;
     }
@@ -1109,15 +1126,14 @@ static void vb_wheel_icon_event(lv_event_t *event)
       return;
     }
 
-  lv_obj_set_style_transform_zoom(g_vb_wheel_icons[slot], 256, 0);
+  lv_obj_set_style_transform_zoom(g_vb_wheel_icons[item_index], 256, 0);
 
   if (!vb_accept_touch_click())
     {
       return;
     }
 
-  item_index = vb_wheel_item_index(slot);
-  if (slot == 0)
+  if (item_index == g_vb_wheel_focus)
     {
       vb_open_focused_app();
       return;
@@ -1176,6 +1192,7 @@ void vb_switch_screen(enum vb_watch_screen next)
   fflush(stdout);
 
   lv_scr_load(g_vb_screens[next]);
+  vb_anim_page_fade_in(g_vb_screens[next], VB_PAGE_ANIM_MS);
 
   if (next == VB_SCREEN_APP_WHEEL)
     {
@@ -1186,21 +1203,29 @@ void vb_switch_screen(enum vb_watch_screen next)
 static void vb_card_clicked(lv_event_t *event)
 {
   uintptr_t next = (uintptr_t)lv_event_get_user_data(event);
+  enum vb_watch_screen target = (enum vb_watch_screen)next;
 
   if (!vb_accept_touch_click())
     {
       return;
     }
 
+  if (g_vb_current_screen != VB_SCREEN_BOOT &&
+      g_vb_current_screen != VB_SCREEN_FACE &&
+      g_vb_current_screen != VB_SCREEN_APP_WHEEL)
+    {
+      target = VB_SCREEN_APP_WHEEL;
+    }
+
   printf("[velabridge][watch_ui] next screen=%s\n",
-         g_vb_screen_names[(enum vb_watch_screen)next]);
+         g_vb_screen_names[target]);
   fflush(stdout);
-  vb_switch_screen((enum vb_watch_screen)next);
+  vb_switch_screen(target);
 }
 
 static void vb_screen_clicked(lv_event_t *event)
 {
-  enum vb_watch_screen next = vb_next_screen(g_vb_current_screen);
+  enum vb_watch_screen next;
 
   (void)event;
   if (!vb_accept_touch_click())
@@ -1211,6 +1236,19 @@ static void vb_screen_clicked(lv_event_t *event)
   if (g_vb_current_screen == VB_SCREEN_APP_WHEEL)
     {
       return;
+    }
+
+  if (g_vb_current_screen == VB_SCREEN_BOOT)
+    {
+      next = VB_SCREEN_FACE;
+    }
+  else if (g_vb_current_screen == VB_SCREEN_FACE)
+    {
+      next = VB_SCREEN_APP_WHEEL;
+    }
+  else
+    {
+      next = VB_SCREEN_APP_WHEEL;
     }
 
   printf("[velabridge][watch_ui] next screen=%s\n",
@@ -1322,6 +1360,7 @@ static void vb_build_app_wheel(void)
   uint8_t i;
 
   vb_create_status_bar(screen, "应用");
+  g_vb_wheel_ready = false;
 
   title = vb_label_cn_title(screen, "应用", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 32, 58);
@@ -1356,6 +1395,7 @@ static void vb_build_app_wheel(void)
   lv_obj_add_flag(screen, LV_OBJ_FLAG_CLICKABLE);
   lv_obj_add_event_cb(screen, vb_wheel_gesture, LV_EVENT_GESTURE, NULL);
   vb_set_wheel_focus(g_vb_wheel_focus);
+  g_vb_wheel_ready = true;
 
   g_vb_screens[VB_SCREEN_APP_WHEEL] = screen;
 }
@@ -1532,6 +1572,8 @@ int velabridge_watch_ui_start(void)
     }
 
   printf("[velabridge][watch_ui] display ready\n");
+  printf("[velabridge][watch_ui] animation enabled\n");
+  printf("[velabridge][watch_ui] wheel objects persistent\n");
   printf("[velabridge][watch_ui] design=%dx%d\n",
          VB_WATCH_WIDTH, VB_WATCH_HEIGHT);
 
