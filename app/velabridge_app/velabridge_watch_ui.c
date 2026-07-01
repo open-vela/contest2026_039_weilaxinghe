@@ -34,6 +34,10 @@
 
 #include <lvgl.h>
 
+extern const lv_font_t lv_font_simsun_16_cjk;
+extern const lv_font_t lv_font_velabridge_cn_18;
+extern const lv_font_t lv_font_velabridge_cn_28;
+
 #if defined(CONFIG_BOARDCTL) && !defined(CONFIG_NSH_ARCHINIT)
 #  define VB_NEED_BOARDINIT 1
 #endif
@@ -111,18 +115,18 @@ static const char *g_vb_screen_names[VB_SCREEN_COUNT] =
 
 static const struct vb_app_item g_vb_apps[VB_APP_COUNT] =
 {
-  { "心率", "heart", "Heart Rate", "心", VB_SCREEN_HEART, VB_COLOR_RED },
-  { "睡眠", "sleep", "Sleep", "眠", VB_SCREEN_SLEEP, VB_COLOR_PURPLE },
-  { "运动", "workout", "Workout", "跑", VB_SCREEN_WORKOUT, VB_COLOR_GREEN },
-  { "天气", "weather", "Weather", "天", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
-  { "通知", "notify", "Notify", "通", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
-  { "音乐", "music", "Music", "乐", VB_SCREEN_APP_WHEEL, VB_COLOR_PURPLE },
-  { "闹钟", "alarm", "Alarm", "闹", VB_SCREEN_APP_WHEEL, VB_COLOR_ORANGE },
-  { "设置", "settings", "Settings", "设", VB_SCREEN_SETTINGS, VB_COLOR_BLUE },
-  { "支付", "pay", "Pay", "付", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
-  { "地图", "map", "Map", "图", VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
-  { "呼吸", "breathe", "Breathe", "呼", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
-  { "电话", "phone", "Phone", "话", VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
+  { "心率", "heart", "Heart Rate", "HR", VB_SCREEN_HEART, VB_COLOR_RED },
+  { "睡眠", "sleep", "Sleep", "Zz", VB_SCREEN_SLEEP, VB_COLOR_PURPLE },
+  { "运动", "workout", "Workout", "GO", VB_SCREEN_WORKOUT, VB_COLOR_GREEN },
+  { "天气", "weather", "Weather", "WX", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+  { "通知", "notify", "Notify", "N", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+  { "音乐", "music", "Music", "M", VB_SCREEN_APP_WHEEL, VB_COLOR_PURPLE },
+  { "闹钟", "alarm", "Alarm", "AL", VB_SCREEN_APP_WHEEL, VB_COLOR_ORANGE },
+  { "设置", "settings", "Settings", "SET", VB_SCREEN_SETTINGS, VB_COLOR_BLUE },
+  { "支付", "pay", "Pay", "PAY", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+  { "地图", "map", "Map", "MAP", VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
+  { "呼吸", "breathe", "Breathe", "BR", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+  { "电话", "phone", "Phone", "TEL", VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
 };
 
 static const struct vb_wheel_slot g_vb_wheel_slots[VB_APP_COUNT] =
@@ -376,18 +380,17 @@ static const lv_font_t *vb_font_big(void)
 
 static const lv_font_t *vb_font_cn(void)
 {
-#  if LV_FONT_SIMSUN_16_CJK
-  return &lv_font_simsun_16_cjk;
-#  else
-  return LV_FONT_DEFAULT;
-#  endif
+  return &lv_font_velabridge_cn_18;
+}
+
+static const lv_font_t *vb_font_cn_title(void)
+{
+  return &lv_font_velabridge_cn_28;
 }
 
 static const lv_font_t *vb_font_title(void)
 {
-#  if LV_FONT_SIMSUN_16_CJK
-  return &lv_font_simsun_16_cjk;
-#  elif LV_FONT_MONTSERRAT_28
+#  if LV_FONT_MONTSERRAT_28
   return &lv_font_montserrat_28;
 #  elif LV_FONT_MONTSERRAT_24
   return &lv_font_montserrat_24;
@@ -400,9 +403,7 @@ static const lv_font_t *vb_font_title(void)
 
 static const lv_font_t *vb_font_small(void)
 {
-#  if LV_FONT_SIMSUN_16_CJK
-  return &lv_font_simsun_16_cjk;
-#  elif LV_FONT_MONTSERRAT_14
+#  if LV_FONT_MONTSERRAT_14
   return &lv_font_montserrat_14;
 #  elif LV_FONT_MONTSERRAT_12
   return &lv_font_montserrat_12;
@@ -422,6 +423,46 @@ static lv_obj_t *vb_label(lv_obj_t *parent, const char *text,
   lv_obj_set_style_text_letter_space(label, 0, 0);
 
   return label;
+}
+
+static bool vb_text_has_non_ascii(const char *text)
+{
+  const unsigned char *cursor = (const unsigned char *)text;
+
+  while (cursor != NULL && *cursor != '\0')
+    {
+      if (*cursor >= 0x80)
+        {
+          return true;
+        }
+
+      cursor++;
+    }
+
+  return false;
+}
+
+static lv_obj_t *vb_label_cn(lv_obj_t *parent, const char *text,
+                             uint32_t color)
+{
+  return vb_label(parent, text, color, vb_font_cn());
+}
+
+static lv_obj_t *vb_label_cn_title(lv_obj_t *parent, const char *text,
+                                   uint32_t color)
+{
+  return vb_label(parent, text, color, vb_font_cn_title());
+}
+
+static lv_obj_t *vb_label_auto(lv_obj_t *parent, const char *text,
+                               uint32_t color, const lv_font_t *ascii_font)
+{
+  if (vb_text_has_non_ascii(text))
+    {
+      return vb_label_cn(parent, text, color);
+    }
+
+  return vb_label(parent, text, color, ascii_font);
 }
 
 static void vb_card_float(lv_obj_t *card, int32_t delay)
@@ -461,7 +502,7 @@ lv_obj_t *vb_create_status_bar(lv_obj_t *parent, const char *middle)
   left = vb_label(bar, "09:39", VB_COLOR_TEXT, vb_font_small());
   lv_obj_align(left, LV_ALIGN_LEFT_MID, 0, 0);
 
-  center = vb_label(bar, middle, VB_COLOR_MUTED, vb_font_small());
+  center = vb_label_auto(bar, middle, VB_COLOR_MUTED, vb_font_small());
   lv_obj_align(center, LV_ALIGN_CENTER, 0, 0);
 
   right = vb_label(bar, "86%", VB_COLOR_TEXT, vb_font_small());
@@ -505,7 +546,7 @@ lv_obj_t *vb_create_pill(lv_obj_t *parent, const char *text, uint32_t color)
   lv_obj_set_style_pad_bottom(pill, 4, 0);
   lv_obj_clear_flag(pill, LV_OBJ_FLAG_SCROLLABLE);
 
-  label = vb_label(pill, text, VB_COLOR_TEXT, vb_font_small());
+  label = vb_label_auto(pill, text, VB_COLOR_TEXT, vb_font_small());
   lv_obj_center(label);
 
   return pill;
@@ -524,10 +565,12 @@ lv_obj_t *vb_create_big_number(lv_obj_t *parent, const char *number,
   lv_obj_set_style_pad_all(box, 0, 0);
   lv_obj_clear_flag(box, LV_OBJ_FLAG_SCROLLABLE);
 
-  num = vb_label(box, number, color, vb_font_big());
+  num = vb_label(box, number, color,
+                 vb_text_has_non_ascii(number) ? vb_font_cn_title() :
+                 vb_font_big());
   lv_obj_align(num, LV_ALIGN_LEFT_MID, 0, 0);
 
-  unit_label = vb_label(box, unit, VB_COLOR_MUTED, vb_font_small());
+  unit_label = vb_label_auto(box, unit, VB_COLOR_MUTED, vb_font_small());
   lv_obj_align_to(unit_label, num, LV_ALIGN_OUT_RIGHT_BOTTOM, 8, -5);
 
   return box;
@@ -584,7 +627,8 @@ static void vb_update_wheel_icon(uint8_t slot)
   lv_label_set_text(glyph, item->glyph);
   lv_obj_set_style_text_color(glyph, vb_color(slot == 0 ? VB_COLOR_TEXT :
                               item->color), 0);
-  lv_obj_set_style_text_font(glyph, vb_font_cn(), 0);
+  lv_obj_set_style_text_font(glyph, slot == 0 ? vb_font_title() :
+                             vb_font_small(), 0);
 
   lv_label_set_text(label, pos->show_label ? item->name_cn : "");
   lv_obj_set_style_text_color(label, vb_color(slot == 0 ? VB_COLOR_TEXT :
@@ -614,8 +658,8 @@ static lv_obj_t *vb_create_app_icon(lv_obj_t *parent, uint8_t slot)
   lv_obj_add_event_cb(icon, vb_wheel_clicked, LV_EVENT_CLICKED, NULL);
   lv_obj_set_style_bg_opa(icon, LV_OPA_COVER, 0);
 
-  glyph = vb_label(icon, "", VB_COLOR_TEXT, vb_font_cn());
-  label = vb_label(icon, "", VB_COLOR_MUTED, vb_font_cn());
+  glyph = vb_label(icon, "", VB_COLOR_TEXT, vb_font_small());
+  label = vb_label_cn(icon, "", VB_COLOR_MUTED);
 
   g_vb_wheel_icons[slot] = icon;
   g_vb_wheel_glyphs[slot] = glyph;
@@ -766,8 +810,9 @@ static lv_obj_t *vb_create_metric_card(lv_obj_t *parent, int16_t x,
                                        const char *value, uint32_t color)
 {
   lv_obj_t *card = vb_create_card(parent, x, y, w, h);
-  lv_obj_t *title = vb_label(card, label, VB_COLOR_MUTED, vb_font_small());
-  lv_obj_t *number = vb_label(card, value, color, vb_font_title());
+  lv_obj_t *title = vb_label_auto(card, label, VB_COLOR_MUTED,
+                                  vb_font_small());
+  lv_obj_t *number = vb_label_auto(card, value, color, vb_font_title());
 
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 0, 0);
   lv_obj_align(number, LV_ALIGN_BOTTOM_LEFT, 0, 0);
@@ -780,9 +825,9 @@ static void vb_build_boot(void)
 {
   lv_obj_t *screen = vb_create_screen_base();
   lv_obj_t *mark = vb_create_card(screen, 132, 72, 126, 126);
-  lv_obj_t *x = vb_label(mark, "星", VB_COLOR_TEXT, vb_font_title());
+  lv_obj_t *x = vb_label_cn_title(mark, "星", VB_COLOR_TEXT);
   lv_obj_t *star = vb_label(mark, "+", VB_COLOR_BLUE, vb_font_title());
-  lv_obj_t *brand = vb_label(screen, "星阈", VB_COLOR_TEXT, vb_font_title());
+  lv_obj_t *brand = vb_label_cn_title(screen, "星阈", VB_COLOR_TEXT);
   lv_obj_t *product = vb_label(screen, "VelaBridge Watch",
                                VB_COLOR_MUTED, vb_font_small());
   lv_obj_t *pill = vb_create_pill(screen, "openvela 就绪", VB_COLOR_BLUE);
@@ -831,7 +876,7 @@ static void vb_build_face(void)
   vb_bind_next(move, VB_SCREEN_WORKOUT);
   vb_bind_next(sleep, VB_SCREEN_SLEEP);
 
-  battery = vb_label(screen, "电量 86%", VB_COLOR_MUTED, vb_font_small());
+  battery = vb_label_cn(screen, "电量 86%", VB_COLOR_MUTED);
   lv_obj_align(battery, LV_ALIGN_BOTTOM_MID, 0, -28);
 
   vb_bind_screen_next(screen);
@@ -848,10 +893,10 @@ static void vb_build_app_wheel(void)
 
   vb_create_status_bar(screen, "应用");
 
-  title = vb_label(screen, "应用", VB_COLOR_TEXT, vb_font_title());
+  title = vb_label_cn_title(screen, "应用", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 32, 58);
 
-  hint = vb_label(screen, "点击切换焦点", VB_COLOR_MUTED, vb_font_small());
+  hint = vb_label_cn(screen, "点击切换焦点", VB_COLOR_MUTED);
   lv_obj_align(hint, LV_ALIGN_TOP_RIGHT, -32, 62);
 
   for (i = 0; i < VB_APP_COUNT; i++)
@@ -868,7 +913,7 @@ static void vb_build_app_wheel(void)
   lv_obj_clear_flag(line, LV_OBJ_FLAG_SCROLLABLE);
 
   g_vb_wheel_focus_label =
-    vb_label(screen, "聚焦 · 心率", VB_COLOR_TEXT, vb_font_small());
+    vb_label_cn(screen, "聚焦 · 心率", VB_COLOR_TEXT);
   lv_obj_align(g_vb_wheel_focus_label, LV_ALIGN_BOTTOM_MID, 0, -30);
 
   vb_bind_screen_next(screen);
@@ -889,7 +934,7 @@ static void vb_build_heart(void)
 
   vb_create_status_bar(screen, "健康");
   card = vb_create_card(screen, 28, 58, 334, 286);
-  title = vb_label(card, "心率", VB_COLOR_TEXT, vb_font_title());
+  title = vb_label_cn_title(card, "心率", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 0, 0);
 
   number = vb_create_big_number(card, "72", "次/分", VB_COLOR_RED);
@@ -922,7 +967,7 @@ static void vb_build_workout(void)
 
   vb_create_status_bar(screen, "运动");
   card = vb_create_card(screen, 28, 58, 334, 286);
-  title = vb_label(card, "户外跑步", VB_COLOR_TEXT, vb_font_title());
+  title = vb_label_cn_title(card, "户外跑步", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 0, 0);
 
   distance = vb_create_big_number(card, "3.42", "公里", VB_COLOR_GREEN);
@@ -957,7 +1002,7 @@ static void vb_segment(lv_obj_t *parent, int16_t x, int16_t w,
   lv_obj_set_style_border_width(seg, 0, 0);
   lv_obj_clear_flag(seg, LV_OBJ_FLAG_SCROLLABLE);
 
-  text = vb_label(parent, label, VB_COLOR_MUTED, vb_font_small());
+  text = vb_label_cn(parent, label, VB_COLOR_MUTED);
   lv_obj_align_to(text, seg, LV_ALIGN_OUT_BOTTOM_MID, 0, 8);
 }
 
@@ -970,7 +1015,7 @@ static void vb_build_sleep(void)
 
   vb_create_status_bar(screen, "睡眠");
   card = vb_create_card(screen, 28, 58, 334, 286);
-  title = vb_label(card, "睡眠", VB_COLOR_TEXT, vb_font_title());
+  title = vb_label_cn_title(card, "睡眠", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 0, 0);
 
   time = vb_create_big_number(card, "7小时", "42分", VB_COLOR_PURPLE);
@@ -1001,13 +1046,13 @@ static void vb_build_settings(void)
   int i;
 
   vb_create_status_bar(screen, "设置");
-  title = vb_label(screen, "设置", VB_COLOR_TEXT, vb_font_title());
+  title = vb_label_cn_title(screen, "设置", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 32, 64);
 
   for (i = 0; i < 4; i++)
     {
       lv_obj_t *row = vb_create_card(screen, 32, 116 + i * 54, 326, 44);
-      lv_obj_t *text = vb_label(row, items[i], VB_COLOR_TEXT, vb_font_small());
+      lv_obj_t *text = vb_label_cn(row, items[i], VB_COLOR_TEXT);
       lv_obj_t *arrow = vb_label(row, ">", VB_COLOR_BLUE, vb_font_small());
 
       lv_obj_set_style_radius(row, 16, 0);

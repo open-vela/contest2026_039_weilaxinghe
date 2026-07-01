@@ -10,6 +10,8 @@ STACKSIZE = 16384
 MODULE    = $(CONFIG_LVX_USE_DEMO_CONTEST2026_039_VELABRIDGE_APP)
 
 CSRCS = velabridge_watch_ui.c
+CSRCS += lv_font_velabridge_cn_18.c
+CSRCS += lv_font_velabridge_cn_28.c
 MAINSRC = velabridge_app_main.c
 
 ifneq ($(CONFIG_LV_FONT_SIMSUN_16_CJK),y)

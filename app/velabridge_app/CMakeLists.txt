@@ -9,7 +9,9 @@ if(CONFIG_LVX_USE_DEMO_CONTEST2026_039_VELABRIDGE_APP)
 
   set(VELABRIDGE_APP_SRCS
       velabridge_app_main.c
-      velabridge_watch_ui.c)
+      velabridge_watch_ui.c
+      lv_font_velabridge_cn_18.c
+      lv_font_velabridge_cn_28.c)
 
   if(NOT CONFIG_LV_FONT_SIMSUN_16_CJK)
     add_compile_options(-DLV_FONT_SIMSUN_16_CJK=1)
