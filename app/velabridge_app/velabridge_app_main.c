@@ -218,8 +218,47 @@ static bool velabridge_line_contains(const char *line, const char *needle)
   return line != NULL && needle != NULL && strstr(line, needle) != NULL;
 }
 
+static bool velabridge_handle_open_command(const char *line)
+{
+  const char *target;
+  char target_id[16];
+  size_t i = 0;
+
+  if (line == NULL || strncmp(line, "VB_OPEN", 7) != 0)
+    {
+      return false;
+    }
+
+  target = line + 7;
+  while (*target == ' ')
+    {
+      target++;
+    }
+
+  if (*target == '\0')
+    {
+      return true;
+    }
+
+  while (target[i] != '\0' && target[i] != '\r' && target[i] != '\n' &&
+         target[i] != ' ' && i < sizeof(target_id) - 1)
+    {
+      target_id[i] = target[i];
+      i++;
+    }
+
+  target_id[i] = '\0';
+  (void)velabridge_watch_ui_open(target_id);
+  return true;
+}
+
 void velabridge_handle_json_line(const char *line)
 {
+  if (velabridge_handle_open_command(line))
+    {
+      return;
+    }
+
   printf("[velabridge][json] %s\n", line ? line : "");
 
   if (line == NULL || line[0] == '\0')

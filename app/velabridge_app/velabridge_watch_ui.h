@@ -12,6 +12,7 @@
  ****************************************************************************/
 
 bool velabridge_watch_ui_available(void);
+int velabridge_watch_ui_open(const char *target);
 int velabridge_watch_ui_start(void);
 
 #endif /* VELABRIDGE_WATCH_UI_H */

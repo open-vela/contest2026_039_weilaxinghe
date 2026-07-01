@@ -1402,6 +1402,40 @@ static void vb_home_open_wheel(lv_event_t *event)
   vb_switch_screen(VB_SCREEN_APP_WHEEL);
 }
 
+int velabridge_watch_ui_open(const char *target)
+{
+  size_t i;
+
+  if (target == NULL || g_vb_screens[VB_SCREEN_HOME] == NULL)
+    {
+      return -ENODEV;
+    }
+
+  if (strcmp(target, "home") == 0)
+    {
+      vb_switch_screen(VB_SCREEN_HOME);
+      return 0;
+    }
+
+  if (strcmp(target, "wheel") == 0)
+    {
+      vb_switch_screen(VB_SCREEN_APP_WHEEL);
+      return 0;
+    }
+
+  for (i = 0; i < VB_HOME_ITEM_COUNT; i++)
+    {
+      if (strcmp(target, g_vb_home_items[i].id) == 0)
+        {
+          vb_switch_screen(VB_SCREEN_HOME);
+          vb_home_show_page(g_vb_home_items[i].page);
+          return 0;
+        }
+    }
+
+  return -EINVAL;
+}
+
 static lv_obj_t *vb_create_metric_card(lv_obj_t *parent, int16_t x,
                                        int16_t y, int16_t w, int16_t h,
                                        const char *label,
@@ -1891,6 +1925,12 @@ int velabridge_watch_ui_start(void)
 bool velabridge_watch_ui_available(void)
 {
   return false;
+}
+
+int velabridge_watch_ui_open(const char *target)
+{
+  (void)target;
+  return -ENOSYS;
 }
 
 int velabridge_watch_ui_start(void)
