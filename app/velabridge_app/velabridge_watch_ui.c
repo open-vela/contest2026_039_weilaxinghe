@@ -34,11 +34,14 @@
 #  define VB_WATCH_UI_DEBUG 0
 #endif
 
+#ifndef VB_WATCH_UI_PERF
+#  define VB_WATCH_UI_PERF 1
+#endif
+
 #define VB_LOG(fmt, ...) \
   do \
     { \
       printf(fmt, ##__VA_ARGS__); \
-      fflush(stdout); \
     } \
   while (0)
 
@@ -46,6 +49,16 @@
 #  define VB_DEBUG_LOG(fmt, ...) VB_LOG(fmt, ##__VA_ARGS__)
 #else
 #  define VB_DEBUG_LOG(fmt, ...) \
+    do \
+      { \
+      } \
+    while (0)
+#endif
+
+#if VB_WATCH_UI_PERF
+#  define VB_PERF_LOG(fmt, ...) VB_LOG(fmt, ##__VA_ARGS__)
+#else
+#  define VB_PERF_LOG(fmt, ...) \
     do \
       { \
       } \
@@ -133,6 +146,10 @@ static lv_obj_t *g_vb_wheel_arts[VB_APP_COUNT];
 static lv_obj_t *g_vb_wheel_labels[VB_APP_COUNT];
 static lv_obj_t *g_vb_wheel_focus_label;
 static bool g_vb_wheel_ready;
+static uint32_t g_vb_perf_touch_tick;
+static uint32_t g_vb_last_loop_tick;
+static uint32_t g_vb_loop_interval_ms;
+static bool g_vb_perf_touch_active;
 
 static void vb_set_wheel_focus(uint8_t focus);
 static void vb_open_focused_app(void);
@@ -221,6 +238,46 @@ static void vb_lvgl_set_default_display(void *display)
 static bool vb_device_exists(const char *path)
 {
   return path != NULL && access(path, F_OK) == 0;
+}
+
+static uint32_t vb_elapsed_ms(uint32_t start, uint32_t end)
+{
+  return (uint32_t)(end - start);
+}
+
+static void vb_perf_touch_begin(void)
+{
+  uint32_t now = lv_tick_get();
+
+  g_vb_perf_touch_tick = now == 0 ? 1 : now;
+  g_vb_perf_touch_active = true;
+  VB_PERF_LOG("[perf] touch received t=%lums\n",
+              (unsigned long)g_vb_perf_touch_tick);
+}
+
+static void vb_perf_focus_done(uint32_t start)
+{
+  uint32_t now = lv_tick_get();
+
+  VB_PERF_LOG("[perf] focus update cost=%lums\n",
+              (unsigned long)vb_elapsed_ms(start, now));
+}
+
+static void vb_perf_ui_done(void)
+{
+  uint32_t now;
+
+  if (!g_vb_perf_touch_active)
+    {
+      return;
+    }
+
+  now = lv_tick_get();
+  VB_PERF_LOG("[perf] ui update cost=%lums\n",
+              (unsigned long)vb_elapsed_ms(g_vb_perf_touch_tick, now));
+  VB_PERF_LOG("[perf] loop interval=%lums\n",
+              (unsigned long)g_vb_loop_interval_ms);
+  g_vb_perf_touch_active = false;
 }
 
 bool velabridge_watch_ui_available(void)
@@ -976,6 +1033,11 @@ static void vb_set_wheel_focus(uint8_t focus)
   char focus_text[48];
   bool animate = g_vb_wheel_ready;
 
+  if (g_vb_wheel_ready && !focus_changed)
+    {
+      return;
+    }
+
   g_vb_wheel_focus = next_focus;
 
   for (item_index = 0; item_index < VB_APP_COUNT; item_index++)
@@ -1009,8 +1071,8 @@ static bool vb_accept_touch_action(const char *action)
     }
 
   g_vb_last_touch_tick = now == 0 ? 1 : now;
-  (void)action;
-  VB_DEBUG_LOG("[velabridge][watch_ui] %s\n", action);
+  VB_LOG("[velabridge][watch_ui] %s\n", action);
+  vb_perf_touch_begin();
   return true;
 }
 
@@ -1028,6 +1090,10 @@ static void vb_open_focused_app(void)
   if (item->target != VB_SCREEN_APP_WHEEL)
     {
       vb_switch_screen(item->target);
+    }
+  else
+    {
+      vb_perf_ui_done();
     }
 }
 
@@ -1048,30 +1114,10 @@ static void vb_wheel_icon_event(lv_event_t *event)
       return;
     }
 
-  if (code == LV_EVENT_PRESSED)
-    {
-      lv_obj_set_style_transform_zoom(g_vb_wheel_icons[item_index], 246, 0);
-      return;
-    }
-
-  if (code == LV_EVENT_RELEASED || code == LV_EVENT_PRESS_LOST)
-    {
-      lv_obj_set_style_transform_zoom(g_vb_wheel_icons[item_index], 256, 0);
-      return;
-    }
-
-  if (code == LV_EVENT_GESTURE)
-    {
-      lv_obj_set_style_transform_zoom(g_vb_wheel_icons[item_index], 256, 0);
-      return;
-    }
-
   if (code != LV_EVENT_CLICKED)
     {
       return;
     }
-
-  lv_obj_set_style_transform_zoom(g_vb_wheel_icons[item_index], 256, 0);
 
   if (!vb_accept_touch_click())
     {
@@ -1084,7 +1130,13 @@ static void vb_wheel_icon_event(lv_event_t *event)
       return;
     }
 
-  vb_set_wheel_focus(item_index);
+  {
+    uint32_t focus_start = lv_tick_get();
+
+    vb_set_wheel_focus(item_index);
+    vb_perf_focus_done(focus_start);
+    vb_perf_ui_done();
+  }
 }
 
 void vb_switch_screen(enum vb_watch_screen next)
@@ -1098,6 +1150,7 @@ void vb_switch_screen(enum vb_watch_screen next)
   VB_LOG("[velabridge][watch_ui] screen=%s\n", g_vb_screen_names[next]);
 
   lv_scr_load(g_vb_screens[next]);
+  vb_perf_ui_done();
 
   if (next == VB_SCREEN_APP_WHEEL)
     {
@@ -1252,10 +1305,7 @@ static void vb_build_app_wheel(void)
 {
   lv_obj_t *screen = vb_create_screen_base();
   lv_obj_t *title;
-  lv_obj_t *hint;
   lv_obj_t *line;
-  lv_obj_t *orbit_outer;
-  lv_obj_t *orbit_inner;
   uint8_t i;
 
   vb_create_status_bar(screen, "应用");
@@ -1263,16 +1313,6 @@ static void vb_build_app_wheel(void)
 
   title = vb_label_cn_title(screen, "应用", VB_COLOR_TEXT);
   lv_obj_align(title, LV_ALIGN_TOP_LEFT, 32, 58);
-
-  hint = vb_label_cn(screen, "点击切换焦点", VB_COLOR_MUTED);
-  lv_obj_align(hint, LV_ALIGN_TOP_RIGHT, -32, 62);
-
-  orbit_outer = vb_shape_outline(screen, 43, 78, 304, 250,
-                                 0x22406f, LV_OPA_20, 126, 1);
-  orbit_inner = vb_shape_outline(screen, 82, 104, 226, 172,
-                                 0x2a7bff, LV_OPA_20, 88, 1);
-  lv_obj_move_background(orbit_outer);
-  lv_obj_move_background(orbit_inner);
 
   for (i = 0; i < VB_APP_COUNT; i++)
     {
@@ -1482,11 +1522,19 @@ int velabridge_watch_ui_start(void)
 
   while (1)
     {
+      uint32_t now = lv_tick_get();
       uint32_t idle = lv_timer_handler();
 
-      if (idle == 0 || idle > 20)
+      if (g_vb_last_loop_tick != 0)
         {
-          idle = 20;
+          g_vb_loop_interval_ms = vb_elapsed_ms(g_vb_last_loop_tick, now);
+        }
+
+      g_vb_last_loop_tick = now == 0 ? 1 : now;
+
+      if (idle == 0 || idle > 5)
+        {
+          idle = 5;
         }
 
       usleep(idle * 1000);
