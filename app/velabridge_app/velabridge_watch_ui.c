@@ -59,10 +59,12 @@ enum vb_watch_screen
 };
 
 #define VB_APP_COUNT 12
+#define VB_TOUCH_DEBOUNCE_MS 250
 
 struct vb_app_item
 {
   const char *name_cn;
+  const char *id;
   const char *screen_name;
   const char *glyph;
   enum vb_watch_screen target;
@@ -79,10 +81,9 @@ struct vb_wheel_slot
 };
 
 static lv_obj_t *g_vb_screens[VB_SCREEN_COUNT];
-static lv_timer_t *g_vb_demo_timer;
 static enum vb_watch_screen g_vb_current_screen = VB_SCREEN_BOOT;
 static uint8_t g_vb_wheel_focus;
-static uint8_t g_vb_wheel_auto_ticks;
+static uint32_t g_vb_last_touch_tick;
 static lv_obj_t *g_vb_wheel_icons[VB_APP_COUNT];
 static lv_obj_t *g_vb_wheel_glyphs[VB_APP_COUNT];
 static lv_obj_t *g_vb_wheel_labels[VB_APP_COUNT];
@@ -110,18 +111,18 @@ static const char *g_vb_screen_names[VB_SCREEN_COUNT] =
 
 static const struct vb_app_item g_vb_apps[VB_APP_COUNT] =
 {
-  { "心率", "Heart Rate", "心", VB_SCREEN_HEART, VB_COLOR_RED },
-  { "睡眠", "Sleep", "眠", VB_SCREEN_SLEEP, VB_COLOR_PURPLE },
-  { "运动", "Workout", "跑", VB_SCREEN_WORKOUT, VB_COLOR_GREEN },
-  { "天气", "Weather", "天", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
-  { "通知", "Notify", "通", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
-  { "音乐", "Music", "乐", VB_SCREEN_APP_WHEEL, VB_COLOR_PURPLE },
-  { "闹钟", "Alarm", "闹", VB_SCREEN_APP_WHEEL, VB_COLOR_ORANGE },
-  { "设置", "Settings", "设", VB_SCREEN_SETTINGS, VB_COLOR_BLUE },
-  { "支付", "Pay", "付", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
-  { "地图", "Map", "图", VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
-  { "呼吸", "Breathe", "呼", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
-  { "电话", "Phone", "话", VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
+  { "心率", "heart", "Heart Rate", "心", VB_SCREEN_HEART, VB_COLOR_RED },
+  { "睡眠", "sleep", "Sleep", "眠", VB_SCREEN_SLEEP, VB_COLOR_PURPLE },
+  { "运动", "workout", "Workout", "跑", VB_SCREEN_WORKOUT, VB_COLOR_GREEN },
+  { "天气", "weather", "Weather", "天", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+  { "通知", "notify", "Notify", "通", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+  { "音乐", "music", "Music", "乐", VB_SCREEN_APP_WHEEL, VB_COLOR_PURPLE },
+  { "闹钟", "alarm", "Alarm", "闹", VB_SCREEN_APP_WHEEL, VB_COLOR_ORANGE },
+  { "设置", "settings", "Settings", "设", VB_SCREEN_SETTINGS, VB_COLOR_BLUE },
+  { "支付", "pay", "Pay", "付", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+  { "地图", "map", "Map", "图", VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
+  { "呼吸", "breathe", "Breathe", "呼", VB_SCREEN_APP_WHEEL, VB_COLOR_BLUE },
+  { "电话", "phone", "Phone", "话", VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
 };
 
 static const struct vb_wheel_slot g_vb_wheel_slots[VB_APP_COUNT] =
@@ -649,21 +650,41 @@ static void vb_set_wheel_focus(uint8_t focus)
     }
 
   printf("[velabridge][watch_ui] wheel focus=%s\n",
-         g_vb_apps[g_vb_wheel_focus].name_cn);
+         g_vb_apps[g_vb_wheel_focus].id);
   fflush(stdout);
 }
 
 static void vb_next_wheel_focus(void)
 {
   vb_set_wheel_focus((uint8_t)((g_vb_wheel_focus + 1) % VB_APP_COUNT));
-  g_vb_wheel_auto_ticks = 0;
+}
+
+static bool vb_accept_touch_click(void)
+{
+  uint32_t now = lv_tick_get();
+
+  if (g_vb_last_touch_tick != 0 &&
+      (uint32_t)(now - g_vb_last_touch_tick) < VB_TOUCH_DEBOUNCE_MS)
+    {
+      printf("[velabridge][watch_ui] touch debounce ignored\n");
+      fflush(stdout);
+      return false;
+    }
+
+  g_vb_last_touch_tick = now == 0 ? 1 : now;
+  printf("[velabridge][watch_ui] touch click\n");
+  fflush(stdout);
+  return true;
 }
 
 static void vb_wheel_clicked(lv_event_t *event)
 {
   (void)event;
-  printf("[velabridge][watch_ui] touch event\n");
-  fflush(stdout);
+  if (!vb_accept_touch_click())
+    {
+      return;
+    }
+
   vb_next_wheel_focus();
 }
 
@@ -693,7 +714,11 @@ static void vb_card_clicked(lv_event_t *event)
 {
   uintptr_t next = (uintptr_t)lv_event_get_user_data(event);
 
-  printf("[velabridge][watch_ui] touch event\n");
+  if (!vb_accept_touch_click())
+    {
+      return;
+    }
+
   printf("[velabridge][watch_ui] next screen=%s\n",
          g_vb_screen_names[(enum vb_watch_screen)next]);
   fflush(stdout);
@@ -705,7 +730,10 @@ static void vb_screen_clicked(lv_event_t *event)
   enum vb_watch_screen next = vb_next_screen(g_vb_current_screen);
 
   (void)event;
-  printf("[velabridge][watch_ui] touch event\n");
+  if (!vb_accept_touch_click())
+    {
+      return;
+    }
 
   if (g_vb_current_screen == VB_SCREEN_APP_WHEEL)
     {
@@ -716,23 +744,6 @@ static void vb_screen_clicked(lv_event_t *event)
   printf("[velabridge][watch_ui] next screen=%s\n",
          g_vb_screen_names[next]);
   fflush(stdout);
-  vb_switch_screen(next);
-}
-
-static void vb_demo_timer_cb(lv_timer_t *timer)
-{
-  enum vb_watch_screen next = vb_next_screen(g_vb_current_screen);
-
-  (void)timer;
-
-  if (g_vb_current_screen == VB_SCREEN_APP_WHEEL && g_vb_wheel_auto_ticks < 2)
-    {
-      g_vb_wheel_auto_ticks++;
-      vb_set_wheel_focus((uint8_t)((g_vb_wheel_focus + 1) % VB_APP_COUNT));
-      return;
-    }
-
-  g_vb_wheel_auto_ticks = 0;
   vb_switch_screen(next);
 }
 
@@ -1047,12 +1058,6 @@ int velabridge_watch_ui_start(void)
   printf("[velabridge][watch_ui] screen=Boot\n");
   fflush(stdout);
 
-  if (g_vb_demo_timer == NULL)
-    {
-      g_vb_demo_timer = lv_timer_create(vb_demo_timer_cb, 3000, NULL);
-    }
-
-  printf("[velabridge][watch_ui] auto demo timer=3000ms\n");
   printf("[velabridge][watch_ui] ui loop start\n");
   fflush(stdout);
 
