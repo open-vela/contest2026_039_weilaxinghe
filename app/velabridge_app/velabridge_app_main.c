@@ -42,6 +42,33 @@ enum velabridge_vibration_pattern
 static enum velabridge_state g_velabridge_state =
   VELABRIDGE_STATE_NORMAL;
 
+static bool velabridge_is_ascii_log_text(const char *text)
+{
+  const unsigned char *cursor = (const unsigned char *)text;
+
+  while (cursor != NULL && *cursor != '\0')
+    {
+      if (*cursor >= 0x80)
+        {
+          return false;
+        }
+
+      cursor++;
+    }
+
+  return true;
+}
+
+static const char *velabridge_log_text(const char *text)
+{
+  if (text == NULL)
+    {
+      return "";
+    }
+
+  return velabridge_is_ascii_log_text(text) ? text : "non_ascii_text";
+}
+
 static const char *velabridge_state_name(enum velabridge_state state)
 {
   switch (state)
@@ -110,12 +137,12 @@ static const char *velabridge_vibration_name(
 
 void velabridge_display_text(const char *text)
 {
-  printf("[velabridge][display] %s\n", text ? text : "");
+  printf("[velabridge][display] %s\n", velabridge_log_text(text));
 }
 
 void velabridge_play_prompt(const char *prompt_id)
 {
-  printf("[velabridge][prompt] %s\n", prompt_id ? prompt_id : "");
+  printf("[velabridge][prompt] %s\n", velabridge_log_text(prompt_id));
 }
 
 void velabridge_vibrate(enum velabridge_vibration_pattern pattern)
@@ -129,7 +156,7 @@ void velabridge_log_event(enum velabridge_event event, const char *detail)
   printf("[velabridge][event] state=%s event=%s detail=%s\n",
          velabridge_state_name(g_velabridge_state),
          velabridge_event_name(event),
-         detail ? detail : "");
+         velabridge_log_text(detail));
 }
 
 static void velabridge_set_state(enum velabridge_state next_state,
@@ -252,6 +279,85 @@ static bool velabridge_handle_open_command(const char *line)
   return true;
 }
 
+static bool velabridge_parse_command_value(const char *line,
+                                           const char *command,
+                                           char *value,
+                                           size_t value_size)
+{
+  const char *cursor;
+  size_t command_len;
+  size_t value_len;
+
+  if (line == NULL || command == NULL || value == NULL ||
+      value_size == 0)
+    {
+      return false;
+    }
+
+  command_len = strlen(command);
+  if (strncmp(line, command, command_len) != 0)
+    {
+      return false;
+    }
+
+  cursor = line + command_len;
+  if (*cursor != '\0' && *cursor != ' ' && *cursor != '\t' &&
+      *cursor != '\r' && *cursor != '\n')
+    {
+      return false;
+    }
+
+  while (*cursor == ' ' || *cursor == '\t')
+    {
+      cursor++;
+    }
+
+  value_len = strcspn(cursor, "\r\n");
+  if (value_len >= value_size)
+    {
+      value_len = value_size - 1;
+    }
+
+  memcpy(value, cursor, value_len);
+  value[value_len] = '\0';
+  return true;
+}
+
+static bool velabridge_handle_ai_command(const char *line)
+{
+  char value[128];
+
+  if (velabridge_parse_command_value(line, "VB_SCENE", value,
+                                     sizeof(value)))
+    {
+      (void)velabridge_watch_ui_set_scene(value);
+      return true;
+    }
+
+  if (velabridge_parse_command_value(line, "VB_RISK", value,
+                                     sizeof(value)))
+    {
+      (void)velabridge_watch_ui_set_risk(value);
+      return true;
+    }
+
+  if (velabridge_parse_command_value(line, "VB_ADVICE", value,
+                                     sizeof(value)))
+    {
+      (void)velabridge_watch_ui_set_advice(value);
+      return true;
+    }
+
+  if (velabridge_parse_command_value(line, "VB_REPLY", value,
+                                     sizeof(value)))
+    {
+      (void)velabridge_watch_ui_set_reply(value);
+      return true;
+    }
+
+  return false;
+}
+
 void velabridge_handle_json_line(const char *line)
 {
   if (velabridge_handle_open_command(line))
@@ -259,7 +365,12 @@ void velabridge_handle_json_line(const char *line)
       return;
     }
 
-  printf("[velabridge][json] %s\n", line ? line : "");
+  if (velabridge_handle_ai_command(line))
+    {
+      return;
+    }
+
+  printf("[velabridge][json] %s\n", velabridge_log_text(line));
 
   if (line == NULL || line[0] == '\0')
     {

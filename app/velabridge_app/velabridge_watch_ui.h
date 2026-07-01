@@ -13,6 +13,10 @@
 
 bool velabridge_watch_ui_available(void);
 int velabridge_watch_ui_open(const char *target);
+int velabridge_watch_ui_set_scene(const char *text);
+int velabridge_watch_ui_set_risk(const char *level);
+int velabridge_watch_ui_set_advice(const char *text);
+int velabridge_watch_ui_set_reply(const char *text);
 int velabridge_watch_ui_start(void);
 
 #endif /* VELABRIDGE_WATCH_UI_H */
