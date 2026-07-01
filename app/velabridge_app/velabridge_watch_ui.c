@@ -16,7 +16,6 @@
 #endif
 
 #include "velabridge_watch_ui.h"
-#include "velabridge_watch_anim.h"
 
 #define VB_WATCH_WIDTH   390
 #define VB_WATCH_HEIGHT  390
@@ -30,6 +29,28 @@
 #define VB_COLOR_RED     0xff4d4d
 #define VB_COLOR_ORANGE  0xffa132
 #define VB_COLOR_PURPLE  0x8c6cff
+
+#ifndef VB_WATCH_UI_DEBUG
+#  define VB_WATCH_UI_DEBUG 0
+#endif
+
+#define VB_LOG(fmt, ...) \
+  do \
+    { \
+      printf(fmt, ##__VA_ARGS__); \
+      fflush(stdout); \
+    } \
+  while (0)
+
+#if VB_WATCH_UI_DEBUG
+#  define VB_DEBUG_LOG(fmt, ...) VB_LOG(fmt, ##__VA_ARGS__)
+#else
+#  define VB_DEBUG_LOG(fmt, ...) \
+    do \
+      { \
+      } \
+    while (0)
+#endif
 
 #if defined(CONFIG_GRAPHICS_LVGL) || defined(CONFIG_LVGL)
 
@@ -80,9 +101,8 @@ enum vb_app_icon_type
 };
 
 #define VB_APP_COUNT 12
-#define VB_TOUCH_DEBOUNCE_MS 150
-#define VB_WHEEL_ANIM_MS 180
-#define VB_PAGE_ANIM_MS 200
+#define VB_WHEEL_VISIBLE_COUNT 7
+#define VB_TOUCH_DEBOUNCE_MS 180
 #define VB_APP_ART_SIZE 42
 
 struct vb_app_item
@@ -115,11 +135,8 @@ static lv_obj_t *g_vb_wheel_focus_label;
 static bool g_vb_wheel_ready;
 
 static void vb_set_wheel_focus(uint8_t focus);
-static void vb_next_wheel_focus(void);
-static void vb_prev_wheel_focus(void);
 static void vb_open_focused_app(void);
 static void vb_wheel_icon_event(lv_event_t *event);
-static void vb_wheel_gesture(lv_event_t *event);
 void vb_switch_screen(enum vb_watch_screen next);
 
 #if LV_USE_NUTTX
@@ -167,20 +184,15 @@ static const struct vb_app_item g_vb_apps[VB_APP_COUNT] =
     VB_SCREEN_APP_WHEEL, VB_COLOR_GREEN },
 };
 
-static const struct vb_wheel_slot g_vb_wheel_slots[VB_APP_COUNT] =
+static const struct vb_wheel_slot g_vb_wheel_slots[VB_WHEEL_VISIBLE_COUNT] =
 {
-  { 156, 126, 78, true, LV_OPA_COVER },
-  { 246, 116, 48, true, LV_OPA_COVER },
-  { 244, 205, 46, true, LV_OPA_COVER },
-  { 160, 244, 46, true, LV_OPA_COVER },
-  { 70, 205, 46, true, LV_OPA_COVER },
-  { 70, 116, 48, true, LV_OPA_COVER },
-  { 159, 78, 36, false, LV_OPA_80 },
-  { 254, 74, 34, false, LV_OPA_70 },
-  { 304, 165, 34, false, LV_OPA_60 },
-  { 254, 274, 34, false, LV_OPA_60 },
-  { 96, 274, 34, false, LV_OPA_60 },
-  { 40, 165, 34, false, LV_OPA_60 },
+  { 154, 118, 82, true, LV_OPA_COVER },
+  { 250, 110, 48, false, LV_OPA_COVER },
+  { 255, 190, 46, false, LV_OPA_COVER },
+  { 188, 250, 44, false, LV_OPA_COVER },
+  { 88, 228, 44, false, LV_OPA_COVER },
+  { 64, 146, 46, false, LV_OPA_COVER },
+  { 142, 78, 44, false, LV_OPA_COVER },
 };
 
 static void *vb_lvgl_default_display(void)
@@ -213,18 +225,15 @@ static bool vb_device_exists(const char *path)
 
 bool velabridge_watch_ui_available(void)
 {
-  printf("[velabridge][watch_ui] checking default display\n");
-  fflush(stdout);
+  VB_DEBUG_LOG("[velabridge][watch_ui] checking default display\n");
 
   if (vb_lvgl_default_display() == NULL)
     {
-      printf("[velabridge][watch_ui] no default display, fallback\n");
-      fflush(stdout);
+      VB_DEBUG_LOG("[velabridge][watch_ui] no default display, fallback\n");
       return false;
     }
 
-  printf("[velabridge][watch_ui] default display ready\n");
-  fflush(stdout);
+  VB_DEBUG_LOG("[velabridge][watch_ui] default display ready\n");
   return true;
 }
 
@@ -237,8 +246,7 @@ static int vb_lvgl_display_init(void)
 
   if (vb_lvgl_default_display() != NULL)
     {
-      printf("[velabridge][watch_ui] default display already exists\n");
-      fflush(stdout);
+      VB_DEBUG_LOG("[velabridge][watch_ui] default display already exists\n");
       return 0;
     }
 
@@ -246,29 +254,28 @@ static int vb_lvgl_display_init(void)
 #ifdef VB_NEED_BOARDINIT
   int ret;
 
-  printf("[velabridge][watch_ui] board init for display devices\n");
+  VB_DEBUG_LOG("[velabridge][watch_ui] board init for display devices\n");
   ret = boardctl(BOARDIOC_INIT, 0);
   if (ret < 0)
     {
-      printf("[velabridge][watch_ui] boardctl init failed ret=%d\n", ret);
+      VB_LOG("[velabridge][watch_ui] boardctl init failed ret=%d\n", ret);
     }
 #endif
 
   if (!lv_is_initialized())
     {
-      printf("[velabridge][watch_ui] lv_init\n");
+      VB_DEBUG_LOG("[velabridge][watch_ui] lv_init\n");
       lv_init();
       g_vb_lvgl_initialized_by_app = true;
     }
   else
     {
-      printf("[velabridge][watch_ui] lvgl already initialized\n");
+      VB_DEBUG_LOG("[velabridge][watch_ui] lvgl already initialized\n");
     }
 
   if (vb_lvgl_default_display() != NULL)
     {
-      printf("[velabridge][watch_ui] default display created by init\n");
-      fflush(stdout);
+      VB_DEBUG_LOG("[velabridge][watch_ui] default display created by init\n");
       return 0;
     }
 
@@ -278,12 +285,12 @@ static int vb_lvgl_display_init(void)
 
 #if defined(CONFIG_LV_USE_NUTTX_LCD) || LV_USE_NUTTX_LCD
   info.fb_path = "/dev/lcd0";
-  printf("[velabridge][watch_ui] trying NuttX LCD backend %s\n",
-         info.fb_path);
+  VB_DEBUG_LOG("[velabridge][watch_ui] trying NuttX LCD backend %s\n",
+               info.fb_path);
 #else
   info.fb_path = "/dev/fb0";
-  printf("[velabridge][watch_ui] trying NuttX framebuffer backend %s\n",
-         info.fb_path);
+  VB_DEBUG_LOG("[velabridge][watch_ui] trying NuttX framebuffer backend %s\n",
+               info.fb_path);
 #endif
 
 #if defined(CONFIG_LV_USE_NUTTX_TOUCHSCREEN) || defined(CONFIG_INPUT_TOUCHSCREEN)
@@ -305,7 +312,7 @@ static int vb_lvgl_display_init(void)
 
   if (g_vb_nuttx_result.disp == NULL)
     {
-      printf("[velabridge][watch_ui] lcd open failed ret=%d path=%s\n",
+      VB_LOG("[velabridge][watch_ui] lcd open failed ret=%d path=%s\n",
              -ENODEV, info.fb_path ? info.fb_path : "(null)");
       lv_nuttx_deinit(&g_vb_nuttx_result);
       g_vb_nuttx_initialized = false;
@@ -316,30 +323,29 @@ static int vb_lvgl_display_init(void)
           g_vb_lvgl_initialized_by_app = false;
         }
 
-      fflush(stdout);
       return -ENODEV;
     }
 
-  printf("[velabridge][watch_ui] lcd display ready\n");
+  VB_DEBUG_LOG("[velabridge][watch_ui] lcd display ready\n");
 
 #if defined(CONFIG_LV_USE_NUTTX_TOUCHSCREEN) || defined(CONFIG_INPUT_TOUCHSCREEN)
   if (touch_available)
     {
-      printf("[velabridge][watch_ui] touchscreen path %s\n", touch_path);
+      VB_DEBUG_LOG("[velabridge][watch_ui] touchscreen path %s\n", touch_path);
       if (g_vb_nuttx_result.indev != NULL)
         {
-          printf("[velabridge][watch_ui] touch initialized path=%s\n",
-                 touch_path);
+          VB_DEBUG_LOG("[velabridge][watch_ui] touch initialized path=%s\n",
+                       touch_path);
         }
       else
         {
-          printf("[velabridge][watch_ui] touchscreen open failed, "
+          VB_LOG("[velabridge][watch_ui] touchscreen open failed, "
                  "continue display-only\n");
         }
     }
   else
     {
-      printf("[velabridge][watch_ui] touchscreen not available, "
+      VB_LOG("[velabridge][watch_ui] touchscreen not available, "
              "continue display-only\n");
     }
 #endif
@@ -348,7 +354,7 @@ static int vb_lvgl_display_init(void)
 
   if (vb_lvgl_default_display() == NULL)
     {
-      printf("[velabridge][watch_ui] display created but no default set\n");
+      VB_LOG("[velabridge][watch_ui] display created but no default set\n");
       lv_nuttx_deinit(&g_vb_nuttx_result);
       g_vb_nuttx_initialized = false;
 
@@ -358,17 +364,14 @@ static int vb_lvgl_display_init(void)
           g_vb_lvgl_initialized_by_app = false;
         }
 
-      fflush(stdout);
       return -ENODEV;
     }
 
-  printf("[velabridge][watch_ui] display initialized path=%s\n",
-         info.fb_path ? info.fb_path : "(null)");
-  fflush(stdout);
+  VB_DEBUG_LOG("[velabridge][watch_ui] display initialized path=%s\n",
+               info.fb_path ? info.fb_path : "(null)");
   return 0;
 #else
-  printf("[velabridge][watch_ui] LVGL NuttX backend disabled\n");
-  fflush(stdout);
+  VB_LOG("[velabridge][watch_ui] LVGL NuttX backend disabled\n");
   return -ENOSYS;
 #endif
 }
@@ -657,63 +660,43 @@ static void vb_draw_heart_icon(lv_obj_t *art, int16_t s, uint32_t color)
 {
   int16_t thick = vb_at_least(vb_pct(s, 10), 2);
 
-  vb_shape(art, vb_pct(s, 14), vb_pct(s, 50), vb_pct(s, 20), thick,
+  vb_shape(art, vb_pct(s, 16), vb_pct(s, 50), vb_pct(s, 68), thick,
            color, LV_OPA_COVER, thick / 2);
-  vb_shape(art, vb_pct(s, 32), vb_pct(s, 38), thick, vb_pct(s, 28),
+  vb_shape(art, vb_pct(s, 42), vb_pct(s, 34), thick, vb_pct(s, 32),
            color, LV_OPA_COVER, thick / 2);
-  vb_shape(art, vb_pct(s, 42), vb_pct(s, 38), vb_pct(s, 18), thick,
+  vb_shape(art, vb_pct(s, 56), vb_pct(s, 42), vb_pct(s, 16), thick,
            color, LV_OPA_COVER, thick / 2);
-  vb_shape(art, vb_pct(s, 56), vb_pct(s, 30), thick, vb_pct(s, 34),
-           color, LV_OPA_COVER, thick / 2);
-  vb_shape(art, vb_pct(s, 65), vb_pct(s, 48), vb_pct(s, 20), thick,
-           color, LV_OPA_COVER, thick / 2);
-  vb_shape(art, vb_pct(s, 8), vb_pct(s, 44), vb_pct(s, 10), vb_pct(s, 10),
-           color, LV_OPA_70, LV_RADIUS_CIRCLE);
 }
 
 static void vb_draw_sleep_icon(lv_obj_t *art, int16_t s, uint32_t color)
 {
-  lv_obj_t *moon = vb_shape(art, vb_pct(s, 18), vb_pct(s, 18),
-                            vb_pct(s, 48), vb_pct(s, 48), color,
-                            LV_OPA_COVER, LV_RADIUS_CIRCLE);
-  lv_obj_t *cut = vb_shape(art, vb_pct(s, 34), vb_pct(s, 12),
-                           vb_pct(s, 46), vb_pct(s, 46), VB_COLOR_PANEL,
-                           LV_OPA_COVER, LV_RADIUS_CIRCLE);
-  lv_obj_t *z = vb_label(art, "Zz", color, vb_font_small());
-
-  (void)moon;
-  (void)cut;
-  lv_obj_align(z, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
+  vb_shape(art, vb_pct(s, 22), vb_pct(s, 20), vb_pct(s, 52),
+           vb_pct(s, 52), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 40), vb_pct(s, 14), vb_pct(s, 48),
+           vb_pct(s, 48), VB_COLOR_PANEL, LV_OPA_COVER, LV_RADIUS_CIRCLE);
 }
 
 static void vb_draw_workout_icon(lv_obj_t *art, int16_t s, uint32_t color)
 {
   int16_t thick = vb_at_least(vb_pct(s, 12), 3);
 
-  vb_shape(art, vb_pct(s, 47), vb_pct(s, 8), vb_pct(s, 16),
+  vb_shape(art, vb_pct(s, 44), vb_pct(s, 16), vb_pct(s, 16),
            vb_pct(s, 16), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
-  vb_shape(art, vb_pct(s, 42), vb_pct(s, 30), thick, vb_pct(s, 28),
+  vb_shape(art, vb_pct(s, 22), vb_pct(s, 46), vb_pct(s, 56), thick,
            color, LV_OPA_COVER, thick / 2);
-  vb_shape(art, vb_pct(s, 24), vb_pct(s, 38), vb_pct(s, 26), thick,
-           color, LV_OPA_COVER, thick / 2);
-  vb_shape(art, vb_pct(s, 50), vb_pct(s, 42), vb_pct(s, 28), thick,
-           color, LV_OPA_COVER, thick / 2);
-  vb_shape(art, vb_pct(s, 34), vb_pct(s, 58), thick, vb_pct(s, 26),
-           color, LV_OPA_COVER, thick / 2);
-  vb_shape(art, vb_pct(s, 50), vb_pct(s, 60), vb_pct(s, 30), thick,
+  vb_shape(art, vb_pct(s, 42), vb_pct(s, 32), thick, vb_pct(s, 38),
            color, LV_OPA_COVER, thick / 2);
 }
 
 static void vb_draw_weather_icon(lv_obj_t *art, int16_t s, uint32_t color)
 {
-  vb_shape(art, vb_pct(s, 56), vb_pct(s, 12), vb_pct(s, 22),
-           vb_pct(s, 22), VB_COLOR_ORANGE, LV_OPA_90, LV_RADIUS_CIRCLE);
-  vb_shape(art, vb_pct(s, 16), vb_pct(s, 48), vb_pct(s, 56),
-           vb_pct(s, 20), color, LV_OPA_COVER, vb_pct(s, 10));
-  vb_shape(art, vb_pct(s, 22), vb_pct(s, 36), vb_pct(s, 26),
-           vb_pct(s, 26), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
-  vb_shape(art, vb_pct(s, 42), vb_pct(s, 30), vb_pct(s, 32),
-           vb_pct(s, 32), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 56), vb_pct(s, 16), vb_pct(s, 20),
+           vb_pct(s, 20), VB_COLOR_ORANGE, LV_OPA_COVER,
+           LV_RADIUS_CIRCLE);
+  vb_shape(art, vb_pct(s, 18), vb_pct(s, 48), vb_pct(s, 60),
+           vb_pct(s, 18), color, LV_OPA_COVER, vb_pct(s, 9));
+  vb_shape(art, vb_pct(s, 34), vb_pct(s, 34), vb_pct(s, 34),
+           vb_pct(s, 34), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
 }
 
 static void vb_draw_notification_icon(lv_obj_t *art, int16_t s,
@@ -724,20 +707,18 @@ static void vb_draw_notification_icon(lv_obj_t *art, int16_t s,
                    vb_at_least(vb_pct(s, 8), 2));
   vb_shape(art, vb_pct(s, 66), vb_pct(s, 18), vb_pct(s, 16),
            vb_pct(s, 16), VB_COLOR_RED, LV_OPA_COVER, LV_RADIUS_CIRCLE);
-  vb_shape(art, vb_pct(s, 28), vb_pct(s, 38), vb_pct(s, 34),
-           vb_at_least(vb_pct(s, 7), 2), color, LV_OPA_70,
-           vb_pct(s, 4));
 }
 
 static void vb_draw_music_icon(lv_obj_t *art, int16_t s, uint32_t color)
 {
-  vb_shape(art, vb_pct(s, 26), vb_pct(s, 62), vb_pct(s, 22),
+  int16_t thick = vb_at_least(vb_pct(s, 9), 3);
+
+  vb_shape(art, vb_pct(s, 30), vb_pct(s, 62), vb_pct(s, 22),
            vb_pct(s, 18), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
-  vb_shape(art, vb_pct(s, 48), vb_pct(s, 18), vb_at_least(vb_pct(s, 9), 3),
-           vb_pct(s, 50), color, LV_OPA_COVER, vb_pct(s, 4));
-  vb_shape(art, vb_pct(s, 48), vb_pct(s, 18), vb_pct(s, 34),
-           vb_at_least(vb_pct(s, 8), 3), color, LV_OPA_COVER,
-           vb_pct(s, 4));
+  vb_shape(art, vb_pct(s, 54), vb_pct(s, 20), thick, vb_pct(s, 48),
+           color, LV_OPA_COVER, thick / 2);
+  vb_shape(art, vb_pct(s, 54), vb_pct(s, 20), vb_pct(s, 26), thick,
+           color, LV_OPA_COVER, thick / 2);
 }
 
 static void vb_draw_alarm_icon(lv_obj_t *art, int16_t s, uint32_t color)
@@ -747,10 +728,6 @@ static void vb_draw_alarm_icon(lv_obj_t *art, int16_t s, uint32_t color)
   vb_shape_outline(art, vb_pct(s, 22), vb_pct(s, 24), vb_pct(s, 56),
                    vb_pct(s, 56), color, LV_OPA_COVER, LV_RADIUS_CIRCLE,
                    thick);
-  vb_shape(art, vb_pct(s, 20), vb_pct(s, 14), vb_pct(s, 18),
-           vb_pct(s, 14), color, LV_OPA_90, LV_RADIUS_CIRCLE);
-  vb_shape(art, vb_pct(s, 62), vb_pct(s, 14), vb_pct(s, 18),
-           vb_pct(s, 14), color, LV_OPA_90, LV_RADIUS_CIRCLE);
   vb_shape(art, vb_pct(s, 49), vb_pct(s, 38), thick, vb_pct(s, 22),
            color, LV_OPA_COVER, thick / 2);
   vb_shape(art, vb_pct(s, 49), vb_pct(s, 54), vb_pct(s, 18), thick,
@@ -759,22 +736,12 @@ static void vb_draw_alarm_icon(lv_obj_t *art, int16_t s, uint32_t color)
 
 static void vb_draw_settings_icon(lv_obj_t *art, int16_t s, uint32_t color)
 {
-  int16_t tooth = vb_at_least(vb_pct(s, 10), 3);
-
   vb_shape_outline(art, vb_pct(s, 24), vb_pct(s, 24), vb_pct(s, 52),
                    vb_pct(s, 52), color, LV_OPA_COVER, LV_RADIUS_CIRCLE,
                    vb_at_least(vb_pct(s, 9), 2));
   vb_shape_outline(art, vb_pct(s, 40), vb_pct(s, 40), vb_pct(s, 20),
                    vb_pct(s, 20), color, LV_OPA_COVER, LV_RADIUS_CIRCLE,
                    vb_at_least(vb_pct(s, 7), 2));
-  vb_shape(art, vb_pct(s, 45), vb_pct(s, 8), tooth, vb_pct(s, 16), color,
-           LV_OPA_COVER, tooth / 2);
-  vb_shape(art, vb_pct(s, 45), vb_pct(s, 76), tooth, vb_pct(s, 16), color,
-           LV_OPA_COVER, tooth / 2);
-  vb_shape(art, vb_pct(s, 8), vb_pct(s, 45), vb_pct(s, 16), tooth, color,
-           LV_OPA_COVER, tooth / 2);
-  vb_shape(art, vb_pct(s, 76), vb_pct(s, 45), vb_pct(s, 16), tooth, color,
-           LV_OPA_COVER, tooth / 2);
 }
 
 static void vb_draw_pay_icon(lv_obj_t *art, int16_t s, uint32_t color)
@@ -783,10 +750,7 @@ static void vb_draw_pay_icon(lv_obj_t *art, int16_t s, uint32_t color)
                    vb_pct(s, 48), color, LV_OPA_COVER, vb_pct(s, 10),
                    vb_at_least(vb_pct(s, 7), 2));
   vb_shape(art, vb_pct(s, 20), vb_pct(s, 42), vb_pct(s, 60),
-           vb_at_least(vb_pct(s, 9), 3), color, LV_OPA_70,
-           vb_pct(s, 3));
-  vb_shape(art, vb_pct(s, 24), vb_pct(s, 56), vb_pct(s, 18),
-           vb_at_least(vb_pct(s, 7), 2), color, LV_OPA_COVER,
+           vb_at_least(vb_pct(s, 9), 3), color, LV_OPA_COVER,
            vb_pct(s, 3));
 }
 
@@ -799,17 +763,12 @@ static void vb_draw_map_icon(lv_obj_t *art, int16_t s, uint32_t color)
            LV_RADIUS_CIRCLE);
   vb_shape(art, vb_pct(s, 47), vb_pct(s, 42), vb_at_least(vb_pct(s, 9), 3),
            vb_pct(s, 34), color, LV_OPA_COVER, vb_pct(s, 5));
-  vb_shape(art, vb_pct(s, 24), vb_pct(s, 76), vb_pct(s, 52),
-           vb_at_least(vb_pct(s, 7), 2), color, LV_OPA_70,
-           vb_pct(s, 4));
 }
 
 static void vb_draw_breath_icon(lv_obj_t *art, int16_t s, uint32_t color)
 {
   vb_shape_outline(art, vb_pct(s, 10), vb_pct(s, 10), vb_pct(s, 80),
-                   vb_pct(s, 80), color, LV_OPA_40, LV_RADIUS_CIRCLE, 2);
-  vb_shape_outline(art, vb_pct(s, 24), vb_pct(s, 24), vb_pct(s, 52),
-                   vb_pct(s, 52), color, LV_OPA_70, LV_RADIUS_CIRCLE, 2);
+                   vb_pct(s, 80), color, LV_OPA_COVER, LV_RADIUS_CIRCLE, 2);
   vb_shape(art, vb_pct(s, 43), vb_pct(s, 43), vb_pct(s, 14),
            vb_pct(s, 14), color, LV_OPA_COVER, LV_RADIUS_CIRCLE);
 }
@@ -818,16 +777,12 @@ static void vb_draw_phone_icon(lv_obj_t *art, int16_t s, uint32_t color)
 {
   int16_t thick = vb_at_least(vb_pct(s, 13), 4);
 
-  vb_shape(art, vb_pct(s, 25), vb_pct(s, 28), thick, vb_pct(s, 44),
+  vb_shape(art, vb_pct(s, 25), vb_pct(s, 30), thick, vb_pct(s, 40),
            color, LV_OPA_COVER, thick / 2);
   vb_shape(art, vb_pct(s, 32), vb_pct(s, 64), vb_pct(s, 36), thick,
            color, LV_OPA_COVER, thick / 2);
-  vb_shape(art, vb_pct(s, 60), vb_pct(s, 54), thick, vb_pct(s, 22),
+  vb_shape(art, vb_pct(s, 60), vb_pct(s, 52), thick, vb_pct(s, 20),
            color, LV_OPA_COVER, thick / 2);
-  vb_shape(art, vb_pct(s, 20), vb_pct(s, 22), vb_pct(s, 18),
-           vb_pct(s, 18), color, LV_OPA_70, LV_RADIUS_CIRCLE);
-  vb_shape(art, vb_pct(s, 56), vb_pct(s, 68), vb_pct(s, 18),
-           vb_pct(s, 18), color, LV_OPA_70, LV_RADIUS_CIRCLE);
 }
 
 static void vb_draw_app_art(lv_obj_t *art, enum vb_app_icon_type type,
@@ -885,52 +840,55 @@ static uint8_t vb_wheel_slot_for_item(uint8_t item_index)
 static void vb_update_wheel_icon(uint8_t item_index, bool animate)
 {
   uint8_t slot = vb_wheel_slot_for_item(item_index);
-  const struct vb_wheel_slot *pos = &g_vb_wheel_slots[slot];
+  const struct vb_wheel_slot *pos;
   const struct vb_app_item *item = &g_vb_apps[item_index];
   lv_obj_t *icon = g_vb_wheel_icons[item_index];
   lv_obj_t *art = g_vb_wheel_arts[item_index];
   lv_obj_t *label = g_vb_wheel_labels[item_index];
-  bool focused = slot == 0;
-  int16_t art_size = focused ? 42 : (pos->show_label ? 24 : pos->size - 10);
+  bool focused;
+  int16_t art_size;
   int16_t art_zoom;
   int16_t label_x;
   int16_t label_y;
-  int16_t label_w;
-  uint32_t bg_color = slot == 0 ? item->color : VB_COLOR_PANEL;
-  uint32_t border_color = slot == 0 ? item->color : 0x2a2c33;
-  lv_opa_t label_opa = pos->show_label ? LV_OPA_COVER : LV_OPA_TRANSP;
+  uint32_t bg_color;
+  uint32_t border_color;
 
+  (void)animate;
   if (icon == NULL || art == NULL || label == NULL)
     {
       return;
     }
+
+  if (slot >= VB_WHEEL_VISIBLE_COUNT)
+    {
+      lv_obj_add_flag(icon, LV_OBJ_FLAG_HIDDEN);
+      lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
+      return;
+    }
+
+  pos = &g_vb_wheel_slots[slot];
+  focused = slot == 0;
+  art_size = focused ? 42 : 24;
+  bg_color = focused ? 0x0d1421 : VB_COLOR_PANEL;
+  border_color = focused ? item->color : 0x2a2c33;
 
   if (art_size < 18)
     {
       art_size = 18;
     }
 
-  if (animate)
-    {
-      vb_anim_focus_icon(icon, pos->x, pos->y, pos->size, pos->opa,
-                         VB_WHEEL_ANIM_MS);
-    }
-  else
-    {
-      lv_obj_set_size(icon, pos->size, pos->size);
-      lv_obj_set_pos(icon, pos->x, pos->y);
-      lv_obj_set_style_opa(icon, pos->opa, 0);
-    }
+  lv_obj_clear_flag(icon, LV_OBJ_FLAG_HIDDEN);
+  lv_obj_set_size(icon, pos->size, pos->size);
+  lv_obj_set_pos(icon, pos->x, pos->y);
+  lv_obj_set_style_opa(icon, pos->opa, 0);
 
   lv_obj_set_style_radius(icon, focused ? 26 : pos->size / 3, 0);
   lv_obj_set_style_bg_color(icon, vb_color(bg_color), 0);
-  lv_obj_set_style_bg_opa(icon, focused ? LV_OPA_30 : pos->opa, 0);
+  lv_obj_set_style_bg_opa(icon, LV_OPA_COVER, 0);
   lv_obj_set_style_border_width(icon, focused ? 3 : 1, 0);
   lv_obj_set_style_border_color(icon, vb_color(border_color), 0);
-  lv_obj_set_style_shadow_color(icon, vb_color(item->color), 0);
-  lv_obj_set_style_shadow_width(icon, focused ? 12 : 0, 0);
-  lv_obj_set_style_shadow_opa(icon, focused ? LV_OPA_40 : LV_OPA_TRANSP,
-                              0);
+  lv_obj_set_style_shadow_width(icon, 0, 0);
+  lv_obj_set_style_shadow_opa(icon, LV_OPA_TRANSP, 0);
   lv_obj_set_style_pad_all(icon, 0, 0);
 
   art_zoom = (int16_t)((art_size * 256) / VB_APP_ART_SIZE);
@@ -942,27 +900,24 @@ static void vb_update_wheel_icon(uint8_t item_index, bool animate)
   lv_obj_clear_flag(art, LV_OBJ_FLAG_CLICKABLE);
   lv_obj_set_style_transform_zoom(art, art_zoom, 0);
   lv_obj_align(art, LV_ALIGN_CENTER, 0,
-               pos->show_label ? (focused ? -8 : -6) : 0);
+               focused ? -8 : 0);
 
-  lv_label_set_text(label, pos->show_label ? item->name_cn : "");
-  lv_obj_set_style_text_color(label, vb_color(slot == 0 ? VB_COLOR_TEXT :
-                              VB_COLOR_MUTED), 0);
-  lv_obj_set_style_text_font(label, vb_font_cn(), 0);
-  lv_obj_update_layout(label);
-  label_w = (int16_t)lv_obj_get_width(label);
-  label_x = (int16_t)(pos->x + pos->size / 2 - label_w / 2);
-  label_y = (int16_t)(pos->y + pos->size + (focused ? 3 : 1));
-
-  if (animate)
+  if (focused)
     {
-      vb_anim_set_x(label, label_x, VB_WHEEL_ANIM_MS);
-      vb_anim_set_y(label, label_y, VB_WHEEL_ANIM_MS);
-      vb_anim_set_opa(label, label_opa, VB_WHEEL_ANIM_MS);
+      lv_obj_clear_flag(label, LV_OBJ_FLAG_HIDDEN);
+      lv_label_set_text(label, item->name_cn);
+      lv_obj_set_style_text_color(label, vb_color(VB_COLOR_TEXT), 0);
+      lv_obj_set_style_text_font(label, vb_font_cn(), 0);
+      lv_obj_set_width(label, 96);
+      lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
+      label_x = (int16_t)(pos->x + pos->size / 2 - 48);
+      label_y = (int16_t)(pos->y + pos->size + 3);
+      lv_obj_set_pos(label, label_x, label_y);
+      lv_obj_set_style_opa(label, LV_OPA_COVER, 0);
     }
   else
     {
-      lv_obj_set_pos(label, label_x, label_y);
-      lv_obj_set_style_opa(label, label_opa, 0);
+      lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
     }
 
   if (focused)
@@ -1016,10 +971,12 @@ static lv_obj_t *vb_create_wheel_icon(lv_obj_t *parent, uint8_t app_index)
 static void vb_set_wheel_focus(uint8_t focus)
 {
   uint8_t item_index;
+  uint8_t next_focus = (uint8_t)(focus % VB_APP_COUNT);
+  bool focus_changed = next_focus != g_vb_wheel_focus;
   char focus_text[48];
   bool animate = g_vb_wheel_ready;
 
-  g_vb_wheel_focus = (uint8_t)(focus % VB_APP_COUNT);
+  g_vb_wheel_focus = next_focus;
 
   for (item_index = 0; item_index < VB_APP_COUNT; item_index++)
     {
@@ -1033,20 +990,11 @@ static void vb_set_wheel_focus(uint8_t focus)
       lv_label_set_text(g_vb_wheel_focus_label, focus_text);
     }
 
-  printf("[velabridge][watch_ui] wheel focus=%s\n",
-         g_vb_apps[g_vb_wheel_focus].id);
-  fflush(stdout);
-}
-
-static void vb_next_wheel_focus(void)
-{
-  vb_set_wheel_focus((uint8_t)((g_vb_wheel_focus + 1) % VB_APP_COUNT));
-}
-
-static void vb_prev_wheel_focus(void)
-{
-  vb_set_wheel_focus((uint8_t)((g_vb_wheel_focus + VB_APP_COUNT - 1) %
-                               VB_APP_COUNT));
+  if (g_vb_wheel_ready && focus_changed)
+    {
+      VB_LOG("[velabridge][watch_ui] wheel focus=%s\n",
+             g_vb_apps[g_vb_wheel_focus].id);
+    }
 }
 
 static bool vb_accept_touch_action(const char *action)
@@ -1056,14 +1004,13 @@ static bool vb_accept_touch_action(const char *action)
   if (g_vb_last_touch_tick != 0 &&
       (uint32_t)(now - g_vb_last_touch_tick) < VB_TOUCH_DEBOUNCE_MS)
     {
-      printf("[velabridge][watch_ui] touch debounce ignored\n");
-      fflush(stdout);
+      VB_DEBUG_LOG("[velabridge][watch_ui] touch debounce ignored\n");
       return false;
     }
 
   g_vb_last_touch_tick = now == 0 ? 1 : now;
-  printf("[velabridge][watch_ui] %s\n", action);
-  fflush(stdout);
+  (void)action;
+  VB_DEBUG_LOG("[velabridge][watch_ui] %s\n", action);
   return true;
 }
 
@@ -1076,8 +1023,7 @@ static void vb_open_focused_app(void)
 {
   const struct vb_app_item *item = &g_vb_apps[g_vb_wheel_focus];
 
-  printf("[velabridge][watch_ui] open app=%s\n", item->id);
-  fflush(stdout);
+  VB_DEBUG_LOG("[velabridge][watch_ui] open app=%s\n", item->id);
 
   if (item->target != VB_SCREEN_APP_WHEEL)
     {
@@ -1104,7 +1050,7 @@ static void vb_wheel_icon_event(lv_event_t *event)
 
   if (code == LV_EVENT_PRESSED)
     {
-      vb_anim_press_feedback(g_vb_wheel_icons[item_index]);
+      lv_obj_set_style_transform_zoom(g_vb_wheel_icons[item_index], 246, 0);
       return;
     }
 
@@ -1117,7 +1063,6 @@ static void vb_wheel_icon_event(lv_event_t *event)
   if (code == LV_EVENT_GESTURE)
     {
       lv_obj_set_style_transform_zoom(g_vb_wheel_icons[item_index], 256, 0);
-      vb_wheel_gesture(event);
       return;
     }
 
@@ -1142,41 +1087,6 @@ static void vb_wheel_icon_event(lv_event_t *event)
   vb_set_wheel_focus(item_index);
 }
 
-static void vb_wheel_gesture(lv_event_t *event)
-{
-  lv_indev_t *indev;
-  lv_dir_t dir;
-
-  (void)event;
-
-  if (g_vb_current_screen != VB_SCREEN_APP_WHEEL)
-    {
-      return;
-    }
-
-  indev = lv_indev_get_act();
-  if (indev == NULL)
-    {
-      return;
-    }
-
-  dir = lv_indev_get_gesture_dir(indev);
-  if (dir == LV_DIR_LEFT)
-    {
-      if (vb_accept_touch_action("touch swipe=left"))
-        {
-          vb_next_wheel_focus();
-        }
-    }
-  else if (dir == LV_DIR_RIGHT)
-    {
-      if (vb_accept_touch_action("touch swipe=right"))
-        {
-          vb_prev_wheel_focus();
-        }
-    }
-}
-
 void vb_switch_screen(enum vb_watch_screen next)
 {
   if (next >= VB_SCREEN_COUNT || g_vb_screens[next] == NULL)
@@ -1185,14 +1095,9 @@ void vb_switch_screen(enum vb_watch_screen next)
     }
 
   g_vb_current_screen = next;
-  printf("[velabridge][watch_ui] switch screen=%s\n",
-         g_vb_screen_names[next]);
-  printf("[velabridge][watch_ui] screen=%s\n",
-         g_vb_screen_names[next]);
-  fflush(stdout);
+  VB_LOG("[velabridge][watch_ui] screen=%s\n", g_vb_screen_names[next]);
 
   lv_scr_load(g_vb_screens[next]);
-  vb_anim_page_fade_in(g_vb_screens[next], VB_PAGE_ANIM_MS);
 
   if (next == VB_SCREEN_APP_WHEEL)
     {
@@ -1217,9 +1122,6 @@ static void vb_card_clicked(lv_event_t *event)
       target = VB_SCREEN_APP_WHEEL;
     }
 
-  printf("[velabridge][watch_ui] next screen=%s\n",
-         g_vb_screen_names[target]);
-  fflush(stdout);
   vb_switch_screen(target);
 }
 
@@ -1251,9 +1153,6 @@ static void vb_screen_clicked(lv_event_t *event)
       next = VB_SCREEN_APP_WHEEL;
     }
 
-  printf("[velabridge][watch_ui] next screen=%s\n",
-         g_vb_screen_names[next]);
-  fflush(stdout);
   vb_switch_screen(next);
 }
 
@@ -1392,8 +1291,6 @@ static void vb_build_app_wheel(void)
     vb_label_cn(screen, "聚焦 · 心率", VB_COLOR_TEXT);
   lv_obj_align(g_vb_wheel_focus_label, LV_ALIGN_BOTTOM_MID, 0, -30);
 
-  lv_obj_add_flag(screen, LV_OBJ_FLAG_CLICKABLE);
-  lv_obj_add_event_cb(screen, vb_wheel_gesture, LV_EVENT_GESTURE, NULL);
   vb_set_wheel_focus(g_vb_wheel_focus);
   g_vb_wheel_ready = true;
 
@@ -1559,32 +1456,29 @@ int velabridge_watch_ui_start(void)
 {
   int ret;
 
-  printf("[velabridge][watch_ui] LVGL enabled\n");
-  printf("[velabridge][watch_ui] checking default display\n");
+  VB_LOG("[velabridge][watch_ui] LVGL enabled\n");
+  VB_DEBUG_LOG("[velabridge][watch_ui] checking default display\n");
 
   ret = vb_lvgl_display_init();
   if (ret < 0)
     {
-      printf("[velabridge][watch_ui] display init failed ret=%d, fallback\n",
+      VB_LOG("[velabridge][watch_ui] display init failed ret=%d, fallback\n",
              ret);
-      fflush(stdout);
       return ret;
     }
 
-  printf("[velabridge][watch_ui] display ready\n");
-  printf("[velabridge][watch_ui] animation enabled\n");
-  printf("[velabridge][watch_ui] wheel objects persistent\n");
-  printf("[velabridge][watch_ui] design=%dx%d\n",
-         VB_WATCH_WIDTH, VB_WATCH_HEIGHT);
+  VB_LOG("[velabridge][watch_ui] display ready\n");
+  VB_LOG("[velabridge][watch_ui] performance mode enabled\n");
+  VB_LOG("[velabridge][watch_ui] wheel objects persistent\n");
+  VB_DEBUG_LOG("[velabridge][watch_ui] design=%dx%d\n",
+               VB_WATCH_WIDTH, VB_WATCH_HEIGHT);
 
   vb_build_all_screens();
   g_vb_current_screen = VB_SCREEN_BOOT;
   lv_scr_load(g_vb_screens[VB_SCREEN_BOOT]);
-  printf("[velabridge][watch_ui] screen=Boot\n");
-  fflush(stdout);
+  VB_LOG("[velabridge][watch_ui] screen=Boot\n");
 
-  printf("[velabridge][watch_ui] ui loop start\n");
-  fflush(stdout);
+  VB_DEBUG_LOG("[velabridge][watch_ui] ui loop start\n");
 
   while (1)
     {
@@ -1624,10 +1518,9 @@ bool velabridge_watch_ui_available(void)
 
 int velabridge_watch_ui_start(void)
 {
-  printf("[velabridge][watch_ui] LVGL prototype disabled\n");
-  printf("[velabridge][watch_ui] enable CONFIG_GRAPHICS_LVGL "
+  VB_LOG("[velabridge][watch_ui] LVGL prototype disabled\n");
+  VB_LOG("[velabridge][watch_ui] enable CONFIG_GRAPHICS_LVGL "
          "to render watch UI\n");
-  fflush(stdout);
 
   return -ENOSYS;
 }
